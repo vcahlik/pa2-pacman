@@ -1,13 +1,17 @@
-//
-// Created by batman on 4/23/17.
-//
-
 #ifndef PACMAN_GAMEOBJECT_H
 #define PACMAN_GAMEOBJECT_H
 
 
+#include <cstdint>
+
 class GameObject
 {
+public:
+    const uint16_t getPosX();
+
+    const uint16_t getPosY();
+
+private:
 
 };
 

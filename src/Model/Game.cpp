@@ -1,5 +1,7 @@
-//
-// Created by batman on 4/23/17.
-//
-
 #include "Game.h"
+
+Game::Game(const std::string &mapFilename)
+    : map(mapFilename)
+{
+
+}

@@ -1,14 +1,28 @@
-//
-// Created by batman on 4/23/17.
-//
-
 #ifndef PACMAN_GAME_H
 #define PACMAN_GAME_H
 
 
+#include <cstdint>
+#include <string>
+#include "GameMap.h"
+
 class Game
 {
+public:
+    Game(const std::string &mapFilename);
 
+    void start();
+
+    void performCycle();
+
+    void performObjectActions();
+
+    void checkObjectCollisions();
+
+    void getMap();
+
+private:
+    const GameMap map;
 };
 
 
