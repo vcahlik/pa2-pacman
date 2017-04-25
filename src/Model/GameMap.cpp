@@ -25,7 +25,6 @@ void GameMap::loadFromFile(const std::string &filename)
     }
 
     uint16_t parsingSizeX = line.length();
-    uint16_t parsingSizeY = 0;
 
     for (uint16_t row = 1; true; ++row)
     {
@@ -42,7 +41,6 @@ void GameMap::loadFromFile(const std::string &filename)
         {
             if (file.eof())
             {
-                parsingSizeY = row;
                 break;
             } else
             {
@@ -57,13 +55,12 @@ void GameMap::loadFromFile(const std::string &filename)
         }
     }
 
-    sizeX = parsingSizeX;
-    sizeY = parsingSizeY;
+    // TODO map perimeter must be walls
 
     file.close();
 }
 
-GameMap::SquareType GameMap::symbolToSquareType(const char symbol)
+const SquareType GameMap::symbolToSquareType(const char symbol) const
 {
     switch (symbol)
     {
@@ -78,4 +75,24 @@ GameMap::SquareType GameMap::symbolToSquareType(const char symbol)
         default:
             throw std::runtime_error("Unknown square type");
     }
+}
+
+const uint16_t GameMap::sizeX() const
+{
+    if (squares.empty())
+    {
+        return 0;
+    }
+
+    return squares[0].size();
+}
+
+const uint16_t GameMap::sizeY() const
+{
+    return squares.size();
+}
+
+const SquareType GameMap::getSquareType(const uint16_t posX, const uint16_t posY) const
+{
+    return squares[posY][posX];
 }

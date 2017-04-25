@@ -12,7 +12,6 @@ namespace Config
     const char MAP_FILE_SYMBOL_SPACE = ' ';
     const char MAP_FILE_SYMBOL_STARTPOS = 'P';
     const char MAP_FILE_SYMBOL_SPAWNPOINT = 'S';
-
 }
 
 

@@ -1,16 +1,25 @@
 #include "NcursesView.h"
+#include "NcursesUtils.h"
+#include "GameWindow.h"
+#include "ViewConfig.h"
 
 #include <ncurses.h>
 
 void NcursesView::show()
 {
     initscr();
-
-    printw("prdel");
+    cbreak();
     refresh();
-    getch();
 
-    Game game("../examples/maps/1.pacmap");
+
+    GameWindow gameWindow("../examples/maps/1.pacmap", *this);
+    gameWindow.takeControl();
+
 
     endwin();
+}
+
+void NcursesView::displayGame()
+{
+
 }

@@ -4,30 +4,31 @@
 #include <string>
 #include <vector>
 
+enum class SquareType
+{
+    Wall,
+    Space,
+    StartPos,
+    SpawnPoint
+};
+
 class GameMap
 {
 public:
-    enum class SquareType
-    {
-        Wall,
-        Space,
-        StartPos,
-        SpawnPoint
-    };
-
     GameMap(const std::string &filename);
 
     void loadFromFile(const std::string &filename);
 
-    const bool positionInsideWall(const uint16_t posX, const uint16_t posY);
+    const uint16_t sizeX() const;
+
+    const uint16_t sizeY() const;
+
+    const SquareType getSquareType(const uint16_t posX, const uint16_t posY) const;
 
 private:
-    uint16_t sizeX;
-    uint16_t sizeY;
-
     std::vector<std::vector<SquareType>> squares;
 
-    SquareType symbolToSquareType(const char symbol);
+    const SquareType symbolToSquareType(const char symbol) const;
 };
 
 

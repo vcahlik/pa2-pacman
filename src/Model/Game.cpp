@@ -5,3 +5,8 @@ Game::Game(const std::string &mapFilename)
 {
 
 }
+
+const GameMap &Game::getMap()
+{
+    return map;
+}

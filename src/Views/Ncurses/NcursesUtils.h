@@ -1,15 +1,15 @@
-//
-// Created by batman on 4/25/17.
-//
-
 #ifndef PACMAN_NCURSESUTILS_H
 #define PACMAN_NCURSESUTILS_H
 
 
-class NcursesUtils
-{
+#include <ncurses.h>
 
-};
+namespace NcursesUtils
+{
+    WINDOW *createWindow(uint16_t height, uint16_t width, uint16_t posY, uint16_t posX);
+
+    void destroyWindow(WINDOW *window);
+}
 
 
 #endif //PACMAN_NCURSESUTILS_H

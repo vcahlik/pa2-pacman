@@ -8,6 +8,8 @@ class NcursesView
 {
 public:
     void show();
+
+    void displayGame();
 };
 
 

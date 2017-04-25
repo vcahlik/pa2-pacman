@@ -19,7 +19,7 @@ public:
 
     void checkObjectCollisions();
 
-    void getMap();
+    const GameMap &getMap();
 
 private:
     const GameMap map;
