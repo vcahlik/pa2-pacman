@@ -1,10 +1,11 @@
-#include "Views/Ncurses/NcursesView.h"
+#include "View/Ncurses/NcursesUI.h"
+#include "Controller/GameController.h"
 #include <cstdlib>
 
 int main()
 {
-    NcursesView view;
-    view.show();
+    NcursesUI ui;
+    ui.show();
 
     return EXIT_SUCCESS;
 }

@@ -8,7 +8,7 @@ set(GCC_CUSTOM_FLAGS "-g")
 
 find_package(Curses REQUIRED)
 
-set(SOURCE_FILES src/main.cpp src/Model/GameObjects/GameObject.cpp src/Model/GameObjects/GameObject.h src/Model/Game.cpp src/Model/Game.h src/Model/GameMap.cpp src/Model/GameMap.h src/Model/GameObjects/MovableObject.cpp src/Model/GameObjects/MovableObject.h src/Model/Config.h src/Views/Ncurses/NcursesView.cpp src/Views/Ncurses/NcursesView.h src/Views/Ncurses/ViewConfig.h src/Views/Ncurses/NcursesUtils.h src/Views/Ncurses/GameWindow.cpp src/Views/Ncurses/GameWindow.h src/Views/Ncurses/NcursesUtils.cpp)
+set(SOURCE_FILES src/main.cpp src/Model/GameObjects/GameObject.cpp src/Model/GameObjects/GameObject.h src/Model/Game.cpp src/Model/Game.h src/Model/GameMap.cpp src/Model/GameMap.h src/Model/GameObjects/MovableObject.cpp src/Model/GameObjects/MovableObject.h src/Config.h src/View/Ncurses/NcursesUI.cpp src/View/Ncurses/NcursesUI.h src/View/Ncurses/ViewConfig.h src/View/Ncurses/NcursesUtils.h src/View/Ncurses/NcursesGameView.cpp src/View/Ncurses/NcursesGameView.h src/View/Ncurses/NcursesUtils.cpp src/Model/GameObjects/Player.cpp src/Model/GameObjects/Player.h src/View/Ncurses/Color.h src/Controller/GameController.cpp src/Controller/GameController.h src/View/GameView.h)
 add_definitions(${GCC_MANDATORY_FLAGS} ${GCC_CUSTOM_FLAGS})
 add_executable(pacman ${SOURCE_FILES})
 target_link_libraries(pacman ${CURSES_LIBRARIES})

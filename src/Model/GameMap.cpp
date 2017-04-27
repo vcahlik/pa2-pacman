@@ -1,5 +1,5 @@
 #include "GameMap.h"
-#include "Config.h"
+#include "../Config.h"
 #include <fstream>
 
 GameMap::GameMap(const std::string &filename)
@@ -26,12 +26,29 @@ void GameMap::loadFromFile(const std::string &filename)
 
     uint16_t parsingSizeX = line.length();
 
-    for (uint16_t row = 1; true; ++row)
+    for (uint16_t y = 0; true; ++y)
     {
         std::vector<SquareType> lineSquares;
-        for (const char &c : line)
+        for (uint16_t x = 0; x < line.length(); ++x)
         {
-            lineSquares.push_back(symbolToSquareType(c));
+            char c = line[x];
+
+            SquareType type = symbolToSquareType(c);
+            lineSquares.push_back(type);
+
+            switch (type)
+            {
+                case SquareType::StartPos:
+                    startPosX = x;
+                    startPosY = y;
+                    break;
+                case SquareType::SpawnPoint:
+                    spawnPointX = x;
+                    spawnPointY = y;
+                    break;
+                default:
+                    break;
+            }
         }
 
         squares.push_back(lineSquares);
@@ -55,7 +72,7 @@ void GameMap::loadFromFile(const std::string &filename)
         }
     }
 
-    // TODO map perimeter must be walls
+    checkIntegrity();
 
     file.close();
 }
@@ -95,4 +112,29 @@ const uint16_t GameMap::sizeY() const
 const SquareType GameMap::getSquareType(const uint16_t posX, const uint16_t posY) const
 {
     return squares[posY][posX];
+}
+
+void GameMap::checkIntegrity()
+{
+    // TODO map must have borders, only one startPos and spawnPoint, ...
+}
+
+uint16_t GameMap::getStartPosX() const
+{
+    return startPosX;
+}
+
+uint16_t GameMap::getStartPosY() const
+{
+    return startPosY;
+}
+
+uint16_t GameMap::getSpawnPointX() const
+{
+    return spawnPointX;
+}
+
+uint16_t GameMap::getSpawnPointY() const
+{
+    return spawnPointY;
 }

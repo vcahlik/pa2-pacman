@@ -4,21 +4,27 @@
 
 #include <ncurses.h>
 #include "../../Model/Game.h"
-#include "NcursesView.h"
+#include "NcursesUI.h"
 
-class GameWindow
+class NcursesGameView
+    : public GameView
 {
 public:
-    GameWindow(const std::string &mapFile, NcursesView &view);
+    NcursesGameView(const Game *game);
 
-    void takeControl();
+    virtual void show();
+
+    virtual void redraw();
+
+    virtual void end();
 
 private:
-    void drawGame();
+    void drawWalls() const;
 
-    Game game;
+    void drawObjects() const;
+
+    const Game *game;
     WINDOW *window;
-    NcursesView &view;
 
     uint16_t sizeX;
     uint16_t sizeY;

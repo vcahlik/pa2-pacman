@@ -1,4 +1,6 @@
 #include "NcursesUtils.h"
+#include "Color.h"
+#include "ViewConfig.h"
 
 namespace NcursesUtils
 {
@@ -18,5 +20,16 @@ namespace NcursesUtils
         wborder(window, ' ', ' ', ' ',' ',' ',' ',' ',' ');
         wrefresh(window);
         delwin(window);
+    }
+
+    void initColors()
+    {
+        init_pair(colorCode(Color::YELLOW), COLOR_YELLOW, ViewConfig::GAME_BACKGROUND_COLOR);
+        init_pair(colorCode(Color::MAGENTA), COLOR_MAGENTA, ViewConfig::GAME_BACKGROUND_COLOR);
+    }
+
+    const int16_t colorCode(const Color color)
+    {
+        return static_cast<int16_t>(color);
     }
 }

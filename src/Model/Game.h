@@ -5,13 +5,13 @@
 #include <cstdint>
 #include <string>
 #include "GameMap.h"
+#include "GameObjects/MovableObject.h"
+#include "GameObjects/Player.h"
 
 class Game
 {
 public:
     Game(const std::string &mapFilename);
-
-    void start();
 
     void performCycle();
 
@@ -19,10 +19,15 @@ public:
 
     void checkObjectCollisions();
 
-    const GameMap &getMap();
+    const GameMap &getMap() const;
+
+    const Player &getPlayer() const;
 
 private:
     const GameMap map;
+
+    Player player;
+
 };
 
 

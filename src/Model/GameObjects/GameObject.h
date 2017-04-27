@@ -4,12 +4,24 @@
 
 #include <cstdint>
 
+class Game;
+
 class GameObject
 {
 public:
-    const uint16_t getPosX();
+    GameObject(const double posX, const double posY, Game *game);
 
-    const uint16_t getPosY();
+    virtual void performActions();
+
+    const double getPosX() const;
+
+    const double getPosY() const;
+
+protected:
+    Game *game;
+
+    double posX;
+    double posY;
 
 private:
 
