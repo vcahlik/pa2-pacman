@@ -1,5 +1,4 @@
 # PACMAN #
-
 ### Semestrální práce PA2 ###
 
 * Totálně super
