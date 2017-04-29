@@ -24,12 +24,12 @@ void GameMap::loadFromFile(const std::string &filename)
         throw std::runtime_error("Error parsing map file");
     }
 
-    uint16_t parsingSizeX = line.length();
+    uint32_t parsingSizeX = line.length();
 
-    for (uint16_t y = 0; true; ++y)
+    for (uint32_t y = 0; true; ++y)
     {
         std::vector<SquareType> lineSquares;
-        for (uint16_t x = 0; x < line.length(); ++x)
+        for (uint32_t x = 0; x < line.length(); ++x)
         {
             char c = line[x];
 
@@ -94,7 +94,7 @@ const SquareType GameMap::symbolToSquareType(const char symbol) const
     }
 }
 
-const uint16_t GameMap::sizeX() const
+const uint32_t GameMap::sizeX() const
 {
     if (squares.empty())
     {
@@ -104,12 +104,12 @@ const uint16_t GameMap::sizeX() const
     return squares[0].size();
 }
 
-const uint16_t GameMap::sizeY() const
+const uint32_t GameMap::sizeY() const
 {
     return squares.size();
 }
 
-const SquareType GameMap::getSquareType(const uint16_t posX, const uint16_t posY) const
+const SquareType GameMap::getSquareType(const uint32_t posX, const uint32_t posY) const
 {
     return squares[posY][posX];
 }
@@ -119,22 +119,22 @@ void GameMap::checkIntegrity()
     // TODO map must have borders, only one startPos and spawnPoint, ...
 }
 
-uint16_t GameMap::getStartPosX() const
+uint32_t GameMap::getStartPosX() const
 {
     return startPosX;
 }
 
-uint16_t GameMap::getStartPosY() const
+uint32_t GameMap::getStartPosY() const
 {
     return startPosY;
 }
 
-uint16_t GameMap::getSpawnPointX() const
+uint32_t GameMap::getSpawnPointX() const
 {
     return spawnPointX;
 }
 
-uint16_t GameMap::getSpawnPointY() const
+uint32_t GameMap::getSpawnPointY() const
 {
     return spawnPointY;
 }

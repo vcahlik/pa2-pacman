@@ -17,19 +17,19 @@ class GameMap
 public:
     GameMap(const std::string &filename);
 
-    const uint16_t sizeX() const;
+    const uint32_t sizeX() const;
 
-    const uint16_t sizeY() const;
+    const uint32_t sizeY() const;
 
-    const SquareType getSquareType(const uint16_t posX, const uint16_t posY) const;
+    const SquareType getSquareType(const uint32_t posX, const uint32_t posY) const;
 
-    uint16_t getStartPosX() const;
+    uint32_t getStartPosX() const;
 
-    uint16_t getStartPosY() const;
+    uint32_t getStartPosY() const;
 
-    uint16_t getSpawnPointX() const;
+    uint32_t getSpawnPointX() const;
 
-    uint16_t getSpawnPointY() const;
+    uint32_t getSpawnPointY() const;
 
 private:
     void loadFromFile(const std::string &filename);
@@ -40,11 +40,11 @@ private:
 
     const SquareType symbolToSquareType(const char symbol) const;
 
-    uint16_t startPosX;
-    uint16_t startPosY;
+    uint32_t startPosX;
+    uint32_t startPosY;
 
-    uint16_t spawnPointX;
-    uint16_t spawnPointY;
+    uint32_t spawnPointX;
+    uint32_t spawnPointY;
 
 };
 

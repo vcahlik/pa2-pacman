@@ -30,7 +30,7 @@ namespace NcursesUtils
         endwin();
     }
 
-    WINDOW *createWindow(uint16_t height, uint16_t width, uint16_t posY, uint16_t posX)
+    WINDOW *createWindow(uint32_t height, uint32_t width, uint32_t posY, uint32_t posX)
     {
         WINDOW *window;
 
@@ -55,8 +55,8 @@ namespace NcursesUtils
         init_pair(colorCode(Color::MAGENTA), COLOR_MAGENTA, ViewConfig::GAME_BACKGROUND_COLOR);
     }
 
-    const int16_t colorCode(const Color color)
+    const int32_t colorCode(const Color color)
     {
-        return static_cast<int16_t>(color);
+        return static_cast<int32_t>(color);
     }
 }

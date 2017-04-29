@@ -6,10 +6,10 @@
 
 namespace ViewConfig
 {
-    const uint16_t SQUARE_SIZE_X = 6;
-    const uint16_t SQUARE_SIZE_Y = 3;
+    const uint32_t SQUARE_SIZE_X = 6;
+    const uint32_t SQUARE_SIZE_Y = 3;
 
-    const int16_t GAME_BACKGROUND_COLOR = COLOR_BLACK;
+    const int32_t GAME_BACKGROUND_COLOR = COLOR_BLACK;
 }
 
 

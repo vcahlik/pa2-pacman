@@ -25,13 +25,15 @@ private:
 
     void drawObjects() const;
 
+    void drawPlayer() const;
+
     const Game *game;
     WINDOW *window;
 
-    uint16_t sizeX;
-    uint16_t sizeY;
-    uint16_t posX;
-    uint16_t posY;
+    uint32_t sizeX;
+    uint32_t sizeY;
+    uint32_t posX;
+    uint32_t posY;
 
 };
 

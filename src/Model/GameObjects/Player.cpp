@@ -5,13 +5,15 @@
 
 Player::Player(const double posX, const double posY, Game *game)
         : MovableObject(posX, posY, Config::PLAYER_BASE_SPEED, game),
-          requestedDirection(Direction::NONE)
+          requestedDirection(Direction::NONE),
+          mouthOpen(true), mouthOpenMsecs(0)
 {
 
 }
 
 void Player::performActions()
 {
+    animateMouth();
     navigate();
     move();
 }
@@ -39,12 +41,16 @@ void Player::navigate()
 
 void Player::navigateAtIntersection()
 {
-    if (validDirection(requestedDirection))
+    // Movement enabled by default
+    speed = baseSpeed;
+
+    if (validDirection(requestedDirection)) // Player can go where he wanted
     {
         direction = requestedDirection;
-    } else if (!validDirection(direction))
+    } else if (!validDirection(direction)) // Player can't go where he wanted, but can't continue either
     {
-        direction = Direction::NONE;
+        speed = 0;
+        direction = requestedDirection; // Player can rotate
     }
 }
 
@@ -66,4 +72,19 @@ void Player::requestGoLeft()
 void Player::requestGoRight()
 {
     requestedDirection = Direction::RIGHT;
+}
+
+const bool Player::isMouthOpen() const
+{
+    return mouthOpen;
+}
+
+void Player::animateMouth()
+{
+    mouthOpenMsecs += Config::CYCLE_TIME_MSECS;
+    if (mouthOpenMsecs >= Config::PLAYER_MOUTH_PERIOD_MSECS)
+    {
+        mouthOpen = !mouthOpen;
+        mouthOpenMsecs = 0;
+    }
 }

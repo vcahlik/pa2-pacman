@@ -5,7 +5,7 @@
 #include <cstdint>
 
 enum class Color
-    : int16_t
+    : int32_t
 {
     YELLOW = 1,
     MAGENTA

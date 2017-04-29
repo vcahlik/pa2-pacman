@@ -4,6 +4,7 @@
 #include "NcursesGameView.h"
 #include "NcursesUtils.h"
 #include "ViewConfig.h"
+#include "TextGraphics.h"
 
 NcursesGameView::NcursesGameView(const Game *game)
     : game(game), window(nullptr)
@@ -46,9 +47,11 @@ void NcursesGameView::drawWalls() const
             SquareType type = game->getMap().getSquareType(x, y);
             if (type == SquareType::Wall)
             {
-                mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 1, x * ViewConfig::SQUARE_SIZE_X + 1, "888888");
-                mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 2, x * ViewConfig::SQUARE_SIZE_X + 1, "888888");
-                mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 3, x * ViewConfig::SQUARE_SIZE_X + 1, "888888");
+                uint32_t posX = x * ViewConfig::SQUARE_SIZE_X + 1;
+                uint32_t posY = y * ViewConfig::SQUARE_SIZE_Y + 1;
+                mvwprintw(window, posY, posX, TextGraphics::Wall::NORMAL_LINE1);
+                mvwprintw(window, posY + 1, posX, TextGraphics::Wall::NORMAL_LINE2);
+                mvwprintw(window, posY + 2, posX, TextGraphics::Wall::NORMAL_LINE3);
             }
         }
     }
@@ -57,13 +60,55 @@ void NcursesGameView::drawWalls() const
 
 void NcursesGameView::drawObjects() const
 {
+    drawPlayer();
+}
+
+void NcursesGameView::drawPlayer() const
+{
     double x = game->getPlayer().getPosX();
     double y = game->getPlayer().getPosY();
 
+    const char *line1 = nullptr;
+    const char *line2 = nullptr;
+    const char *line3 = nullptr;
+
+    if (!game->getPlayer().isMouthOpen())
+    {
+        line1 = TextGraphics::Player::MOUTH_CLOSED_LINE1;
+        line2 = TextGraphics::Player::MOUTH_CLOSED_LINE2;
+        line3 = TextGraphics::Player::MOUTH_CLOSED_LINE3;
+    } else
+    {
+        switch (game->getPlayer().getDirection())
+        {
+            case Direction::UP:
+                line1 = TextGraphics::Player::MOUTH_OPEN_UP_LINE1;
+                line2 = TextGraphics::Player::MOUTH_OPEN_UP_LINE2;
+                line3 = TextGraphics::Player::MOUTH_OPEN_UP_LINE3;
+                break;
+            case Direction::DOWN:
+                line1 = TextGraphics::Player::MOUTH_OPEN_DOWN_LINE1;
+                line2 = TextGraphics::Player::MOUTH_OPEN_DOWN_LINE2;
+                line3 = TextGraphics::Player::MOUTH_OPEN_DOWN_LINE3;
+                break;
+            case Direction::LEFT:
+                line1 = TextGraphics::Player::MOUTH_OPEN_LEFT_LINE1;
+                line2 = TextGraphics::Player::MOUTH_OPEN_LEFT_LINE2;
+                line3 = TextGraphics::Player::MOUTH_OPEN_LEFT_LINE3;
+                break;
+            case Direction::RIGHT:
+            default:
+                line1 = TextGraphics::Player::MOUTH_OPEN_RIGHT_LINE1;
+                line2 = TextGraphics::Player::MOUTH_OPEN_RIGHT_LINE2;
+                line3 = TextGraphics::Player::MOUTH_OPEN_RIGHT_LINE3;
+                break;
+        }
+    }
+
     wattron(window, COLOR_PAIR(NcursesUtils::colorCode(Color::YELLOW)));
-    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 1, x * ViewConfig::SQUARE_SIZE_X + 1, " CCCC ");
-    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 2, x * ViewConfig::SQUARE_SIZE_X + 1, "CCCCCC");
-    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 3, x * ViewConfig::SQUARE_SIZE_X + 1, " CCCC ");
+    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 1, x * ViewConfig::SQUARE_SIZE_X + 1, line1);
+    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 2, x * ViewConfig::SQUARE_SIZE_X + 1, line2);
+    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 3, x * ViewConfig::SQUARE_SIZE_X + 1, line3);
     wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(Color::YELLOW)));
 }
 

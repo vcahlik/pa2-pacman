@@ -21,12 +21,19 @@ public:
 
     void requestGoRight();
 
+    const bool isMouthOpen() const;
+
 protected:
     virtual void navigate() override;
 
     void navigateAtIntersection();
 
+    void animateMouth();
+
     Direction requestedDirection;
+
+    bool mouthOpen;
+    uint32_t mouthOpenMsecs;
 
 };
 

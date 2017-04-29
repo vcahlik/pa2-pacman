@@ -15,6 +15,8 @@ public:
 
     virtual void performActions() override;
 
+    const Direction getDirection() const;
+
 protected:
     virtual void move();
 

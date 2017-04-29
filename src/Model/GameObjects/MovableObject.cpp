@@ -19,6 +19,11 @@ void MovableObject::performActions()
     move();
 }
 
+const Direction MovableObject::getDirection() const
+{
+    return direction;
+}
+
 void MovableObject::move()
 {
     double currentStepSize = stepSize(speed);
@@ -40,8 +45,8 @@ void MovableObject::move()
 
 const bool MovableObject::validDirection(const Direction direction) const
 {
-    uint16_t destSquarePosX = static_cast<uint16_t>(posX);
-    uint16_t destSquarePosY = static_cast<uint16_t>(posY);
+    uint32_t destSquarePosX = posX;
+    uint32_t destSquarePosY = posY;
 
     switch (direction)
     {
