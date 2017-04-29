@@ -7,8 +7,14 @@
 enum class Color
     : int32_t
 {
-    YELLOW = 1,
-    MAGENTA
+    White = 1,
+    Black,
+    Yellow,
+    Blue,
+    Green,
+    Red,
+    Cyan,
+    Magenta
 };
 
 

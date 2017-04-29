@@ -17,7 +17,10 @@ namespace NcursesUtils
 
     void initColors();
 
-    const int32_t colorCode(const Color color);
+    const int16_t colorCode(const Color color);
+
+    const int16_t toNcursesColor(const Color color);
+
 }
 
 

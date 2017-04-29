@@ -9,7 +9,10 @@ namespace ViewConfig
     const uint32_t SQUARE_SIZE_X = 6;
     const uint32_t SQUARE_SIZE_Y = 3;
 
-    const int32_t GAME_BACKGROUND_COLOR = COLOR_BLACK;
+    const Color GAME_BACKGROUND_COLOR = Color::Black;
+
+    const Color COLOR_PLAYER = Color::Yellow;
+    const Color COLOR_WALL = Color::Magenta;
 }
 
 

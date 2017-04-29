@@ -18,6 +18,7 @@ NcursesGameView::NcursesGameView(const Game *game)
 void NcursesGameView::show()
 {
     window = NcursesUtils::createWindow(sizeY, sizeX, posY, posX);
+    wbkgd(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::GAME_BACKGROUND_COLOR)));
 }
 
 void NcursesGameView::redraw()
@@ -39,7 +40,7 @@ void NcursesGameView::end()
 
 void NcursesGameView::drawWalls() const
 {
-    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(Color::MAGENTA)));
+    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::COLOR_WALL)));
     for (uint32_t y = 0; y < game->getMap().sizeY(); ++y)
     {
         for (uint32_t x = 0; x < game->getMap().sizeX(); ++x)
@@ -55,7 +56,7 @@ void NcursesGameView::drawWalls() const
             }
         }
     }
-    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(Color::MAGENTA)));
+    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::COLOR_WALL)));
 }
 
 void NcursesGameView::drawObjects() const
@@ -105,11 +106,11 @@ void NcursesGameView::drawPlayer() const
         }
     }
 
-    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(Color::YELLOW)));
+    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::COLOR_PLAYER)));
     mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 1, x * ViewConfig::SQUARE_SIZE_X + 1, line1);
     mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 2, x * ViewConfig::SQUARE_SIZE_X + 1, line2);
     mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 3, x * ViewConfig::SQUARE_SIZE_X + 1, line3);
-    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(Color::YELLOW)));
+    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::COLOR_PLAYER)));
 }
 
 const InputKey NcursesGameView::getPressedKey() const
