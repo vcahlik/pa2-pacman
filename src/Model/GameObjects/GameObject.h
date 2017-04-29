@@ -11,7 +11,7 @@ class GameObject
 public:
     GameObject(const double posX, const double posY, Game *game);
 
-    virtual void performActions();
+    virtual void performActions() = 0;
 
     const double getPosX() const;
 

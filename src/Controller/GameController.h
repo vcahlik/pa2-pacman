@@ -21,6 +21,8 @@ private:
 
     void performCycle();
 
+    void processUserInput();
+
 };
 
 

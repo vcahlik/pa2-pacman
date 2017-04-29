@@ -1,3 +1,6 @@
+#include <termcap.h>
+#include <stdexcept>
+#include <iostream>
 #include "NcursesGameView.h"
 #include "NcursesUtils.h"
 #include "ViewConfig.h"
@@ -18,6 +21,8 @@ void NcursesGameView::show()
 
 void NcursesGameView::redraw()
 {
+    wclear(window);
+
     drawWalls();
 
     drawObjects();
@@ -60,4 +65,30 @@ void NcursesGameView::drawObjects() const
     mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 2, x * ViewConfig::SQUARE_SIZE_X + 1, "CCCCCC");
     mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 3, x * ViewConfig::SQUARE_SIZE_X + 1, " CCCC ");
     wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(Color::YELLOW)));
+}
+
+const InputKey NcursesGameView::getPressedKey() const
+{
+    int32_t c = wgetch(window);
+
+    if (c == 27 && wgetch(window) == 91) // Special encoding of arrow keys
+    {
+        c = wgetch(window);
+        switch (c)
+        {
+            case 'A':
+                return InputKey::UP;
+            case 'B':
+                return InputKey::DOWN;
+            case 'D':
+                return InputKey::LEFT;
+            case 'C':
+                return InputKey::RIGHT;
+            default:
+                throw NoUserInputException();
+        }
+    } else
+    {
+        throw NoUserInputException();
+    }
 }

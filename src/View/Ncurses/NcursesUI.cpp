@@ -12,7 +12,7 @@ void NcursesUI::show()
 {
     try
     {
-        initNcurses();
+        NcursesUtils::initNcurses();
     }
     catch(std::runtime_error &e)
     {
@@ -27,35 +27,7 @@ void NcursesUI::show()
     controller.startGame();
 
 
-    endNcurses();
-}
-
-void NcursesUI::displayGame()
-{
-
-}
-
-void NcursesUI::initNcurses()
-{
-    initscr();
-    cbreak();
-    noecho();
-    curs_set(false);
-    refresh();
-
-    if (!has_colors())
-    {
-        endwin();
-        throw std::runtime_error("Terminal does not support colors");
-    }
-
-    start_color();
-    NcursesUtils::initColors();
-}
-
-void NcursesUI::endNcurses()
-{
-    endwin();
+    NcursesUtils::endNcurses();
 }
 
 const Color &NcursesUI::getColors() const

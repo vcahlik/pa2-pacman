@@ -21,6 +21,8 @@ public:
 
     const GameMap &getMap() const;
 
+    Player &getPlayer();
+
     const Player &getPlayer() const;
 
 private:

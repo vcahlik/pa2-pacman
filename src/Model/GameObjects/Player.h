@@ -11,7 +11,22 @@ class Player
 public:
     Player(const double posX, const double posY, Game *game);
 
-    virtual void performActions();
+    virtual void performActions() override;
+
+    void requestGoUp();
+
+    void requestGoDown();
+
+    void requestGoLeft();
+
+    void requestGoRight();
+
+protected:
+    virtual void navigate() override;
+
+    void navigateAtIntersection();
+
+    Direction requestedDirection;
 
 };
 

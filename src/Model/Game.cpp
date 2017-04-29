@@ -12,6 +12,11 @@ const GameMap &Game::getMap() const
     return map;
 }
 
+Player &Game::getPlayer()
+{
+    return player;
+}
+
 const Player &Game::getPlayer() const
 {
     return player;

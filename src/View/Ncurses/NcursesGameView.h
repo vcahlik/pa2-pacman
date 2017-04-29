@@ -12,11 +12,13 @@ class NcursesGameView
 public:
     NcursesGameView(const Game *game);
 
-    virtual void show();
+    virtual void show() override;
 
-    virtual void redraw();
+    virtual void redraw() override;
 
-    virtual void end();
+    virtual void end() override;
+
+    virtual const InputKey getPressedKey() const;
 
 private:
     void drawWalls() const;

@@ -7,11 +7,6 @@ GameObject::GameObject(const double posX, const double posY, Game *game)
 
 }
 
-void GameObject::performActions()
-{
-
-}
-
 const double GameObject::getPosX() const
 {
     return posX;

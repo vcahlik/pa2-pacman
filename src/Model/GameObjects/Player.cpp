@@ -1,23 +1,69 @@
+#include <cmath>
 #include "Player.h"
 #include "../../Config.h"
 #include "../Game.h"
 
 Player::Player(const double posX, const double posY, Game *game)
-        : MovableObject(posX, posY, Config::PLAYER_BASE_SPEED, game)
+        : MovableObject(posX, posY, Config::PLAYER_BASE_SPEED, game),
+          requestedDirection(Direction::NONE)
 {
 
 }
 
 void Player::performActions()
 {
-    GameObject::performActions();
+    navigate();
+    move();
+}
 
-    if (game->getMap().getSquareType(posX, posY) == SquareType::Space)
+void Player::navigate()
+{
+    if (requestedDirection == Direction::NONE)
     {
-        posX += 0.0005;
+        direction = requestedDirection;
+        return;
     }
-    else
+
+    if (!isOnGrid())
     {
-        posY -= 0.0005;
+        if (isHorizontalDirection(requestedDirection) == isHorizontalDirection(direction) ||
+            isVerticalDirection(requestedDirection) == isVerticalDirection(direction))
+        {
+            direction = requestedDirection;
+        }
+    } else
+    {
+        navigateAtIntersection();
     }
+}
+
+void Player::navigateAtIntersection()
+{
+    if (validDirection(requestedDirection))
+    {
+        direction = requestedDirection;
+    } else if (!validDirection(direction))
+    {
+        direction = Direction::NONE;
+    }
+}
+
+void Player::requestGoUp()
+{
+    requestedDirection = Direction::UP;
+}
+
+void Player::requestGoDown()
+{
+    requestedDirection = Direction::DOWN;
+}
+
+void Player::requestGoLeft()
+{
+    requestedDirection = Direction::LEFT;
+}
+
+void Player::requestGoRight()
+{
+    requestedDirection = Direction::RIGHT;
 }

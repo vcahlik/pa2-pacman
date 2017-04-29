@@ -14,12 +14,6 @@ public:
     const Color &getColors() const;
 
 private:
-    void initNcurses();
-
-    void endNcurses();
-
-    void displayGame();
-
     Color colors;
 };
 

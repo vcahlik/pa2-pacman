@@ -2,6 +2,8 @@
 #define PACMAN_VIEW_H
 
 
+#include "../InputKey.h"
+
 class GameView
 {
 public:
@@ -11,6 +13,7 @@ public:
 
     virtual void end() = 0;
 
+    virtual const InputKey getPressedKey() const = 0;
 };
 
 
