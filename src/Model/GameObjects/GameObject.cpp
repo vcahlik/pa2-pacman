@@ -1,8 +1,9 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const double posX, const double posY, Game *game)
+GameObject::GameObject(const double posX, const double posY, const double size, Game *game)
     : game(game),
-      posX(posX), posY(posY)
+      posX(posX + (1-size)/2), posY(posY + (1-size)/2),
+      size(size)
 {
 
 }
@@ -15,4 +16,9 @@ const double GameObject::getPosX() const
 const double GameObject::getPosY() const
 {
     return posY;
+}
+
+const double GameObject::getSize() const
+{
+    return size;
 }

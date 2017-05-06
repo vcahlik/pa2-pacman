@@ -4,20 +4,24 @@
 
 #include <cstdint>
 #include <string>
+#include <memory>
 #include "GameMap.h"
 #include "GameObjects/MovableObject.h"
 #include "GameObjects/Player.h"
+#include "GameObjects/Items/Item.h"
+#include "GameObjects/Enemies/Enemy.h"
+#include "GameObjects/Items/Coin.h"
 
 class Game
 {
 public:
-    Game(const std::string &mapFilename);
+    explicit Game(const std::string &mapFilename);
 
     void performCycle();
 
     void performObjectActions();
 
-    void checkObjectCollisions();
+    bool isObjectCollision(const GameObject &lhs, const GameObject &rhs);
 
     const GameMap &getMap() const;
 
@@ -25,10 +29,12 @@ public:
 
     const Player &getPlayer() const;
 
+    const std::vector<std::unique_ptr<Coin>> &getCoins() const;
+
 private:
     const GameMap map;
-
     Player player;
+    std::vector<std::unique_ptr<Coin>> coins;
 
 };
 

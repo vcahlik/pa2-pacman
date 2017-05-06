@@ -9,9 +9,9 @@ class Player
     : public MovableObject
 {
 public:
-    Player(const double posX, const double posY, Game *game);
+    explicit Player(const double posX, const double posY, Game *game);
 
-    virtual void performActions() override;
+    virtual const bool performActions() override;
 
     void requestGoUp();
 

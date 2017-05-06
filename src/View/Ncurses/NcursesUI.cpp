@@ -20,6 +20,8 @@ void NcursesUI::show()
         return;
     }
 
+
+
     std::unique_ptr<Game> game(new Game("../examples/maps/1.pacmap"));
     std::unique_ptr<NcursesGameView> gameView(new NcursesGameView(game.get()));
 
@@ -28,9 +30,4 @@ void NcursesUI::show()
 
 
     NcursesUtils::endNcurses();
-}
-
-const Color &NcursesUI::getColors() const
-{
-    return colors;
 }

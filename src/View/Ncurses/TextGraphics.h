@@ -21,9 +21,9 @@ namespace TextGraphics
         const char * const MOUTH_OPEN_LEFT_LINE2 = "   CCC";
         const char * const MOUTH_OPEN_LEFT_LINE3 = " CCCC ";
 
-        const char * const MOUTH_OPEN_RIGHT_LINE1 = " CCCC ";
-        const char * const MOUTH_OPEN_RIGHT_LINE2 = "CCC   ";
-        const char * const MOUTH_OPEN_RIGHT_LINE3 = " CCCC ";
+        const char * const MOUTH_OPEN_RIGHT_LINE1 = " CCCC";
+        const char * const MOUTH_OPEN_RIGHT_LINE2 = "CCC  ";
+        const char * const MOUTH_OPEN_RIGHT_LINE3 = " CCCC";
     }
 
     namespace Wall
@@ -32,6 +32,8 @@ namespace TextGraphics
         const char * const NORMAL_LINE2 = "888888";
         const char * const NORMAL_LINE3 = "888888";
     }
+
+    const char * const COIN = " .";
 
 }
 

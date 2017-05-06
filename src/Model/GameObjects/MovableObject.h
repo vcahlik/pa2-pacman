@@ -11,9 +11,9 @@ class MovableObject
         : public GameObject
 {
 public:
-    MovableObject(const double posX, const double posY, const double speed, Game *game);
+    explicit MovableObject(const double posX, const double posY, const double speed, const double size, Game *game);
 
-    virtual void performActions() override;
+    virtual const bool performActions() override;
 
     const Direction getDirection() const;
 

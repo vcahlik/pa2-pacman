@@ -9,13 +9,15 @@ class Game;
 class GameObject
 {
 public:
-    GameObject(const double posX, const double posY, Game *game);
+    explicit GameObject(const double posX, const double posY, const double size, Game *game);
 
-    virtual void performActions() = 0;
+    virtual const bool performActions() = 0;
 
     const double getPosX() const;
 
     const double getPosY() const;
+
+    const double getSize() const;
 
 protected:
     Game *game;
@@ -24,6 +26,7 @@ protected:
     double posY;
 
 private:
+    const double size;
 
 };
 

@@ -5,12 +5,13 @@
 #include <ncurses.h>
 #include "../../Model/Game.h"
 #include "NcursesUI.h"
+#include "../../Model/GameObjects/Items/Coin.h"
 
 class NcursesGameView
     : public GameView
 {
 public:
-    NcursesGameView(const Game *game);
+    explicit NcursesGameView(const Game *game);
 
     virtual void show() override;
 
@@ -23,9 +24,13 @@ public:
 private:
     void drawWalls() const;
 
-    void drawObjects() const;
+    void drawGameObjects() const;
 
-    void drawPlayer() const;
+    void drawObject(const Player &player) const;
+
+    void drawObject(const Coin &coin) const;
+
+    void drawTextGraphics(const char * const text, const uint32_t lineNo, const double x, const double y, const Color color) const;
 
     const Game *game;
     WINDOW *window;

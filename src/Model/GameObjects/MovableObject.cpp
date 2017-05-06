@@ -4,8 +4,8 @@
 #include "../Game.h"
 #include "../../Utils.h"
 
-MovableObject::MovableObject(const double posX, const double posY, const double speed, Game *game)
-        : GameObject(posX, posY, game),
+MovableObject::MovableObject(const double posX, const double posY, const double speed, const double size, Game *game)
+        : GameObject(posX, posY, size, game),
           baseSpeed(speed),
           speed(speed),
           direction(Direction::NONE)
@@ -13,10 +13,12 @@ MovableObject::MovableObject(const double posX, const double posY, const double 
 
 }
 
-void MovableObject::performActions()
+const bool MovableObject::performActions()
 {
     navigate();
     move();
+
+    return true;
 }
 
 const Direction MovableObject::getDirection() const

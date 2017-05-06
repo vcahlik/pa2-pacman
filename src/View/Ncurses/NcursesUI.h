@@ -11,10 +11,6 @@ class NcursesUI
 public:
     virtual void show();
 
-    const Color &getColors() const;
-
-private:
-    Color colors;
 };
 
 

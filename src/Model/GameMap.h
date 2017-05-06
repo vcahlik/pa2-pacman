@@ -15,7 +15,7 @@ enum class SquareType
 class GameMap
 {
 public:
-    GameMap(const std::string &filename);
+    explicit GameMap(const std::string &filename);
 
     const uint32_t sizeX() const;
 

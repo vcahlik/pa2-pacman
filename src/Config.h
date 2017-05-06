@@ -12,7 +12,10 @@ namespace Config
     const char MAP_FILE_SYMBOL_SPAWNPOINT = 'S';
 
     const double PLAYER_BASE_SPEED = 1.5;
+    const double PLAYER_SIZE = 1;
     const uint32_t PLAYER_MOUTH_PERIOD_MSECS = 500;
+
+    const double COIN_SIZE = 0.33;
 
     const uint32_t CYCLE_TIME_MSECS = 50;
 }

@@ -27,7 +27,7 @@ void NcursesGameView::redraw()
 
     drawWalls();
 
-    drawObjects();
+    drawGameObjects();
 
     wrefresh(window);
 }
@@ -40,7 +40,6 @@ void NcursesGameView::end()
 
 void NcursesGameView::drawWalls() const
 {
-    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::COLOR_WALL)));
     for (uint32_t y = 0; y < game->getMap().sizeY(); ++y)
     {
         for (uint32_t x = 0; x < game->getMap().sizeX(); ++x)
@@ -48,39 +47,41 @@ void NcursesGameView::drawWalls() const
             SquareType type = game->getMap().getSquareType(x, y);
             if (type == SquareType::Wall)
             {
-                uint32_t posX = x * ViewConfig::SQUARE_SIZE_X + 1;
-                uint32_t posY = y * ViewConfig::SQUARE_SIZE_Y + 1;
-                mvwprintw(window, posY, posX, TextGraphics::Wall::NORMAL_LINE1);
-                mvwprintw(window, posY + 1, posX, TextGraphics::Wall::NORMAL_LINE2);
-                mvwprintw(window, posY + 2, posX, TextGraphics::Wall::NORMAL_LINE3);
+                drawTextGraphics(TextGraphics::Wall::NORMAL_LINE1, 1, x, y, ViewConfig::COLOR_WALL);
+                drawTextGraphics(TextGraphics::Wall::NORMAL_LINE1, 2, x, y, ViewConfig::COLOR_WALL);
+                drawTextGraphics(TextGraphics::Wall::NORMAL_LINE1, 3, x, y, ViewConfig::COLOR_WALL);
             }
         }
     }
-    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::COLOR_WALL)));
 }
 
-void NcursesGameView::drawObjects() const
+void NcursesGameView::drawGameObjects() const
 {
-    drawPlayer();
+    drawObject(game->getPlayer());
+
+    for (const auto &coin : game->getCoins())
+    {
+        drawObject(*coin);
+    }
 }
 
-void NcursesGameView::drawPlayer() const
+void NcursesGameView::drawObject(const Player &player) const
 {
-    double x = game->getPlayer().getPosX();
-    double y = game->getPlayer().getPosY();
+    double x = player.getPosX();
+    double y = player.getPosY();
 
     const char *line1 = nullptr;
     const char *line2 = nullptr;
     const char *line3 = nullptr;
 
-    if (!game->getPlayer().isMouthOpen())
+    if (!player.isMouthOpen())
     {
         line1 = TextGraphics::Player::MOUTH_CLOSED_LINE1;
         line2 = TextGraphics::Player::MOUTH_CLOSED_LINE2;
         line3 = TextGraphics::Player::MOUTH_CLOSED_LINE3;
     } else
     {
-        switch (game->getPlayer().getDirection())
+        switch (player.getDirection())
         {
             case Direction::UP:
                 line1 = TextGraphics::Player::MOUTH_OPEN_UP_LINE1;
@@ -106,11 +107,24 @@ void NcursesGameView::drawPlayer() const
         }
     }
 
-    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::COLOR_PLAYER)));
-    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 1, x * ViewConfig::SQUARE_SIZE_X + 1, line1);
-    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 2, x * ViewConfig::SQUARE_SIZE_X + 1, line2);
-    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + 3, x * ViewConfig::SQUARE_SIZE_X + 1, line3);
-    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::COLOR_PLAYER)));
+    drawTextGraphics(line1, 1, x, y, ViewConfig::COLOR_PLAYER);
+    drawTextGraphics(line2, 2, x, y, ViewConfig::COLOR_PLAYER);
+    drawTextGraphics(line3, 3, x, y, ViewConfig::COLOR_PLAYER);
+}
+
+void NcursesGameView::drawObject(const Coin &coin) const
+{
+    double x = coin.getPosX();
+    double y = coin.getPosY();
+
+    drawTextGraphics(TextGraphics::COIN, 1, x, y, ViewConfig::COLOR_COIN);
+}
+
+void NcursesGameView::drawTextGraphics(const char *const text, const uint32_t lineNo, const double x, const double y, const Color color) const
+{
+    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(color)));
+    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + lineNo, x * ViewConfig::SQUARE_SIZE_X + 1, text);
+    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(color)));
 }
 
 const InputKey NcursesGameView::getPressedKey() const

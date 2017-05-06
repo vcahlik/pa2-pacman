@@ -4,18 +4,20 @@
 #include "../Game.h"
 
 Player::Player(const double posX, const double posY, Game *game)
-        : MovableObject(posX, posY, Config::PLAYER_BASE_SPEED, game),
+        : MovableObject(posX, posY, Config::PLAYER_BASE_SPEED, Config::PLAYER_SIZE, game),
           requestedDirection(Direction::NONE),
           mouthOpen(true), mouthOpenMsecs(0)
 {
 
 }
 
-void Player::performActions()
+const bool Player::performActions()
 {
     animateMouth();
     navigate();
     move();
+
+    return true;
 }
 
 void Player::navigate()

@@ -9,7 +9,7 @@
 class GameController
 {
 public:
-    GameController(Game *game, GameView *view);
+    explicit GameController(Game *game, GameView *view);
 
     void startGame();
 
