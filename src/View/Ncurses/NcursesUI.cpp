@@ -3,6 +3,7 @@
 #include "NcursesGameView.h"
 #include "ViewConfig.h"
 #include "../../Controller/GameController.h"
+#include "Screens/HomeScreen.h"
 
 #include <ncurses.h>
 #include <stdexcept>
@@ -12,7 +13,7 @@ void NcursesUI::show()
 {
     try
     {
-        NcursesUtils::initNcurses();
+        console = NcursesUtils::initNcurses();
     }
     catch(std::runtime_error &e)
     {
@@ -20,6 +21,8 @@ void NcursesUI::show()
         return;
     }
 
+    HomeScreen mainMenu(console);
+    mainMenu.show();
 
 
     std::unique_ptr<Game> game(new Game("../examples/maps/1.pacmap"));
@@ -27,7 +30,6 @@ void NcursesUI::show()
 
     GameController controller(game.get(), gameView.get());
     controller.startGame();
-
 
     NcursesUtils::endNcurses();
 }

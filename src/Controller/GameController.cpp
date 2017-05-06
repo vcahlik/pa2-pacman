@@ -60,5 +60,7 @@ void GameController::processUserInput()
         case InputKey::RIGHT:
             game->getPlayer().requestGoRight();
             break;
+        default:
+            break;
     }
 }

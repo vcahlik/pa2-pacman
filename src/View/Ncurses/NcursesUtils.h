@@ -4,10 +4,11 @@
 
 #include <ncurses.h>
 #include "Color.h"
+#include "../../InputKey.h"
 
 namespace NcursesUtils
 {
-    void initNcurses();
+    WINDOW *initNcurses();
 
     void endNcurses();
 
@@ -20,6 +21,8 @@ namespace NcursesUtils
     const int16_t colorCode(const Color color);
 
     const int16_t toNcursesColor(const Color color);
+
+    const InputKey getPressedKey(WINDOW *window);
 
 }
 

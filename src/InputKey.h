@@ -7,7 +7,8 @@ enum class InputKey
     UP,
     DOWN,
     LEFT,
-    RIGHT
+    RIGHT,
+    ENTER
 };
 
 class NoUserInputException

@@ -5,11 +5,10 @@
 
 namespace NcursesUtils
 {
-    void initNcurses()
+    WINDOW *initNcurses()
     {
-        initscr();
+        WINDOW *terminalWindow = initscr();
 
-        timeout(0);
         cbreak();
         noecho();
         curs_set(false);
@@ -23,6 +22,8 @@ namespace NcursesUtils
 
         start_color();
         NcursesUtils::initColors();
+
+        return terminalWindow;
     }
 
     void endNcurses()
@@ -88,6 +89,35 @@ namespace NcursesUtils
                 return COLOR_MAGENTA;
             default:
                 throw std::invalid_argument("Color not translated yet");
+        }
+    }
+
+    const InputKey getPressedKey(WINDOW *window)
+    {
+        int32_t c = wgetch(window);
+
+        if (c == 10)
+        {
+            return InputKey::ENTER;
+        } else if (c == 27 && wgetch(window) == 91) // Special encoding of arrow keys
+        {
+            c = wgetch(window);
+            switch (c)
+            {
+                case 'A':
+                    return InputKey::UP;
+                case 'B':
+                    return InputKey::DOWN;
+                case 'D':
+                    return InputKey::LEFT;
+                case 'C':
+                    return InputKey::RIGHT;
+                default:
+                    throw NoUserInputException();
+            }
+        } else
+        {
+            throw NoUserInputException();
         }
     }
 }

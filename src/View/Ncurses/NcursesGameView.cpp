@@ -19,6 +19,7 @@ void NcursesGameView::show()
 {
     window = NcursesUtils::createWindow(sizeY, sizeX, posY, posX);
     wbkgd(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::GAME_BACKGROUND_COLOR)));
+    notimeout(window, true);
 }
 
 void NcursesGameView::redraw()
@@ -129,26 +130,6 @@ void NcursesGameView::drawTextGraphics(const char *const text, const uint32_t li
 
 const InputKey NcursesGameView::getPressedKey() const
 {
-    int32_t c = wgetch(window);
-
-    if (c == 27 && wgetch(window) == 91) // Special encoding of arrow keys
-    {
-        c = wgetch(window);
-        switch (c)
-        {
-            case 'A':
-                return InputKey::UP;
-            case 'B':
-                return InputKey::DOWN;
-            case 'D':
-                return InputKey::LEFT;
-            case 'C':
-                return InputKey::RIGHT;
-            default:
-                throw NoUserInputException();
-        }
-    } else
-    {
-        throw NoUserInputException();
-    }
+    // TODO document: may throw!
+    return NcursesUtils::getPressedKey(window);
 }
