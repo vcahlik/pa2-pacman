@@ -45,10 +45,10 @@ void MovableObject::move()
     }
 }
 
-const bool MovableObject::validDirection(const Direction direction) const
+const bool MovableObject::isValidDirection(const Direction direction) const
 {
-    uint32_t destSquarePosX = posX;
-    uint32_t destSquarePosY = posY;
+    uint32_t destSquarePosX = static_cast<uint32_t>(posX);
+    uint32_t destSquarePosY = static_cast<uint32_t>(posY);
 
     switch (direction)
     {
@@ -68,13 +68,7 @@ const bool MovableObject::validDirection(const Direction direction) const
             break;
     }
 
-    if (game->getMap().getSquareType(destSquarePosX, destSquarePosY) != SquareType::Wall)
-    {
-        return true;
-    } else
-    {
-        return false;
-    }
+    return (game->getMap().squareCanBeEntered(destSquarePosX, destSquarePosY));
 }
 
 const double MovableObject::stepSize(const double speed) const

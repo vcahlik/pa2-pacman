@@ -14,6 +14,7 @@ namespace ViewConfig
     const Color COLOR_PLAYER = Color::Yellow;
     const Color COLOR_WALL = Color::Magenta;
     const Color COLOR_COIN = Color::Yellow;
+    const Color COLOR_SPAWNPOINT = Color::Magenta;
 }
 
 

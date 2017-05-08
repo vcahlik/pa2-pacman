@@ -23,13 +23,17 @@ public:
 
     const SquareType getSquareType(const uint32_t posX, const uint32_t posY) const;
 
-    uint32_t getStartPosX() const;
+    const bool isIntersection(const uint32_t posX, const uint32_t posY) const;
 
-    uint32_t getStartPosY() const;
+    const bool squareCanBeEntered(const uint32_t posX, const uint32_t posY) const;
 
-    uint32_t getSpawnPointX() const;
+    const uint32_t getStartPosX() const;
 
-    uint32_t getSpawnPointY() const;
+    const uint32_t getStartPosY() const;
+
+    const uint32_t getSpawnPointX() const;
+
+    const uint32_t getSpawnPointY() const;
 
 private:
     void loadFromFile(const std::string &filename);

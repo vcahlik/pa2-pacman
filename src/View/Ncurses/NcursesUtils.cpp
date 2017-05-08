@@ -1,6 +1,5 @@
 #include <stdexcept>
 #include "NcursesUtils.h"
-#include "Color.h"
 #include "ViewConfig.h"
 
 namespace NcursesUtils

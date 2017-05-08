@@ -22,7 +22,7 @@ protected:
 
     virtual void navigate() = 0;
 
-    const bool validDirection(const Direction direction) const;
+    const bool isValidDirection(const Direction direction) const;
 
     const double stepSize(const double speed) const;
 

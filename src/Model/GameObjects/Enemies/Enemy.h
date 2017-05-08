@@ -9,6 +9,9 @@ class Enemy
 {
 public:
     explicit Enemy(const double posX, const double posY, const double speed, const double size, Game *game);
+
+protected:
+    void chooseRandomDirection();
 };
 
 

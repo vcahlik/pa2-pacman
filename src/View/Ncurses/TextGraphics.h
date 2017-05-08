@@ -28,9 +28,27 @@ namespace TextGraphics
 
     namespace Wall
     {
-        const char * const NORMAL_LINE1 = "888888";
-        const char * const NORMAL_LINE2 = "888888";
-        const char * const NORMAL_LINE3 = "888888";
+        const char * const LINE1 = "888888";
+        const char * const LINE2 = "888888";
+        const char * const LINE3 = "888888";
+    }
+
+    namespace SpawnPoint
+    {
+        const char * const LINE1 = "+----+";
+        const char * const LINE2 = "|    |";
+        const char * const LINE3 = "+----+";
+    }
+
+    namespace Ghost
+    {
+        const char * const LEFT_LINE1 = "/    \\";
+        const char * const LEFT_LINE2 = "|O O |";
+        const char * const LEFT_LINE3 = "vv  vv";
+
+        const char * const RIGHT_LINE1 = "/    \\";
+        const char * const RIGHT_LINE2 = "| O O|";
+        const char * const RIGHT_LINE3 = "vv  vv";
     }
 
     const char * const COIN = " .";

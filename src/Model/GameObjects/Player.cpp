@@ -1,4 +1,3 @@
-#include <cmath>
 #include "Player.h"
 #include "../../Config.h"
 #include "../Game.h"
@@ -46,10 +45,10 @@ void Player::navigateAtIntersection()
     // Movement enabled by default
     speed = baseSpeed;
 
-    if (validDirection(requestedDirection)) // Player can go where he wanted
+    if (isValidDirection(requestedDirection)) // Player can go where he wanted
     {
         direction = requestedDirection;
-    } else if (!validDirection(direction)) // Player can't go where he wanted, but can't continue either
+    } else if (!isValidDirection(direction)) // Player can't go where he wanted, but can't continue either
     {
         speed = 0;
         direction = requestedDirection; // Player can rotate

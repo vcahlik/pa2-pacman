@@ -1,6 +1,5 @@
 #include <termcap.h>
 #include <stdexcept>
-#include <iostream>
 #include "NcursesGameView.h"
 #include "NcursesUtils.h"
 #include "ViewConfig.h"
@@ -26,7 +25,7 @@ void NcursesGameView::redraw()
 {
     wclear(window);
 
-    drawWalls();
+    drawMap();
 
     drawGameObjects();
 
@@ -39,6 +38,12 @@ void NcursesGameView::end()
     window = nullptr;
 }
 
+void NcursesGameView::drawMap() const
+{
+    drawWalls();
+    drawSpawnPoint();
+}
+
 void NcursesGameView::drawWalls() const
 {
     for (uint32_t y = 0; y < game->getMap().sizeY(); ++y)
@@ -48,12 +53,26 @@ void NcursesGameView::drawWalls() const
             SquareType type = game->getMap().getSquareType(x, y);
             if (type == SquareType::Wall)
             {
-                drawTextGraphics(TextGraphics::Wall::NORMAL_LINE1, 1, x, y, ViewConfig::COLOR_WALL);
-                drawTextGraphics(TextGraphics::Wall::NORMAL_LINE1, 2, x, y, ViewConfig::COLOR_WALL);
-                drawTextGraphics(TextGraphics::Wall::NORMAL_LINE1, 3, x, y, ViewConfig::COLOR_WALL);
+                drawTextGraphics(TextGraphics::Wall::LINE1, 1, x, y, ViewConfig::COLOR_WALL);
+                drawTextGraphics(TextGraphics::Wall::LINE2, 2, x, y, ViewConfig::COLOR_WALL);
+                drawTextGraphics(TextGraphics::Wall::LINE3, 3, x, y, ViewConfig::COLOR_WALL);
             }
         }
     }
+}
+
+void NcursesGameView::drawSpawnPoint() const
+{
+    double x = game->getMap().getSpawnPointX();
+    double y = game->getMap().getSpawnPointY();
+
+    const char *line1 = TextGraphics::SpawnPoint::LINE1;
+    const char *line2 = TextGraphics::SpawnPoint::LINE2;
+    const char *line3 = TextGraphics::SpawnPoint::LINE3;
+
+    drawTextGraphics(line1, 1, x, y, ViewConfig::COLOR_SPAWNPOINT);
+    drawTextGraphics(line2, 2, x, y, ViewConfig::COLOR_SPAWNPOINT);
+    drawTextGraphics(line3, 3, x, y, ViewConfig::COLOR_SPAWNPOINT);
 }
 
 void NcursesGameView::drawGameObjects() const
@@ -63,6 +82,11 @@ void NcursesGameView::drawGameObjects() const
     for (const auto &coin : game->getCoins())
     {
         drawObject(*coin);
+    }
+
+    for (const auto &ghost : game->getGhosts())
+    {
+        drawObject(*ghost);
     }
 }
 
@@ -121,10 +145,42 @@ void NcursesGameView::drawObject(const Coin &coin) const
     drawTextGraphics(TextGraphics::COIN, 1, x, y, ViewConfig::COLOR_COIN);
 }
 
+void NcursesGameView::drawObject(const Ghost &ghost) const
+{
+    double x = ghost.getPosX();
+    double y = ghost.getPosY();
+
+    const char *line1 = nullptr;
+    const char *line2 = nullptr;
+    const char *line3 = nullptr;
+
+    switch (ghost.getDirection())
+    {
+        case Direction::LEFT:
+            line1 = TextGraphics::Ghost::LEFT_LINE1;
+            line2 = TextGraphics::Ghost::LEFT_LINE2;
+            line3 = TextGraphics::Ghost::LEFT_LINE3;
+            break;
+        case Direction::RIGHT:
+        default:
+            line1 = TextGraphics::Ghost::RIGHT_LINE1;
+            line2 = TextGraphics::Ghost::RIGHT_LINE2;
+            line3 = TextGraphics::Ghost::RIGHT_LINE3;
+            break;
+    }
+
+    drawTextGraphics(line1, 1, x, y, ViewConfig::COLOR_PLAYER);
+    drawTextGraphics(line2, 2, x, y, ViewConfig::COLOR_PLAYER);
+    drawTextGraphics(line3, 3, x, y, ViewConfig::COLOR_PLAYER);
+}
+
 void NcursesGameView::drawTextGraphics(const char *const text, const uint32_t lineNo, const double x, const double y, const Color color) const
 {
     wattron(window, COLOR_PAIR(NcursesUtils::colorCode(color)));
-    mvwprintw(window, y * ViewConfig::SQUARE_SIZE_Y + lineNo, x * ViewConfig::SQUARE_SIZE_X + 1, text);
+    mvwprintw(window,
+              static_cast<uint32_t>(y * ViewConfig::SQUARE_SIZE_Y + lineNo),
+              static_cast<uint32_t>(x * ViewConfig::SQUARE_SIZE_X + 1),
+              text);
     wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(color)));
 }
 

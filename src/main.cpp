@@ -1,6 +1,4 @@
 #include "View/Ncurses/NcursesUI.h"
-#include "Controller/GameController.h"
-#include <cstdlib>
 
 int main()
 {

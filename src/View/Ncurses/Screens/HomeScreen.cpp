@@ -17,10 +17,4 @@ void HomeScreen::show()
     menu.addOption(2, "Quit");
     menu.show();
     uint32_t choice = menu.getUsersChoice();
-
-    switch (choice)
-    {
-        case 1:
-
-    }
 }

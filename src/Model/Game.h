@@ -11,6 +11,7 @@
 #include "GameObjects/Items/Item.h"
 #include "GameObjects/Enemies/Enemy.h"
 #include "GameObjects/Items/Coin.h"
+#include "GameObjects/Enemies/Ghost.h"
 
 class Game
 {
@@ -18,8 +19,6 @@ public:
     explicit Game(const std::string &mapFilename);
 
     void performCycle();
-
-    void performObjectActions();
 
     bool isObjectCollision(const GameObject &lhs, const GameObject &rhs);
 
@@ -31,11 +30,20 @@ public:
 
     const std::vector<std::unique_ptr<Coin>> &getCoins() const;
 
+    const std::vector<std::unique_ptr<Ghost>> &getGhosts() const;
+
 private:
+    void performObjectActions();
+
+    void performContainerActions(std::vector<std::unique_ptr<GameObject>> &container);
+
+    void generateCoins();
+    void addGhost();
     const GameMap map;
     Player player;
-    std::vector<std::unique_ptr<Coin>> coins;
 
+    std::vector<std::unique_ptr<Coin>> coins;
+    std::vector<std::unique_ptr<Ghost>> ghosts;
 };
 
 

@@ -24,7 +24,7 @@ void GameMap::loadFromFile(const std::string &filename)
         throw std::runtime_error("Error parsing map file");
     }
 
-    uint32_t parsingSizeX = line.length();
+    uint32_t parsingSizeX = static_cast<uint32_t>(line.length());
 
     for (uint32_t y = 0; true; ++y)
     {
@@ -101,12 +101,46 @@ const uint32_t GameMap::sizeX() const
         return 0;
     }
 
-    return squares[0].size();
+    return static_cast<uint32_t>(squares[0].size());
 }
 
 const uint32_t GameMap::sizeY() const
 {
-    return squares.size();
+    return static_cast<uint32_t>(squares.size());
+}
+
+const bool GameMap::isIntersection(const uint32_t posX, const uint32_t posY) const
+{
+    if (posX == 0 || posX >= sizeX() || posY == 0 || posY > sizeY())
+    {
+        throw std::logic_error("isIntersection(): called on border position");
+    }
+
+    if (squareCanBeEntered(posX, posY))
+    {
+        if (squareCanBeEntered(posX - 1, posY) &&
+            squareCanBeEntered(posX + 1, posY) &&
+            !squareCanBeEntered(posX, posY - 1) &&
+            !squareCanBeEntered(posX, posY + 1))
+        {
+            return false;
+        } else if (!squareCanBeEntered(posX - 1, posY) &&
+                   !squareCanBeEntered(posX + 1, posY) &&
+                   squareCanBeEntered(posX, posY - 1) &&
+                   squareCanBeEntered(posX, posY + 1))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+const bool GameMap::squareCanBeEntered(const uint32_t posX, const uint32_t posY) const
+{
+    SquareType squareType = getSquareType(posX, posY);
+
+    return (squareType == SquareType::Space || squareType == SquareType::StartPos);
 }
 
 const SquareType GameMap::getSquareType(const uint32_t posX, const uint32_t posY) const
@@ -119,22 +153,22 @@ void GameMap::checkIntegrity()
     // TODO map must have borders, only one startPos and spawnPoint, ...
 }
 
-uint32_t GameMap::getStartPosX() const
+const uint32_t GameMap::getStartPosX() const
 {
     return startPosX;
 }
 
-uint32_t GameMap::getStartPosY() const
+const uint32_t GameMap::getStartPosY() const
 {
     return startPosY;
 }
 
-uint32_t GameMap::getSpawnPointX() const
+const uint32_t GameMap::getSpawnPointX() const
 {
     return spawnPointX;
 }
 
-uint32_t GameMap::getSpawnPointY() const
+const uint32_t GameMap::getSpawnPointY() const
 {
     return spawnPointY;
 }

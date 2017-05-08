@@ -22,13 +22,19 @@ public:
     virtual const InputKey getPressedKey() const;
 
 private:
+    void drawMap() const;
+
     void drawWalls() const;
+
+    void drawSpawnPoint() const;
 
     void drawGameObjects() const;
 
     void drawObject(const Player &player) const;
 
     void drawObject(const Coin &coin) const;
+
+    void drawObject(const Ghost &ghost) const;
 
     void drawTextGraphics(const char * const text, const uint32_t lineNo, const double x, const double y, const Color color) const;
 
