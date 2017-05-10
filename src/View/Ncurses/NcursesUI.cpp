@@ -3,13 +3,13 @@
 #include "NcursesGameView.h"
 #include "ViewConfig.h"
 #include "../../Controller/GameController.h"
-#include "Screens/HomeScreen.h"
+#include "../../UserConfig.h"
 
 #include <ncurses.h>
 #include <stdexcept>
 #include <iostream>
 
-void NcursesUI::show()
+void NcursesUI::show(const UserConfig userConfig)
 {
     try
     {
@@ -21,11 +21,7 @@ void NcursesUI::show()
         return;
     }
 
-    HomeScreen mainMenu(console);
-    mainMenu.show();
-
-
-    std::unique_ptr<Game> game(new Game("../examples/maps/1.pacmap"));
+    std::unique_ptr<Game> game(new Game(userConfig));
     std::unique_ptr<NcursesGameView> gameView(new NcursesGameView(game.get()));
 
     GameController controller(game.get(), gameView.get());

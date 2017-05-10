@@ -169,9 +169,9 @@ void NcursesGameView::drawObject(const Ghost &ghost) const
             break;
     }
 
-    drawTextGraphics(line1, 1, x, y, ViewConfig::COLOR_PLAYER);
-    drawTextGraphics(line2, 2, x, y, ViewConfig::COLOR_PLAYER);
-    drawTextGraphics(line3, 3, x, y, ViewConfig::COLOR_PLAYER);
+    drawTextGraphics(line1, 1, x, y, ghost.getColor());
+    drawTextGraphics(line2, 2, x, y, ghost.getColor());
+    drawTextGraphics(line3, 3, x, y, ghost.getColor());
 }
 
 void NcursesGameView::drawTextGraphics(const char *const text, const uint32_t lineNo, const double x, const double y, const Color color) const

@@ -87,7 +87,7 @@ namespace NcursesUtils
             case Color::Magenta:
                 return COLOR_MAGENTA;
             default:
-                throw std::invalid_argument("Color not translated yet");
+                throw std::logic_error("color not handled");
         }
     }
 

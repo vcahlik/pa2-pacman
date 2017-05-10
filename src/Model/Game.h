@@ -12,13 +12,18 @@
 #include "GameObjects/Enemies/Enemy.h"
 #include "GameObjects/Items/Coin.h"
 #include "GameObjects/Enemies/Ghost.h"
+#include "../UserConfig.h"
 
 class Game
 {
 public:
-    explicit Game(const std::string &mapFilename);
+    explicit Game(const UserConfig userConfig);
 
     void performCycle();
+
+    const bool isVictory() const;
+
+    const bool isGameOver() const;
 
     bool isObjectCollision(const GameObject &lhs, const GameObject &rhs);
 
@@ -39,11 +44,14 @@ private:
 
     void generateCoins();
     void addGhost();
+
     const GameMap map;
     Player player;
 
     std::vector<std::unique_ptr<Coin>> coins;
     std::vector<std::unique_ptr<Ghost>> ghosts;
+
+    const Difficulty difficulty;
 };
 
 

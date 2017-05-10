@@ -3,6 +3,7 @@
 
 
 #include <cstdint>
+#include "Difficulty.h"
 
 namespace Config
 {
@@ -18,7 +19,9 @@ namespace Config
     const double COIN_SIZE = 0.33;
 
     const double GHOST_SIZE = 1;
-    const double GHOST_BASE_SPEED = 1.5;
+    const double GHOST_BASE_SPEED = 1.3;
+
+    const Difficulty DEFAULT_DIFFICULTY = Difficulty::DIF1;
 
     const uint32_t CYCLE_TIME_MSECS = 50;
 }

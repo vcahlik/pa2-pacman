@@ -3,6 +3,7 @@
 
 
 #include "Enemy.h"
+#include "../../../View/Ncurses/Color.h"
 
 class Ghost
     : public Enemy
@@ -10,8 +11,15 @@ class Ghost
 public:
     explicit Ghost(const double posX, const double posY, const double speed, Game *game);
 
+    const Color getColor() const;
+
 protected:
     virtual void navigate() override;
+
+private:
+    const Color getRandomColor() const;
+
+    const Color color;
 
 };
 

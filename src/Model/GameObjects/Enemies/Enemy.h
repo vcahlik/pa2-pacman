@@ -10,8 +10,13 @@ class Enemy
 public:
     explicit Enemy(const double posX, const double posY, const double speed, const double size, Game *game);
 
+    virtual const bool performActions() override;
+
 protected:
     void chooseRandomDirection();
+
+    const bool onlyPossibleDirection(const Direction newDirection) const;
+
 };
 
 

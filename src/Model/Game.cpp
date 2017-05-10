@@ -1,12 +1,24 @@
 #include "Game.h"
 #include "../Config.h"
 
-Game::Game(const std::string &mapFilename)
-    : map(mapFilename),
-      player(map.getStartPosX(), map.getStartPosY(), this)
+Game::Game(const UserConfig userConfig)
+    : map(userConfig.getMapFileName()),
+      player(map.getStartPosX(), map.getStartPosY(), this),
+      difficulty(userConfig.getDifficulty())
 {
     generateCoins();
     addGhost();
+    addGhost();
+}
+
+const bool Game::isVictory() const
+{
+    return coins.empty();
+}
+
+const bool Game::isGameOver() const
+{
+    return !player.isAlive();
 }
 
 const GameMap &Game::getMap() const

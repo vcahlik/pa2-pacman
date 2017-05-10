@@ -5,6 +5,7 @@
 Player::Player(const double posX, const double posY, Game *game)
         : MovableObject(posX, posY, Config::PLAYER_BASE_SPEED, Config::PLAYER_SIZE, game),
           requestedDirection(Direction::NONE),
+          alive(true),
           mouthOpen(true), mouthOpenMsecs(0)
 {
 
@@ -88,4 +89,14 @@ void Player::animateMouth()
         mouthOpen = !mouthOpen;
         mouthOpenMsecs = 0;
     }
+}
+
+const bool Player::isAlive() const
+{
+    return alive;
+}
+
+void Player::setAlive(const bool alive)
+{
+    this->alive = alive;
 }

@@ -21,6 +21,10 @@ public:
 
     void requestGoRight();
 
+    const bool isAlive() const;
+
+    void setAlive(const bool alive);
+
     const bool isMouthOpen() const;
 
 protected:
@@ -32,6 +36,7 @@ protected:
 
     Direction requestedDirection;
 
+    bool alive;
     bool mouthOpen;
     uint32_t mouthOpenMsecs;
 

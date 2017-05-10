@@ -6,11 +6,12 @@
 #include "../../Model/Game.h"
 #include "Color.h"
 #include "../GameView.h"
+#include "../../UserConfig.h"
 
 class NcursesUI
 {
 public:
-    virtual void show();
+    virtual void show(const UserConfig userConfig);
 
 private:
     WINDOW *console;
