@@ -30,7 +30,7 @@ const Color Ghost::getColor() const
 
 const Color Ghost::getRandomColor() const
 {
-    switch (Utils::getRandom(4))
+    switch (Utils::getRandom(5))
     {
         case 0:
             return Color::White;
@@ -38,6 +38,8 @@ const Color Ghost::getRandomColor() const
             return Color::Green;
         case 2:
             return Color::Red;
+        case 3:
+            return Color::Magenta;
         default:
             return Color::Cyan;
     }

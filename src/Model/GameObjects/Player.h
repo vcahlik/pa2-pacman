@@ -23,7 +23,7 @@ public:
 
     const bool isAlive() const;
 
-    void setAlive(const bool alive);
+    void die();
 
     const bool isMouthOpen() const;
 

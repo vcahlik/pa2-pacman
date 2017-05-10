@@ -1,6 +1,5 @@
 #include <iostream>
 #include "View/Ncurses/NcursesUI.h"
-#include "UserConfig.h"
 
 int main(int argc, char **argv)
 {

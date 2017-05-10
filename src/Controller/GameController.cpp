@@ -20,18 +20,10 @@ void GameController::startGame()
 
 void GameController::gameLoop()
 {
-    while (true)
+    while (!game->isFinished())
     {
         performCycle();
         usleep(static_cast<uint32_t>(Config::CYCLE_TIME_MSECS) * 1000);
-
-        if (game->isVictory())
-        {
-            throw std::runtime_error("YOU WIN");
-        } else if (game->isGameOver())
-        {
-            throw std::runtime_error("GAME OVER");
-        }
     }
 }
 

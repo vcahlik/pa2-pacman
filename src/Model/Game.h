@@ -13,6 +13,7 @@
 #include "GameObjects/Items/Coin.h"
 #include "GameObjects/Enemies/Ghost.h"
 #include "../UserConfig.h"
+#include "GameTimer.h"
 
 class Game
 {
@@ -21,9 +22,9 @@ public:
 
     void performCycle();
 
-    const bool isVictory() const;
+    const bool isFinished() const;
 
-    const bool isGameOver() const;
+    const bool isRunning() const;
 
     bool isObjectCollision(const GameObject &lhs, const GameObject &rhs);
 
@@ -42,16 +43,34 @@ private:
 
     void performContainerActions(std::vector<std::unique_ptr<GameObject>> &container);
 
-    void generateCoins();
+    void performTimeoutEvent();
+
+    void performPlayerDeathEvent();
+
+    void performPlayerVictoryEvent();
+
+    void startWithNextLife();
+
+    void placeCoins();
+
+    void performGhostGeneration();
+
     void addGhost();
 
     const GameMap map;
-    Player player;
+    std::unique_ptr<Player> player;
 
     std::vector<std::unique_ptr<Coin>> coins;
     std::vector<std::unique_ptr<Ghost>> ghosts;
 
+    uint32_t remainingLives;
+
+    GameTimer timer;
+
     const Difficulty difficulty;
+
+    bool finished;
+
 };
 
 

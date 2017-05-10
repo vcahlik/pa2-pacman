@@ -91,7 +91,7 @@ const bool Enemy::performActions()
 
     if (game->isObjectCollision(*this, game->getPlayer()))
     {
-        game->getPlayer().setAlive(false);
+        game->getPlayer().die();
     }
 
     return true;

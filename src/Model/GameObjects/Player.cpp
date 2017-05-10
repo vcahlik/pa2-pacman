@@ -96,7 +96,7 @@ const bool Player::isAlive() const
     return alive;
 }
 
-void Player::setAlive(const bool alive)
+void Player::die()
 {
-    this->alive = alive;
+    alive = false;
 }

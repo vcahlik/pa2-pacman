@@ -22,6 +22,10 @@ public:
     virtual const InputKey getPressedKey() const;
 
 private:
+    void drawBorder() const;
+
+    void drawStatusBar() const;
+
     void drawMap() const;
 
     void drawWalls() const;

@@ -9,7 +9,7 @@ NcursesGameView::NcursesGameView(const Game *game)
     : game(game), window(nullptr)
 {
     sizeX = 2 + game->getMap().sizeX() * ViewConfig::SQUARE_SIZE_X;
-    sizeY = 2 + game->getMap().sizeY() * ViewConfig::SQUARE_SIZE_Y;
+    sizeY = 2 + game->getMap().sizeY() * ViewConfig::SQUARE_SIZE_Y + ViewConfig::STATUS_BAR_SIZE_X;
     posX = (COLS - sizeX) / 2;
     posY = (LINES - sizeY) / 2;
 }
@@ -25,6 +25,10 @@ void NcursesGameView::redraw()
 {
     wclear(window);
 
+    drawBorder();
+
+    drawStatusBar();
+
     drawMap();
 
     drawGameObjects();
@@ -36,6 +40,18 @@ void NcursesGameView::end()
 {
     NcursesUtils::destroyWindow(window);
     window = nullptr;
+}
+
+void NcursesGameView::drawBorder() const
+{
+    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::GAME_BORDER_COLOR)));
+    wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
+    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::GAME_BORDER_COLOR)));
+}
+
+void NcursesGameView::drawStatusBar() const
+{
+
 }
 
 void NcursesGameView::drawMap() const
@@ -178,7 +194,7 @@ void NcursesGameView::drawTextGraphics(const char *const text, const uint32_t li
 {
     wattron(window, COLOR_PAIR(NcursesUtils::colorCode(color)));
     mvwprintw(window,
-              static_cast<uint32_t>(y * ViewConfig::SQUARE_SIZE_Y + lineNo),
+              static_cast<uint32_t>(y * ViewConfig::SQUARE_SIZE_Y + lineNo + ViewConfig::STATUS_BAR_SIZE_X),
               static_cast<uint32_t>(x * ViewConfig::SQUARE_SIZE_X + 1),
               text);
     wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(color)));

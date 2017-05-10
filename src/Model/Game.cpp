@@ -3,22 +3,22 @@
 
 Game::Game(const UserConfig userConfig)
     : map(userConfig.getMapFileName()),
-      player(map.getStartPosX(), map.getStartPosY(), this),
-      difficulty(userConfig.getDifficulty())
+      player(new Player(map.getStartPosX(), map.getStartPosY(), this)),
+      remainingLives(Config::INITIAL_REMAINING_LIVES),
+      difficulty(userConfig.getDifficulty()),
+      finished(false)
 {
-    generateCoins();
-    addGhost();
-    addGhost();
+    placeCoins();
 }
 
-const bool Game::isVictory() const
+const bool Game::isFinished() const
 {
-    return coins.empty();
+    return finished;
 }
 
-const bool Game::isGameOver() const
+const bool Game::isRunning() const
 {
-    return !player.isAlive();
+    return (player->isAlive() && !coins.empty());
 }
 
 const GameMap &Game::getMap() const
@@ -28,12 +28,12 @@ const GameMap &Game::getMap() const
 
 Player &Game::getPlayer()
 {
-    return player;
+    return *player;
 }
 
 const Player &Game::getPlayer() const
 {
-    return player;
+    return *player;
 }
 
 const std::vector<std::unique_ptr<Coin>> &Game::getCoins() const
@@ -48,12 +48,26 @@ const std::vector<std::unique_ptr<Ghost>> &Game::getGhosts() const
 
 void Game::performCycle()
 {
-    performObjectActions();
+    if (finished)
+    {
+        return;
+    }
+
+    timer.notifyOfNextCycle();
+
+    if (isRunning())
+    {
+        performGhostGeneration();
+        performObjectActions();
+    } else
+    {
+        performTimeoutEvent();
+    }
 }
 
 void Game::performObjectActions()
 {
-    player.performActions();
+    player->performActions();
 
     performContainerActions(reinterpret_cast<std::vector<std::unique_ptr<GameObject>> &>(coins));
     performContainerActions(reinterpret_cast<std::vector<std::unique_ptr<GameObject>> &>(ghosts));
@@ -74,6 +88,54 @@ void Game::performContainerActions(std::vector<std::unique_ptr<GameObject>> &con
     }
 }
 
+void Game::performTimeoutEvent()
+{
+    if (!player->isAlive())
+    {
+        performPlayerDeathEvent();
+    } else if (coins.empty())
+    {
+        performPlayerVictoryEvent();
+    }
+}
+
+void Game::performPlayerDeathEvent()
+{
+    if (remainingLives > 0)
+    {
+        // Round over
+        timer.requestTimer(Timeout::PlayerDeathScreen);
+        if (timer.isTimeoutEvent(Timeout::PlayerDeathScreen))
+        {
+            --remainingLives;
+            startWithNextLife();
+        }
+    } else
+    {
+        // Game over
+        timer.requestTimer(Timeout::GameOverScreen);
+        if (timer.isTimeoutEvent(Timeout::GameOverScreen))
+        {
+            finished = true;
+        }
+    }
+}
+
+void Game::performPlayerVictoryEvent()
+{
+    if (timer.isTimeoutEvent(Timeout::PlayerVictoryScreen))
+    {
+        finished = true;
+    }
+}
+
+void Game::startWithNextLife()
+{
+    player.reset(new Player(map.getStartPosX(), map.getStartPosY(), this));
+
+    ghosts.clear();
+}
+
 bool Game::isObjectCollision(const GameObject &lhs, const GameObject &rhs)
 {
     return (lhs.getPosX() + lhs.getSize() > rhs.getPosX() &&
@@ -82,7 +144,7 @@ bool Game::isObjectCollision(const GameObject &lhs, const GameObject &rhs)
             lhs.getPosY() < rhs.getPosY() + rhs.getSize());
 }
 
-void Game::generateCoins()
+void Game::placeCoins()
 {
     for (uint32_t x = 0; x < map.sizeX(); ++x)
     {
@@ -92,6 +154,18 @@ void Game::generateCoins()
             {
                 coins.push_back(std::unique_ptr<Coin>(new Coin(x, y, this)));
             }
+        }
+    }
+}
+
+void Game::performGhostGeneration()
+{
+    if (ghosts.size() < Config::GHOST_COUNT)
+    {
+        timer.requestTimer(Timeout::GhostGeneration);
+        if (timer.isTimeoutEvent(Timeout::GhostGeneration))
+        {
+            addGhost();
         }
     }
 }
