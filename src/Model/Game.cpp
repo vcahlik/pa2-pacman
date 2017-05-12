@@ -4,21 +4,34 @@
 Game::Game(const UserConfig userConfig)
     : map(userConfig.getMapFileName()),
       player(new Player(map.getStartPosX(), map.getStartPosY(), this)),
-      remainingLives(Config::INITIAL_REMAINING_LIVES),
+      remainingLivesCount(Config::INITIAL_REMAINING_LIVES),
       difficulty(userConfig.getDifficulty()),
-      finished(false)
+      inShutdownState(false)
 {
     placeCoins();
 }
 
-const bool Game::isFinished() const
+const GameState Game::getState() const
 {
-    return finished;
-}
-
-const bool Game::isRunning() const
-{
-    return (player->isAlive() && !coins.empty());
+    if (inShutdownState)
+    {
+        return GameState::Shutdown;
+    } else if (coins.empty())
+    {
+        return GameState::GameWon;
+    } else if (!player->isAlive())
+    {
+        if (remainingLivesCount > 0 )
+        {
+            return GameState::LifeLost;
+        } else
+        {
+            return GameState::GameOver;
+        }
+    } else
+    {
+        return GameState::Running;
+    }
 }
 
 const GameMap &Game::getMap() const
@@ -46,22 +59,80 @@ const std::vector<std::unique_ptr<Ghost>> &Game::getGhosts() const
     return ghosts;
 }
 
+const uint32_t Game::getRemainingLivesCount() const
+{
+    return remainingLivesCount;
+}
+
+void Game::addScore(const uint32_t scored)
+{
+    score += scored;
+}
+
+const uint32_t Game::getScore() const
+{
+    return score;
+}
+
 void Game::performCycle()
 {
-    if (finished)
+    if (getState() == GameState::Shutdown)
     {
         return;
     }
 
     timer.notifyOfNextCycle();
 
-    if (isRunning())
+    switch (getState())
     {
-        performGhostGeneration();
-        performObjectActions();
-    } else
+        case GameState::Running:
+            performStateRunningCycle();
+            break;
+        case GameState::LifeLost:
+            performStateLifeLostCycle();
+            break;
+        case GameState::GameOver:
+            performStateGameOverCycle();
+            break;
+        case GameState::GameWon:
+            performStateGameWonCycle();
+            break;
+        default:
+            throw std::logic_error("unhandled state");
+    }
+}
+
+void Game::performStateRunningCycle()
+{
+    performGhostGeneration();
+    performObjectActions();
+}
+
+void Game::performStateLifeLostCycle()
+{
+    timer.requestTimer(Timeout::StateLifeLost);
+    if (timer.isTimeoutEvent(Timeout::StateLifeLost))
     {
-        performTimeoutEvent();
+        --remainingLivesCount;
+        startWithNextLife();
+    }
+}
+
+void Game::performStateGameOverCycle()
+{
+    timer.requestTimer(Timeout::StateGameOver);
+    if (timer.isTimeoutEvent(Timeout::StateGameOver))
+    {
+        inShutdownState = true;
+    }
+}
+
+void Game::performStateGameWonCycle()
+{
+    timer.requestTimer(Timeout::StateGameWon);
+    if (timer.isTimeoutEvent(Timeout::StateGameWon))
+    {
+        inShutdownState = true;
     }
 }
 
@@ -85,47 +156,6 @@ void Game::performContainerActions(std::vector<std::unique_ptr<GameObject>> &con
         {
             ++it;
         }
-    }
-}
-
-void Game::performTimeoutEvent()
-{
-    if (!player->isAlive())
-    {
-        performPlayerDeathEvent();
-    } else if (coins.empty())
-    {
-        performPlayerVictoryEvent();
-    }
-}
-
-void Game::performPlayerDeathEvent()
-{
-    if (remainingLives > 0)
-    {
-        // Round over
-        timer.requestTimer(Timeout::PlayerDeathScreen);
-        if (timer.isTimeoutEvent(Timeout::PlayerDeathScreen))
-        {
-            --remainingLives;
-            startWithNextLife();
-        }
-    } else
-    {
-        // Game over
-        timer.requestTimer(Timeout::GameOverScreen);
-        if (timer.isTimeoutEvent(Timeout::GameOverScreen))
-        {
-            finished = true;
-        }
-    }
-}
-
-void Game::performPlayerVictoryEvent()
-{
-    if (timer.isTimeoutEvent(Timeout::PlayerVictoryScreen))
-    {
-        finished = true;
     }
 }
 

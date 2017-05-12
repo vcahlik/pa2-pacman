@@ -3,5 +3,5 @@
 #include "../../Game.h"
 
 Coin::Coin(const double posX, const double posY, Game *game)
-    : Item(posX, posY, Config::COIN_SIZE, game)
+    : ScoreBonus(posX, posY, Config::COIN_SIZE, Config::COIN_SCORE_BONUS, game)
 {}

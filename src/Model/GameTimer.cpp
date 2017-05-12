@@ -52,11 +52,11 @@ const uint32_t GameTimer::getTimeoutLimitValue(const Timeout timeout) const
 {
     switch (timeout)
     {
-        case Timeout::PlayerVictoryScreen:
+        case Timeout::StateGameWon:
             return Config::PLAYER_VICTORY_SCREEN_TIME_MSECS;
-        case Timeout::PlayerDeathScreen:
+        case Timeout::StateLifeLost:
             return Config::PLAYER_DEATH_SCREEN_TIME_MSECS;
-        case Timeout::GameOverScreen:
+        case Timeout::StateGameOver:
             return Config::PLAYER_GAME_OVER_SCREEN_TIME_MSECS;
         case Timeout::GhostGeneration:
             return Config::GHOST_GENERATION_TIME_MSECS;

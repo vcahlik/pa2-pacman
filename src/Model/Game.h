@@ -15,16 +15,23 @@
 #include "../UserConfig.h"
 #include "GameTimer.h"
 
+enum class GameState
+{
+    Running,
+    LifeLost,
+    GameOver,
+    GameWon,
+    Shutdown
+};
+
 class Game
 {
 public:
     explicit Game(const UserConfig userConfig);
 
+    const GameState getState() const;
+
     void performCycle();
-
-    const bool isFinished() const;
-
-    const bool isRunning() const;
 
     bool isObjectCollision(const GameObject &lhs, const GameObject &rhs);
 
@@ -38,16 +45,24 @@ public:
 
     const std::vector<std::unique_ptr<Ghost>> &getGhosts() const;
 
+    const uint32_t getRemainingLivesCount() const;
+
+    void addScore(const uint32_t scored);
+
+    const uint32_t getScore() const;
+
 private:
+    void performStateRunningCycle();
+
+    void performStateLifeLostCycle();
+
+    void performStateGameOverCycle();
+
+    void performStateGameWonCycle();
+
     void performObjectActions();
 
     void performContainerActions(std::vector<std::unique_ptr<GameObject>> &container);
-
-    void performTimeoutEvent();
-
-    void performPlayerDeathEvent();
-
-    void performPlayerVictoryEvent();
 
     void startWithNextLife();
 
@@ -63,13 +78,15 @@ private:
     std::vector<std::unique_ptr<Coin>> coins;
     std::vector<std::unique_ptr<Ghost>> ghosts;
 
-    uint32_t remainingLives;
+    uint32_t remainingLivesCount;
+
+    uint32_t score;
 
     GameTimer timer;
 
     const Difficulty difficulty;
 
-    bool finished;
+    bool inShutdownState;
 
 };
 

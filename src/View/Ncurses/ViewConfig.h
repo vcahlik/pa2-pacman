@@ -13,12 +13,18 @@ namespace ViewConfig
 
     const Color GAME_BACKGROUND_COLOR = Color::Black;
 
-    const Color GAME_BORDER_COLOR = Color::Red;
+    const Color BORDER_COLOR = Color::Cyan;
+    const Color STATUS_BAR_TEXT_COLOR = Color::Cyan;
 
     const Color COLOR_PLAYER = Color::Yellow;
     const Color COLOR_WALL = Color::Blue;
     const Color COLOR_COIN = Color::Yellow;
     const Color COLOR_SPAWNPOINT = Color::Blue;
+
+    const char * const STATUS_BAR_TEXT_REMAINING_LIVES = "Extra lives: ";
+    const char * const STATUS_BAR_TEXT_GAME_OVER = "GAME OVER";
+    const char * const STATUS_BAR_TEXT_GAME_WON = "YOU WIN!";
+    const char * const STATUS_BAR_TEXT_SCORE = "Score: ";
 }
 
 

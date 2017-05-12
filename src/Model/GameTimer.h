@@ -6,9 +6,9 @@
 
 enum class Timeout
 {
-    PlayerVictoryScreen,
-    PlayerDeathScreen,
-    GameOverScreen,
+    StateGameWon,
+    StateLifeLost,
+    StateGameOver,
     GhostGeneration
 };
 

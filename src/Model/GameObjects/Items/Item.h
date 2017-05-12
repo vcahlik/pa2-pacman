@@ -13,6 +13,7 @@ public:
     explicit Item(const double posX, const double posY, const double size, Game *game);
 
     virtual const bool performActions() override;
+
 };
 
 

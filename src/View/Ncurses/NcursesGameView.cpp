@@ -1,5 +1,6 @@
 #include <termcap.h>
 #include <stdexcept>
+#include <sstream>
 #include "NcursesGameView.h"
 #include "NcursesUtils.h"
 #include "ViewConfig.h"
@@ -44,14 +45,33 @@ void NcursesGameView::end()
 
 void NcursesGameView::drawBorder() const
 {
-    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::GAME_BORDER_COLOR)));
+    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::BORDER_COLOR)));
     wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
-    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::GAME_BORDER_COLOR)));
+    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::BORDER_COLOR)));
 }
 
 void NcursesGameView::drawStatusBar() const
 {
+    std::stringstream textRemainingLives;
+    std::stringstream textScore;
+    std::stringstream textMessage;
 
+    textRemainingLives << ViewConfig::STATUS_BAR_TEXT_REMAINING_LIVES << game->getRemainingLivesCount();
+    textScore << ViewConfig::STATUS_BAR_TEXT_SCORE << game->getScore();
+
+    if (game->getState() == GameState::GameWon)
+    {
+        textMessage << ViewConfig::STATUS_BAR_TEXT_GAME_WON;
+    } else if (game->getState() == GameState::GameOver)
+    {
+        textMessage << ViewConfig::STATUS_BAR_TEXT_GAME_OVER;
+    }
+
+    wattron(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::STATUS_BAR_TEXT_COLOR)));
+    mvwprintw(window, 1, 1, textRemainingLives.str().c_str());
+    mvwprintw(window, 1, static_cast<int>((sizeX - textMessage.str().length()) / 2), textMessage.str().c_str());
+    mvwprintw(window, 1, static_cast<int>(sizeX - textScore.str().length() - 1), textScore.str().c_str());
+    wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(ViewConfig::STATUS_BAR_TEXT_COLOR)));
 }
 
 void NcursesGameView::drawMap() const

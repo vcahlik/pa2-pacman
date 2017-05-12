@@ -2,10 +2,10 @@
 #define PACMAN_COIN_H
 
 
-#include "Item.h"
+#include "ScoreBonus.h"
 
 class Coin
-    : public Item
+    : public ScoreBonus
 {
 public:
     Coin(const double posX, const double posY, Game *game);

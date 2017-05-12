@@ -14,16 +14,17 @@ namespace Config
 
     const double PLAYER_BASE_SPEED = 2.5;
     const double PLAYER_SIZE = 1;
-    const uint32_t PLAYER_MOUTH_PERIOD_MSECS = 250;
+    const uint32_t PLAYER_MOUTH_PERIOD_MSECS = 220;
 
     const double COIN_SIZE = 0.33;
+    const uint32_t COIN_SCORE_BONUS = 10;
 
     const double GHOST_SIZE = 1;
     const double GHOST_BASE_SPEED = 1.8;
 
     const Difficulty DEFAULT_DIFFICULTY = Difficulty::DIF1;
     const uint32_t INITIAL_REMAINING_LIVES = 2;
-    const uint32_t GHOST_COUNT = 4;
+    const uint32_t GHOST_COUNT = 1;
 
     const uint32_t GHOST_GENERATION_TIME_MSECS = 2000;
 

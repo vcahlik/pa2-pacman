@@ -20,7 +20,7 @@ void GameController::startGame()
 
 void GameController::gameLoop()
 {
-    while (!game->isFinished())
+    while (game->getState() != GameState::Shutdown)
     {
         performCycle();
         usleep(static_cast<uint32_t>(Config::CYCLE_TIME_MSECS) * 1000);
