@@ -239,7 +239,6 @@ void Game::performCherryGeneration()
 {
     if (!isCherryPresent())
     {
-        timer.stopTimer(Timeout::CherryLifetime);
         timer.requestTimer(Timeout::CherryGeneration);
         if (timer.isTimeoutEvent(Timeout::CherryGeneration))
         {
@@ -255,13 +254,6 @@ void Game::performCherryGeneration()
                 }
             }
             cherry.reset(new Cherry(posX, posY, this));
-        }
-    } else
-    {
-        timer.requestTimer(Timeout::CherryLifetime);
-        if (timer.isTimeoutEvent(Timeout::CherryLifetime))
-        {
-            cherry.reset();
         }
     }
 }
