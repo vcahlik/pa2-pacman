@@ -9,7 +9,9 @@ enum class Timeout
     StateGameWon,
     StateLifeLost,
     StateGameOver,
-    GhostGeneration
+    GhostGeneration,
+    CherryLifetime,
+    CherryGeneration
 };
 
 class GameTimer

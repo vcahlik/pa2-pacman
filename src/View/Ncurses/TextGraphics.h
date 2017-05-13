@@ -53,6 +53,9 @@ namespace TextGraphics
 
     const char * const COIN = " .";
 
+    const char * const CHERRY_LINE1 = " ,";
+    const char * const CHERRY_LINE2 = "@@";
+
 }
 
 #endif //PACMAN_GRAPHICS_H

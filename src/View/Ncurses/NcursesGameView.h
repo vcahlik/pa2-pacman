@@ -38,6 +38,8 @@ private:
 
     void drawObject(const Coin &coin) const;
 
+    void drawObject(const Cherry &cherry) const;
+
     void drawObject(const Ghost &ghost) const;
 
     void drawTextGraphics(const char * const text, const uint32_t lineNo, const double x, const double y, const Color color) const;

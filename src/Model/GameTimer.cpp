@@ -60,6 +60,10 @@ const uint32_t GameTimer::getTimeoutLimitValue(const Timeout timeout) const
             return Config::PLAYER_GAME_OVER_SCREEN_TIME_MSECS;
         case Timeout::GhostGeneration:
             return Config::GHOST_GENERATION_TIME_MSECS;
+        case Timeout::CherryGeneration:
+            return Config::CHERRY_GENERATION_INTERVAL_MSECS;
+        case Timeout::CherryLifetime:
+            return Config::CHERRY_LIFETIME_MSECS;
         default:
             throw std::logic_error("timeout not handled");
     }

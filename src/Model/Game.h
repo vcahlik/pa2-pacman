@@ -14,6 +14,7 @@
 #include "GameObjects/Enemies/Ghost.h"
 #include "../UserConfig.h"
 #include "GameTimer.h"
+#include "GameObjects/Items/Cherry.h"
 
 enum class GameState
 {
@@ -51,6 +52,10 @@ public:
 
     const uint32_t getScore() const;
 
+    const bool isCherryPresent() const;
+
+    const Cherry &getCherry() const;
+
 private:
     void performStateRunningCycle();
 
@@ -62,13 +67,19 @@ private:
 
     void performObjectActions();
 
-    void performContainerActions(std::vector<std::unique_ptr<GameObject>> &container);
+    void performContainerObjectsActions(std::vector<std::unique_ptr<GameObject>> &container);
+
+    void performSingleObjectActions(std::unique_ptr<GameObject> &gameObject);
 
     void startWithNextLife();
 
     void placeCoins();
 
+    void performObjectGeneration();
+
     void performGhostGeneration();
+
+    void performCherryGeneration();
 
     void addGhost();
 
@@ -77,6 +88,7 @@ private:
 
     std::vector<std::unique_ptr<Coin>> coins;
     std::vector<std::unique_ptr<Ghost>> ghosts;
+    std::unique_ptr<Cherry> cherry;
 
     uint32_t remainingLivesCount;
 

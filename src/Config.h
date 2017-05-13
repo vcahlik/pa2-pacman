@@ -19,6 +19,11 @@ namespace Config
     const double COIN_SIZE = 0.33;
     const uint32_t COIN_SCORE_BONUS = 10;
 
+    const double CHERRY_SIZE = 0.33;
+    const uint32_t CHERRY_SCORE_BONUS = 100;
+    const uint32_t CHERRY_LIFETIME_MSECS = 1000;
+    const uint32_t CHERRY_GENERATION_INTERVAL_MSECS = 1000;
+
     const double GHOST_SIZE = 1;
     const double GHOST_BASE_SPEED = 1.8;
 

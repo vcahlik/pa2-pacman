@@ -74,6 +74,21 @@ const uint32_t Game::getScore() const
     return score;
 }
 
+const bool Game::isCherryPresent() const
+{
+    return cherry.get() != nullptr;
+}
+
+const Cherry &Game::getCherry() const
+{
+    if (!isCherryPresent())
+    {
+        throw std::runtime_error("called getCherry() without checking isCherryPresent()");
+    }
+
+    return *cherry.get();
+}
+
 void Game::performCycle()
 {
     if (getState() == GameState::Shutdown)
@@ -104,7 +119,7 @@ void Game::performCycle()
 
 void Game::performStateRunningCycle()
 {
-    performGhostGeneration();
+    performObjectGeneration();
     performObjectActions();
 }
 
@@ -140,11 +155,16 @@ void Game::performObjectActions()
 {
     player->performActions();
 
-    performContainerActions(reinterpret_cast<std::vector<std::unique_ptr<GameObject>> &>(coins));
-    performContainerActions(reinterpret_cast<std::vector<std::unique_ptr<GameObject>> &>(ghosts));
+    performContainerObjectsActions(reinterpret_cast<std::vector<std::unique_ptr<GameObject>> &>(coins));
+    performContainerObjectsActions(reinterpret_cast<std::vector<std::unique_ptr<GameObject>> &>(ghosts));
+
+    if (isCherryPresent())
+    {
+        performSingleObjectActions(reinterpret_cast<std::unique_ptr<GameObject> &>(cherry));
+    }
 }
 
-void Game::performContainerActions(std::vector<std::unique_ptr<GameObject>> &container)
+void Game::performContainerObjectsActions(std::vector<std::unique_ptr<GameObject>> &container)
 {
     for (auto it = container.begin(); it != container.end(); )
     {
@@ -156,6 +176,14 @@ void Game::performContainerActions(std::vector<std::unique_ptr<GameObject>> &con
         {
             ++it;
         }
+    }
+}
+
+void Game::performSingleObjectActions(std::unique_ptr<GameObject> &gameObject)
+{
+    if (!gameObject->performActions())
+    {
+        gameObject.reset();
     }
 }
 
@@ -188,6 +216,12 @@ void Game::placeCoins()
     }
 }
 
+void Game::performObjectGeneration()
+{
+    performGhostGeneration();
+    performCherryGeneration();
+}
+
 void Game::performGhostGeneration()
 {
     if (ghosts.size() < Config::GHOST_COUNT)
@@ -196,6 +230,25 @@ void Game::performGhostGeneration()
         if (timer.isTimeoutEvent(Timeout::GhostGeneration))
         {
             addGhost();
+        }
+    }
+}
+
+void Game::performCherryGeneration()
+{
+    if (!isCherryPresent())
+    {
+        timer.requestTimer(Timeout::CherryGeneration);
+        if (timer.isTimeoutEvent(Timeout::CherryGeneration))
+        {
+            cherry.reset(new Cherry(4, 3, this));
+        }
+    } else
+    {
+        timer.requestTimer(Timeout::CherryLifetime);
+        if (timer.isTimeoutEvent(Timeout::CherryLifetime))
+        {
+            cherry.reset();
         }
     }
 }

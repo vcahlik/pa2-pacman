@@ -124,6 +124,11 @@ void NcursesGameView::drawGameObjects() const
     {
         drawObject(*ghost);
     }
+
+    if (game->isCherryPresent())
+    {
+        drawObject(game->getCherry());
+    }
 }
 
 void NcursesGameView::drawObject(const Player &player) const
@@ -179,6 +184,15 @@ void NcursesGameView::drawObject(const Coin &coin) const
     double y = coin.getPosY();
 
     drawTextGraphics(TextGraphics::COIN, 1, x, y, ViewConfig::COLOR_COIN);
+}
+
+void NcursesGameView::drawObject(const Cherry &cherry) const
+{
+    double x = cherry.getPosX();
+    double y = cherry.getPosY();
+
+    drawTextGraphics(TextGraphics::CHERRY_LINE1, 0, x, y, ViewConfig::COLOR_CHERRY_TWIG);
+    drawTextGraphics(TextGraphics::CHERRY_LINE2, 1, x, y, ViewConfig::COLOR_CHERRY_FRUIT);
 }
 
 void NcursesGameView::drawObject(const Ghost &ghost) const
