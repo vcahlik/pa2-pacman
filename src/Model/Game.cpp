@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "../Config.h"
+#include "../Utils.h"
 
 Game::Game(const UserConfig userConfig)
     : map(userConfig.getMapFileName()),
@@ -238,10 +239,22 @@ void Game::performCherryGeneration()
 {
     if (!isCherryPresent())
     {
+        timer.stopTimer(Timeout::CherryLifetime);
         timer.requestTimer(Timeout::CherryGeneration);
         if (timer.isTimeoutEvent(Timeout::CherryGeneration))
         {
-            cherry.reset(new Cherry(4, 3, this));
+            uint32_t posX = 0;
+            uint32_t posY = 0;
+            while (true)
+            {
+                posX = Utils::getRandom(map.sizeX());
+                posY = Utils::getRandom(map.sizeY());
+                if (map.squareCanBeEntered(posX, posY))
+                {
+                    break;
+                }
+            }
+            cherry.reset(new Cherry(posX, posY, this));
         }
     } else
     {

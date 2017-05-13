@@ -10,6 +10,12 @@ void GameTimer::requestTimer(const Timeout timeout)
 
     timeoutsCounter[timeout] = 0;
 }
+
+void GameTimer::stopTimer(const Timeout timeout)
+{
+    timeoutsCounter.erase(timeout);;
+}
+
 const bool GameTimer::isTimeoutEvent(const Timeout timeout)
 
 {

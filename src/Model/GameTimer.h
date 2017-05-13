@@ -19,6 +19,8 @@ class GameTimer
 public:
     void requestTimer(const Timeout timeout);
 
+    void stopTimer(const Timeout timeout);
+
     const bool isTimeoutEvent(const Timeout timeout);
 
     void notifyOfNextCycle();

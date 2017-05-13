@@ -145,7 +145,7 @@ const bool GameMap::squareCanBeEntered(const uint32_t posX, const uint32_t posY)
 
 const SquareType GameMap::getSquareType(const uint32_t posX, const uint32_t posY) const
 {
-    return squares[posY][posX];
+    return squares.at(posY).at(posX);
 }
 
 void GameMap::checkIntegrity()
