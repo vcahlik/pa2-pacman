@@ -76,6 +76,12 @@ void Player::requestGoRight()
     requestedDirection = Direction::RIGHT;
 }
 
+const bool Player::isEnterableSquareType(const SquareType squareType) const
+{
+    return (MovableObject::isEnterableSquareType(squareType) ||
+            squareType == SquareType::Teleport);
+}
+
 const bool Player::isMouthOpen() const
 {
     return mouthOpen;

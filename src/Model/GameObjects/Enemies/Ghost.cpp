@@ -17,7 +17,7 @@ void Ghost::navigate()
         return;
     }
 
-    if (!isValidDirection(direction) || game->getMap().isIntersection(static_cast<uint32_t>(posX), static_cast<uint32_t>(posY)))
+    if (!isValidDirection(direction) || game->getMap().isIntersectionForObject(static_cast<uint32_t>(posX), static_cast<uint32_t>(posY), *this))
     {
         chooseRandomDirection();
     }

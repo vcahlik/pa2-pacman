@@ -21,8 +21,8 @@ namespace Config
 
     const double CHERRY_SIZE = 0.33;
     const uint32_t CHERRY_SCORE_BONUS = 100;
-    const uint32_t CHERRY_LIFETIME_MSECS = 7000;
-    const uint32_t CHERRY_GENERATION_INTERVAL_MSECS = 20000;
+    const uint32_t CHERRY_LIFETIME_MSECS = 3000;
+    const uint32_t CHERRY_GENERATION_INTERVAL_MSECS = 2000;
 
     const double GHOST_SIZE = 1;
     const double GHOST_BASE_SPEED = 1.8;

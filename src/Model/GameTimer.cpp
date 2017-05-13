@@ -13,15 +13,14 @@ void GameTimer::requestTimer(const Timeout timeout)
 
 void GameTimer::stopTimer(const Timeout timeout)
 {
-    timeoutsCounter.erase(timeout);;
+    timeoutsCounter.erase(timeout);
 }
 
 const bool GameTimer::isTimeoutEvent(const Timeout timeout)
-
 {
     if (timeoutExceeded(timeout))
     {
-        timeoutsCounter.erase(timeout);
+        stopTimer(timeout);
         return true;
     }
 

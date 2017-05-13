@@ -242,18 +242,7 @@ void Game::performCherryGeneration()
         timer.requestTimer(Timeout::CherryGeneration);
         if (timer.isTimeoutEvent(Timeout::CherryGeneration))
         {
-            uint32_t posX = 0;
-            uint32_t posY = 0;
-            while (true)
-            {
-                posX = Utils::getRandom(map.sizeX());
-                posY = Utils::getRandom(map.sizeY());
-                if (map.squareCanBeEntered(posX, posY))
-                {
-                    break;
-                }
-            }
-            cherry.reset(new Cherry(posX, posY, this));
+            cherry.reset(new Cherry(this));
         }
     }
 }

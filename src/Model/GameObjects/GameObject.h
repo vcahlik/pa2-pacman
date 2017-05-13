@@ -20,6 +20,8 @@ public:
     const double getSize() const;
 
 protected:
+    static const double calculateCenteredPos(const double squarePos, const double objectSize);
+
     Game *game;
 
     double posX;

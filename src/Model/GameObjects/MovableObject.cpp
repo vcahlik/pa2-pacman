@@ -68,7 +68,12 @@ const bool MovableObject::isValidDirection(const Direction direction) const
             break;
     }
 
-    return (game->getMap().squareCanBeEntered(destSquarePosX, destSquarePosY));
+    return (isEnterableSquareType(game->getMap().getSquareType(destSquarePosX, destSquarePosY)));
+}
+
+const bool MovableObject::isEnterableSquareType(const SquareType squareType) const
+{
+    return (squareType == SquareType::Space || squareType == SquareType::StartPos);
 }
 
 const double MovableObject::stepSize(const double speed) const

@@ -9,8 +9,11 @@ enum class SquareType
     Wall,
     Space,
     StartPos,
-    SpawnPoint
+    SpawnPoint,
+    Teleport
 };
+
+class MovableObject;
 
 class GameMap
 {
@@ -23,9 +26,7 @@ public:
 
     const SquareType getSquareType(const uint32_t posX, const uint32_t posY) const;
 
-    const bool isIntersection(const uint32_t posX, const uint32_t posY) const;
-
-    const bool squareCanBeEntered(const uint32_t posX, const uint32_t posY) const;
+    const bool isIntersectionForObject(const uint32_t posX, const uint32_t posY, const MovableObject &object) const;
 
     const uint32_t getStartPosX() const;
 

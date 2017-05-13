@@ -4,16 +4,21 @@
 
 #include "ScoreBonus.h"
 #include "../../GameTimer.h"
+#include "../../GameMap.h"
 
 class Cherry
     : public ScoreBonus
 {
 public:
-    Cherry(const double posX, const double posY, Game *game);
+    Cherry(Game *game);
 
-    const bool performActions() override;
+    virtual const bool performActions() override;
 
 private:
+    void placeOnRandomPosition();
+
+    const bool isCompatiblePosition(const uint32_t posX, const uint32_t posY) const;
+
     GameTimer timer;
 
 };

@@ -4,6 +4,7 @@
 
 #include "GameObject.h"
 #include "../../Direction.h"
+#include "../GameMap.h"
 
 class GameObject;
 
@@ -16,6 +17,8 @@ public:
     virtual const bool performActions() override;
 
     const Direction getDirection() const;
+
+    virtual const bool isEnterableSquareType(const SquareType squareType) const;
 
 protected:
     virtual void move();

@@ -1,6 +1,7 @@
 #include "GameMap.h"
 #include "../Config.h"
 #include <fstream>
+#include "GameObjects/MovableObject.h"
 
 GameMap::GameMap(const std::string &filename)
 {
@@ -109,38 +110,31 @@ const uint32_t GameMap::sizeY() const
     return static_cast<uint32_t>(squares.size());
 }
 
-const bool GameMap::isIntersection(const uint32_t posX, const uint32_t posY) const
+const bool GameMap::isIntersectionForObject(const uint32_t posX, const uint32_t posY, const MovableObject &object) const
 {
     if (posX == 0 || posX >= sizeX() || posY == 0 || posY > sizeY())
     {
-        throw std::logic_error("isIntersection(): called on border position");
+        throw std::logic_error("isIntersectionForObject(): called on border position");
     }
 
-    if (squareCanBeEntered(posX, posY))
+    if (object.isEnterableSquareType(getSquareType(posX, posY)))
     {
-        if (squareCanBeEntered(posX - 1, posY) &&
-            squareCanBeEntered(posX + 1, posY) &&
-            !squareCanBeEntered(posX, posY - 1) &&
-            !squareCanBeEntered(posX, posY + 1))
+        if (object.isEnterableSquareType(getSquareType(posX - 1, posY)) &&
+            object.isEnterableSquareType(getSquareType(posX + 1, posY)) &&
+            !object.isEnterableSquareType(getSquareType(posX, posY - 1)) &&
+            !object.isEnterableSquareType(getSquareType(posX, posY + 1)))
         {
             return false;
-        } else if (!squareCanBeEntered(posX - 1, posY) &&
-                   !squareCanBeEntered(posX + 1, posY) &&
-                   squareCanBeEntered(posX, posY - 1) &&
-                   squareCanBeEntered(posX, posY + 1))
+        } else if (!object.isEnterableSquareType(getSquareType(posX - 1, posY)) &&
+                   !object.isEnterableSquareType(getSquareType(posX + 1, posY)) &&
+                   object.isEnterableSquareType(getSquareType(posX, posY - 1)) &&
+                   object.isEnterableSquareType(getSquareType(posX, posY + 1)))
         {
             return false;
         }
     }
 
     return true;
-}
-
-const bool GameMap::squareCanBeEntered(const uint32_t posX, const uint32_t posY) const
-{
-    SquareType squareType = getSquareType(posX, posY);
-
-    return (squareType == SquareType::Space || squareType == SquareType::StartPos);
 }
 
 const SquareType GameMap::getSquareType(const uint32_t posX, const uint32_t posY) const

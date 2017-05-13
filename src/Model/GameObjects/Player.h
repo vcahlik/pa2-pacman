@@ -21,6 +21,8 @@ public:
 
     void requestGoRight();
 
+    virtual const bool isEnterableSquareType(const SquareType squareType) const override;
+
     const bool isAlive() const;
 
     void die();
