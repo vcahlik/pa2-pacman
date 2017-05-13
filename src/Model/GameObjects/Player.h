@@ -21,6 +21,8 @@ public:
 
     void requestGoRight();
 
+    void teleport();
+
     virtual const bool isEnterableSquareType(const SquareType squareType) const override;
 
     const bool isAlive() const;
@@ -30,9 +32,11 @@ public:
     const bool isMouthOpen() const;
 
 protected:
+    void changeDirection(const Direction newDirection);
+
     virtual void navigate() override;
 
-    void navigateAtIntersection();
+    void navigateAtGridPosition();
 
     void animateMouth();
 

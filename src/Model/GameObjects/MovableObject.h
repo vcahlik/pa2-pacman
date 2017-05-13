@@ -37,6 +37,12 @@ protected:
 
     const bool isVerticalDirection(const Direction direction) const;
 
+    const bool noValidDirectionExists() const;
+
+    const Direction getRandomValidDirection() const;
+
+    const bool isOnlyValidDirection(const Direction newDirection) const;
+
     double baseSpeed;
     double speed;
     Direction direction;

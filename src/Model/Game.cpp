@@ -249,7 +249,7 @@ void Game::performCherryGeneration()
 
 void Game::addGhost()
 {
-    uint32_t x = map.getSpawnPointX();
-    uint32_t y = map.getSpawnPointY();
+    uint32_t x = map.getSpawnPointPosX();
+    uint32_t y = map.getSpawnPointPosY();
     ghosts.push_back(std::unique_ptr<Ghost>(new Ghost(x, y, Config::GHOST_BASE_SPEED, this)));
 }

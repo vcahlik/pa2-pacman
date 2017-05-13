@@ -34,8 +34,8 @@ void Cherry::placeOnRandomPosition()
         candidatePosY = Utils::getRandom(game->getMap().sizeY());
         if (isCompatiblePosition(candidatePosX, candidatePosY))
         {
-            posX = calculateCenteredPos(candidatePosX, getSize());
-            posY = calculateCenteredPos(candidatePosY, getSize());
+            posX = getCenteredPos(candidatePosX);
+            posY = getCenteredPos(candidatePosY);
             break;
         }
     }
@@ -44,6 +44,5 @@ void Cherry::placeOnRandomPosition()
 const bool Cherry::isCompatiblePosition(const uint32_t posX, const uint32_t posY) const
 {
     const SquareType squareType = game->getMap().getSquareType(posX, posY);
-    return (squareType == SquareType::Space ||
-            squareType == SquareType::StartPos);
+    return squareType == SquareType::Space;
 }

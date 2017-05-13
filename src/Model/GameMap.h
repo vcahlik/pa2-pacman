@@ -8,7 +8,6 @@ enum class SquareType
 {
     Wall,
     Space,
-    StartPos,
     SpawnPoint,
     Teleport
 };
@@ -32,25 +31,50 @@ public:
 
     const uint32_t getStartPosY() const;
 
-    const uint32_t getSpawnPointX() const;
+    const uint32_t getSpawnPointPosX() const;
 
-    const uint32_t getSpawnPointY() const;
+    const uint32_t getSpawnPointPosY() const;
+
+    const uint32_t getOtherTeleportEndPosX(const uint32_t entryPosX, const uint32_t entryPosY) const;
+
+    const uint32_t getOtherTeleportEndPosY(const uint32_t entryPosX, const uint32_t entryPosY) const;
 
 private:
+    class SquarePosition
+    {
+    public:
+        SquarePosition(const uint32_t x, const uint32_t y);
+        SquarePosition();
+
+        uint32_t x;
+        uint32_t y;
+    };
+
+    enum class MapFileSymbol
+    {
+        Wall,
+        Space,
+        SpawnPoint,
+        StartPos,
+        Teleport
+    };
+
     void loadFromFile(const std::string &filename);
 
     void checkIntegrity();
 
     std::vector<std::vector<SquareType>> squares;
 
-    const SquareType symbolToSquareType(const char symbol) const;
+    const MapFileSymbol charToMapFileSymbol(const char character) const;
 
-    uint32_t startPosX;
-    uint32_t startPosY;
+    const SquareType mapFileSymbolToSquareType(const MapFileSymbol mapFileSymbol) const;
 
-    uint32_t spawnPointX;
-    uint32_t spawnPointY;
+    uint32_t teleportSquaresCount;
 
+    SquarePosition startPos;
+    SquarePosition spawnPointPos;
+    SquarePosition teleportAPos;
+    SquarePosition teleportBPos;
 };
 
 

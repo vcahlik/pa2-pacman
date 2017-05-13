@@ -15,8 +15,6 @@ public:
 protected:
     void chooseRandomDirection();
 
-    const bool onlyPossibleDirection(const Direction newDirection) const;
-
 };
 
 

@@ -11,6 +11,7 @@ namespace Config
     const char MAP_FILE_SYMBOL_SPACE = ' ';
     const char MAP_FILE_SYMBOL_STARTPOS = 'P';
     const char MAP_FILE_SYMBOL_SPAWNPOINT = 'S';
+    const char MAP_FILE_SYMBOL_TELEPORT = '@';
 
     const double PLAYER_BASE_SPEED = 2.5;
     const double PLAYER_SIZE = 1;
@@ -21,8 +22,8 @@ namespace Config
 
     const double CHERRY_SIZE = 0.33;
     const uint32_t CHERRY_SCORE_BONUS = 100;
-    const uint32_t CHERRY_LIFETIME_MSECS = 3000;
-    const uint32_t CHERRY_GENERATION_INTERVAL_MSECS = 2000;
+    const uint32_t CHERRY_LIFETIME_MSECS = 7000;
+    const uint32_t CHERRY_GENERATION_INTERVAL_MSECS = 20000;
 
     const double GHOST_SIZE = 1;
     const double GHOST_BASE_SPEED = 1.8;

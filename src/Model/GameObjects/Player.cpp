@@ -20,6 +20,12 @@ const bool Player::performActions()
     return true;
 }
 
+void Player::changeDirection(const Direction newDirection)
+{
+    direction = newDirection;
+    requestedDirection = newDirection;
+}
+
 void Player::navigate()
 {
     if (requestedDirection == Direction::NONE)
@@ -37,14 +43,20 @@ void Player::navigate()
         }
     } else
     {
-        navigateAtIntersection();
+        navigateAtGridPosition();
     }
 }
 
-void Player::navigateAtIntersection()
+void Player::navigateAtGridPosition()
 {
     // Movement enabled by default
     speed = baseSpeed;
+
+    if (game->getMap().getSquareType(static_cast<uint32_t>(posX), static_cast<uint32_t>(posY)) == SquareType::Teleport)
+    {
+        teleport();
+        return;
+    }
 
     if (isValidDirection(requestedDirection)) // Player can go where he wanted
     {
@@ -53,6 +65,19 @@ void Player::navigateAtIntersection()
     {
         speed = 0;
         direction = requestedDirection; // Player can rotate
+    }
+}
+
+void Player::teleport()
+{
+    uint32_t destPosX = game->getMap().getOtherTeleportEndPosX(static_cast<uint32_t>(posX), static_cast<uint32_t>(posY));
+    uint32_t destPosY = game->getMap().getOtherTeleportEndPosY(static_cast<uint32_t>(posX), static_cast<uint32_t>(posY));
+
+    posX = destPosX;
+    posY = destPosY;
+
+    if (!isValidDirection(direction)) {
+        changeDirection(getRandomValidDirection());
     }
 }
 

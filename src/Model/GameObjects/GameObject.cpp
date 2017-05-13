@@ -2,10 +2,11 @@
 
 GameObject::GameObject(const double posX, const double posY, const double size, Game *game)
     : game(game),
-      posX(calculateCenteredPos(posX, size)), posY(calculateCenteredPos(posY, size)),
+      posX(0), posY(0),
       size(size)
 {
-
+    this->posX = getCenteredPos(posX);
+    this->posY = getCenteredPos(posY);
 }
 
 const double GameObject::getPosX() const
@@ -23,7 +24,7 @@ const double GameObject::getSize() const
     return size;
 }
 
-const double GameObject::calculateCenteredPos(const double squarePos, const double objectSize)
+const double GameObject::getCenteredPos(const double squarePos)
 {
-    return squarePos + (1 - objectSize) / 2;
+    return squarePos + (1 - size) / 2;
 }

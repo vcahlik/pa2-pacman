@@ -99,8 +99,8 @@ void NcursesGameView::drawWalls() const
 
 void NcursesGameView::drawSpawnPoint() const
 {
-    double x = game->getMap().getSpawnPointX();
-    double y = game->getMap().getSpawnPointY();
+    double x = game->getMap().getSpawnPointPosX();
+    double y = game->getMap().getSpawnPointPosY();
 
     const char *line1 = TextGraphics::SpawnPoint::LINE1;
     const char *line2 = TextGraphics::SpawnPoint::LINE2;

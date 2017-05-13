@@ -4,6 +4,7 @@
 #include "GameObjects/MovableObject.h"
 
 GameMap::GameMap(const std::string &filename)
+    : teleportSquaresCount(0)
 {
     loadFromFile(filename);
 }
@@ -34,22 +35,33 @@ void GameMap::loadFromFile(const std::string &filename)
         {
             char c = line[x];
 
-            SquareType type = symbolToSquareType(c);
-            lineSquares.push_back(type);
+            MapFileSymbol symbol = charToMapFileSymbol(c);
 
-            switch (type)
+            switch (symbol)
             {
-                case SquareType::StartPos:
-                    startPosX = x;
-                    startPosY = y;
+                case MapFileSymbol::StartPos:
+                    startPos = SquarePosition(x, y);
                     break;
-                case SquareType::SpawnPoint:
-                    spawnPointX = x;
-                    spawnPointY = y;
+                case MapFileSymbol::SpawnPoint:
+                    spawnPointPos = SquarePosition(x, y);
                     break;
+                case MapFileSymbol::Teleport:
+                    if (teleportSquaresCount == 0)
+                    {
+                        teleportAPos = SquarePosition(x, y);
+                        ++teleportSquaresCount;
+                    } else if (teleportSquaresCount == 1)
+                    {
+                        teleportBPos = SquarePosition(x, y);
+                        ++teleportSquaresCount;
+                    } else {
+                        throw std::runtime_error("Error parsing map file: wrong number of teleports");
+                    }
                 default:
                     break;
             }
+
+            lineSquares.push_back(mapFileSymbolToSquareType(symbol));
         }
 
         squares.push_back(lineSquares);
@@ -78,20 +90,38 @@ void GameMap::loadFromFile(const std::string &filename)
     file.close();
 }
 
-const SquareType GameMap::symbolToSquareType(const char symbol) const
+const GameMap::MapFileSymbol GameMap::charToMapFileSymbol(const char character) const
 {
-    switch (symbol)
+    switch (character)
     {
         case Config::MAP_FILE_SYMBOL_WALL:
-            return SquareType::Wall;
+            return MapFileSymbol::Wall;
         case Config::MAP_FILE_SYMBOL_SPACE:
-            return SquareType::Space;
+            return MapFileSymbol::Space;
         case Config::MAP_FILE_SYMBOL_STARTPOS:
-            return SquareType::StartPos;
+            return MapFileSymbol::StartPos;
         case Config::MAP_FILE_SYMBOL_SPAWNPOINT:
-            return SquareType::SpawnPoint;
+            return MapFileSymbol::SpawnPoint;
+        case Config::MAP_FILE_SYMBOL_TELEPORT:
+            return MapFileSymbol::Teleport;
         default:
-            throw std::runtime_error("Unknown square type");
+            throw std::runtime_error("Unknown map file symbol");
+    }
+}
+
+const SquareType GameMap::mapFileSymbolToSquareType(const MapFileSymbol mapFileSymbol) const
+{
+    switch (mapFileSymbol)
+    {
+        case MapFileSymbol::StartPos:
+        case MapFileSymbol::Space:
+            return SquareType::Space;
+        case MapFileSymbol::SpawnPoint:
+            return SquareType::SpawnPoint;
+        case MapFileSymbol::Wall:
+            return SquareType::Wall;
+        case MapFileSymbol::Teleport:
+            return SquareType::Teleport;
     }
 }
 
@@ -149,20 +179,58 @@ void GameMap::checkIntegrity()
 
 const uint32_t GameMap::getStartPosX() const
 {
-    return startPosX;
+    return startPos.x;
 }
 
 const uint32_t GameMap::getStartPosY() const
 {
-    return startPosY;
+    return startPos.y;
 }
 
-const uint32_t GameMap::getSpawnPointX() const
+const uint32_t GameMap::getSpawnPointPosX() const
 {
-    return spawnPointX;
+    return spawnPointPos.x;
 }
 
-const uint32_t GameMap::getSpawnPointY() const
+const uint32_t GameMap::getSpawnPointPosY() const
 {
-    return spawnPointY;
+    return spawnPointPos.y;
 }
+
+const uint32_t GameMap::getOtherTeleportEndPosX(const uint32_t entryPosX, const uint32_t entryPosY) const
+{
+    if (entryPosX == teleportAPos.x &&
+        entryPosY == teleportAPos.y)
+    {
+        return teleportBPos.x;
+    } else if (entryPosX == teleportBPos.x &&
+               entryPosY == teleportBPos.y)
+    {
+        return teleportAPos.x;
+    } else {
+        throw std::runtime_error("Input position is not a teleport");
+    }
+}
+
+const uint32_t GameMap::getOtherTeleportEndPosY(const uint32_t entryPosX, const uint32_t entryPosY) const
+{
+    if (entryPosX == teleportAPos.x &&
+        entryPosY == teleportAPos.y)
+    {
+        return teleportBPos.y;
+    } else if (entryPosX == teleportBPos.x &&
+               entryPosY == teleportBPos.y)
+    {
+        return teleportAPos.y;
+    } else {
+        throw std::runtime_error("Input position is not a teleport");
+    }
+}
+
+GameMap::SquarePosition::SquarePosition(const uint32_t x, const uint32_t y)
+        : x(x), y(y)
+{}
+
+GameMap::SquarePosition::SquarePosition()
+        : x(0), y(0)
+{}
