@@ -2,8 +2,8 @@
 #include "../../Config.h"
 #include "../Game.h"
 
-Player::Player(const double posX, const double posY, Game *game)
-        : MovableObject(posX, posY, Config::PLAYER_BASE_SPEED, Config::PLAYER_SIZE, game),
+Player::Player(const Position position, Game *game)
+        : MovableObject(position, Config::PLAYER_BASE_SPEED, Config::PLAYER_SIZE, game),
           requestedDirection(Direction::NONE),
           alive(true),
           mouthOpen(true), mouthOpenMsecs(0)
@@ -34,7 +34,7 @@ void Player::navigate()
         return;
     }
 
-    if (!isOnGrid())
+    if (!position.isOnCoordinateGrid())
     {
         if (isHorizontalDirection(requestedDirection) == isHorizontalDirection(direction) ||
             isVerticalDirection(requestedDirection) == isVerticalDirection(direction))
@@ -52,7 +52,7 @@ void Player::navigateAtGridPosition()
     // Movement enabled by default
     speed = baseSpeed;
 
-    if (game->getMap().getSquareType(static_cast<uint32_t>(posX), static_cast<uint32_t>(posY)) == SquareType::Teleport)
+    if (game->getMap().getSquareType(position.toCoord()) == SquareType::Teleport)
     {
         teleport();
         return;
@@ -70,11 +70,7 @@ void Player::navigateAtGridPosition()
 
 void Player::teleport()
 {
-    uint32_t destPosX = game->getMap().getOtherTeleportEndPosX(static_cast<uint32_t>(posX), static_cast<uint32_t>(posY));
-    uint32_t destPosY = game->getMap().getOtherTeleportEndPosY(static_cast<uint32_t>(posX), static_cast<uint32_t>(posY));
-
-    posX = destPosX;
-    posY = destPosY;
+    position = game->getMap().getOtherTeleportEndCoordinates(position.toCoord());
 
     if (!isValidDirection(direction)) {
         changeDirection(getRandomValidDirection());
@@ -101,9 +97,9 @@ void Player::requestGoRight()
     requestedDirection = Direction::RIGHT;
 }
 
-const bool Player::isEnterableSquareType(const SquareType squareType) const
+const bool Player::isCompatibleSquareType(const SquareType squareType) const
 {
-    return (MovableObject::isEnterableSquareType(squareType) ||
+    return (MovableObject::isCompatibleSquareType(squareType) ||
             squareType == SquareType::Teleport);
 }
 

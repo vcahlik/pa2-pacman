@@ -34,8 +34,6 @@ public:
 
     void performCycle();
 
-    bool isObjectCollision(const GameObject &lhs, const GameObject &rhs);
-
     const GameMap &getMap() const;
 
     Player &getPlayer();

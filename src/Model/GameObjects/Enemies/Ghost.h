@@ -9,7 +9,7 @@ class Ghost
     : public Enemy
 {
 public:
-    explicit Ghost(const double posX, const double posY, const double speed, Game *game);
+    explicit Ghost(const Position position, const double speed, Game *game);
 
     const Color getColor() const;
 

@@ -4,7 +4,7 @@
 
 Game::Game(const UserConfig userConfig)
     : map(userConfig.getMapFileName()),
-      player(new Player(map.getStartPosX(), map.getStartPosY(), this)),
+      player(new Player(map.getStartPosCoordinates(), this)),
       remainingLivesCount(Config::INITIAL_REMAINING_LIVES),
       difficulty(userConfig.getDifficulty()),
       inShutdownState(false)
@@ -190,17 +190,9 @@ void Game::performSingleObjectActions(std::unique_ptr<GameObject> &gameObject)
 
 void Game::startWithNextLife()
 {
-    player.reset(new Player(map.getStartPosX(), map.getStartPosY(), this));
+    player.reset(new Player(map.getStartPosCoordinates(), this));
 
     ghosts.clear();
-}
-
-bool Game::isObjectCollision(const GameObject &lhs, const GameObject &rhs)
-{
-    return (lhs.getPosX() + lhs.getSize() > rhs.getPosX() &&
-            lhs.getPosX() < rhs.getPosX() + rhs.getSize() &&
-            lhs.getPosY() + lhs.getSize() > rhs.getPosY() &&
-            lhs.getPosY() < rhs.getPosY() + rhs.getSize());
 }
 
 void Game::placeCoins()
@@ -209,9 +201,10 @@ void Game::placeCoins()
     {
         for (uint32_t y = 0; y < map.sizeY(); ++y)
         {
-            if (map.getSquareType(x, y) == SquareType::Space)
+            Coordinates coord(x, y);
+            if (map.getSquareType(coord) == SquareType::Space)
             {
-                coins.push_back(std::unique_ptr<Coin>(new Coin(x, y, this)));
+                coins.push_back(std::unique_ptr<Coin>(new Coin(coord, this)));
             }
         }
     }
@@ -249,7 +242,5 @@ void Game::performCherryGeneration()
 
 void Game::addGhost()
 {
-    uint32_t x = map.getSpawnPointPosX();
-    uint32_t y = map.getSpawnPointPosY();
-    ghosts.push_back(std::unique_ptr<Ghost>(new Ghost(x, y, Config::GHOST_BASE_SPEED, this)));
+    ghosts.push_back(std::unique_ptr<Ghost>(new Ghost(map.getSpawnPointCoordinates(), Config::GHOST_BASE_SPEED, this)));
 }

@@ -12,13 +12,11 @@ class MovableObject
         : public GameObject
 {
 public:
-    explicit MovableObject(const double posX, const double posY, const double speed, const double size, Game *game);
+    explicit MovableObject(const Position position, const double speed, const double size, Game *game);
 
     virtual const bool performActions() override;
 
     const Direction getDirection() const;
-
-    virtual const bool isEnterableSquareType(const SquareType squareType) const;
 
 protected:
     virtual void move();
@@ -28,8 +26,6 @@ protected:
     const bool isValidDirection(const Direction direction) const;
 
     const double stepSize(const double speed) const;
-
-    const bool isOnGrid() const;
 
     const double nextGridPosition(const double position, const double step) const;
 

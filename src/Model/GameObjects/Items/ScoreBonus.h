@@ -8,7 +8,7 @@ class ScoreBonus
     : public Item
 {
 public:
-    ScoreBonus(const double posX, const double posY, const double size, const uint32_t scoreReward, Game *game);
+    ScoreBonus(const Position position, const double size, const uint32_t scoreReward, Game *game);
 
     virtual const bool performActions() override;
 

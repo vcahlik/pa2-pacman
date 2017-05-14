@@ -9,9 +9,9 @@ namespace Config
 {
     const char MAP_FILE_SYMBOL_WALL = 'H';
     const char MAP_FILE_SYMBOL_SPACE = ' ';
-    const char MAP_FILE_SYMBOL_STARTPOS = 'P';
-    const char MAP_FILE_SYMBOL_SPAWNPOINT = 'S';
-    const char MAP_FILE_SYMBOL_TELEPORT = '@';
+    const char MAP_FILE_SYMBOL_STARTPOS = '<';
+    const char MAP_FILE_SYMBOL_SPAWNPOINT = 'o';
+    const char MAP_FILE_SYMBOL_TELEPORT = '\\';
 
     const double PLAYER_BASE_SPEED = 2.5;
     const double PLAYER_SIZE = 1;
@@ -30,7 +30,7 @@ namespace Config
 
     const Difficulty DEFAULT_DIFFICULTY = Difficulty::DIF1;
     const uint32_t INITIAL_REMAINING_LIVES = 2;
-    const uint32_t GHOST_COUNT = 2;
+    const uint32_t GHOST_COUNT = 6;
 
     const uint32_t GHOST_GENERATION_TIME_MSECS = 3000;
 

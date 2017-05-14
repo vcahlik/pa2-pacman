@@ -1,15 +1,15 @@
 #include "Item.h"
 #include "../../Game.h"
 
-Item::Item(const double posX, const double posY, const double size, Game *game)
-        : GameObject(posX, posY, size, game)
+Item::Item(const Position position, const double size, Game *game)
+        : GameObject(position, size, game)
 {
 
 }
 
 const bool Item::performActions()
 {
-    if (game->isObjectCollision(*this, game->getPlayer()))
+    if (isCollision(game->getPlayer()))
     {
         return false;
     }

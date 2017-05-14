@@ -4,8 +4,8 @@
 #include "../Game.h"
 #include "../../Utils.h"
 
-MovableObject::MovableObject(const double posX, const double posY, const double speed, const double size, Game *game)
-        : GameObject(posX, posY, size, game),
+MovableObject::MovableObject(const Position position, const double speed, const double size, Game *game)
+        : GameObject(position, size, game),
           baseSpeed(speed),
           speed(speed),
           direction(Direction::NONE)
@@ -28,95 +28,40 @@ const Direction MovableObject::getDirection() const
 
 void MovableObject::move()
 {
-    double currentStepSize = stepSize(speed);
+    Position nextPosition = position.relative(direction, stepSize(speed));
 
-    if (direction == Direction::UP)
+    if (position.isOnCoordinateGrid() ||
+        nextPosition.toCoord() == position.toCoord())
     {
-        posY = nextGridPosition(posY, -1 * currentStepSize);
-    } else if (direction == Direction::DOWN)
+        // Not crossing coordinate grid
+        position = nextPosition;
+    } else
     {
-        posY = nextGridPosition(posY, currentStepSize);
-    } else if (direction == Direction::LEFT)
-    {
-        posX = nextGridPosition(posX, -1 * currentStepSize);
-    } else if (direction == Direction::RIGHT)
-    {
-        posX = nextGridPosition(posX, currentStepSize);
+        // Move would cross the coordinate grid, so we align position to grid
+
+        if (direction == Direction::DOWN || direction == Direction::RIGHT)
+        {
+            position = nextPosition.toCoord();
+        } else
+        {
+            position = position.toCoord();
+        }
     }
 }
 
 const bool MovableObject::isValidDirection(const Direction direction) const
 {
-    uint32_t destSquarePosX = static_cast<uint32_t>(posX);
-    uint32_t destSquarePosY = static_cast<uint32_t>(posY);
-
-    switch (direction)
-    {
-        case Direction::UP:
-            destSquarePosY -= 1;
-            break;
-        case Direction::DOWN:
-            destSquarePosY += 1;
-            break;
-        case Direction::LEFT:
-            destSquarePosX -= 1;
-            break;
-        case Direction::RIGHT:
-            destSquarePosX += 1;
-            break;
-        default:
-            break;
-    }
-
-    // Check if position within map boundaries
-    if (destSquarePosX < 0 || destSquarePosX >= game->getMap().sizeX() ||
-        destSquarePosY < 0 || destSquarePosY >= game->getMap().sizeY())
-    {
-        return false;
-    }
-
     try {
-        return (isEnterableSquareType(game->getMap().getSquareType(destSquarePosX, destSquarePosY)));
+        return (isCompatibleSquareType(game->getMap().getSquareType(position.toCoord().relative(direction))));
     } catch (std::out_of_range &)
     {
         return false;
     }
 }
 
-const bool MovableObject::isEnterableSquareType(const SquareType squareType) const
-{
-    return squareType == SquareType::Space;
-}
-
 const double MovableObject::stepSize(const double speed) const
 {
     return (speed * Config::CYCLE_TIME_MSECS) / 1000;
-}
-
-const bool MovableObject::isOnGrid() const
-{
-    return (Utils::decimalPart(posX) == 0 && Utils::decimalPart(posY) == 0);
-}
-
-const double MovableObject::nextGridPosition(const double position, const double step) const
-{
-    if (step >= 0)
-    {
-        if (!isOnGrid() && (Utils::decimalPart(position + step) < Utils::decimalPart(position)))
-        {
-            return std::ceil(position);
-        } else {
-            return position + step;
-        }
-    } else
-    {
-        if (!isOnGrid() && (Utils::decimalPart(position + step) > Utils::decimalPart(position)))
-        {
-            return std::floor(position);
-        } else {
-            return position + step;
-        }
-    }
 }
 
 const bool MovableObject::isHorizontalDirection(const Direction direction) const

@@ -28,9 +28,11 @@ private:
 
     void drawMap() const;
 
-    void drawWalls() const;
+    void drawWall(const Coordinates coord) const;
 
-    void drawSpawnPoint() const;
+    void drawTeleport(const Coordinates coord) const;
+
+    void drawSpawnPoint(const Coordinates coord) const;
 
     void drawGameObjects() const;
 
@@ -42,7 +44,7 @@ private:
 
     void drawObject(const Ghost &ghost) const;
 
-    void drawTextGraphics(const char * const text, const uint32_t lineNo, const double x, const double y, const Color color) const;
+    void drawTextGraphics(const char * const text, const uint32_t lineNo, const Position position, const Color color) const;
 
     const Game *game;
     WINDOW *window;

@@ -15,10 +15,6 @@ public:
     virtual const bool performActions() override;
 
 private:
-    void placeOnRandomPosition();
-
-    const bool isCompatiblePosition(const uint32_t posX, const uint32_t posY) const;
-
     GameTimer timer;
 
 };

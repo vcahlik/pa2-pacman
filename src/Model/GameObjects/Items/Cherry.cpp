@@ -4,9 +4,10 @@
 #include "../../Game.h"
 
 Cherry::Cherry(Game *game)
-        : ScoreBonus(0, 0, Config::CHERRY_SIZE, Config::CHERRY_SCORE_BONUS, game)
+        : ScoreBonus(Position(), Config::CHERRY_SIZE, Config::CHERRY_SCORE_BONUS, game)
 {
-    placeOnRandomPosition();
+    // Place on random position
+    position = getCenteredPosition(game->getMap().getRandomCompatibleCoord(*this));
 
     timer.requestTimer(Timeout::CherryLifetime);
 }
@@ -21,28 +22,4 @@ const bool Cherry::performActions()
     }
 
     return !timer.isTimeoutEvent(Timeout::CherryLifetime);
-}
-
-void Cherry::placeOnRandomPosition()
-{
-    uint32_t candidatePosX = 0;
-    uint32_t candidatePosY = 0;
-
-    while (true)
-    {
-        candidatePosX = Utils::getRandom(game->getMap().sizeX());
-        candidatePosY = Utils::getRandom(game->getMap().sizeY());
-        if (isCompatiblePosition(candidatePosX, candidatePosY))
-        {
-            posX = getCenteredPos(candidatePosX);
-            posY = getCenteredPos(candidatePosY);
-            break;
-        }
-    }
-}
-
-const bool Cherry::isCompatiblePosition(const uint32_t posX, const uint32_t posY) const
-{
-    const SquareType squareType = game->getMap().getSquareType(posX, posY);
-    return squareType == SquareType::Space;
 }

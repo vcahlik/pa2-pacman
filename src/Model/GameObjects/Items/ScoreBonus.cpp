@@ -1,8 +1,8 @@
 #include "ScoreBonus.h"
 #include "../../Game.h"
 
-ScoreBonus::ScoreBonus(const double posX, const double posY, const double size, const uint32_t scoreReward, Game *game)
-    : Item(posX, posY, size, game),
+ScoreBonus::ScoreBonus(const Position position, const double size, const uint32_t scoreReward, Game *game)
+    : Item(position, size, game),
       scoreReward(scoreReward)
 {
 

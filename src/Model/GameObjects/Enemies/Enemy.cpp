@@ -5,8 +5,8 @@
 #include "../Items/Item.h"
 #include "../../Game.h"
 
-Enemy::Enemy(const double posX, const double posY, const double speed, const double size, Game *game)
-        : MovableObject(posX, posY, speed, size, game)
+Enemy::Enemy(const Position position, const double speed, const double size, Game *game)
+        : MovableObject(position, speed, size, game)
 {
 
 }
@@ -34,7 +34,7 @@ const bool Enemy::performActions()
 {
     MovableObject::performActions();
 
-    if (game->isObjectCollision(*this, game->getPlayer()))
+    if (isCollision(game->getPlayer()))
     {
         game->getPlayer().die();
     }

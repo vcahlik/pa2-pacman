@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "../Position.h"
 
 enum class SquareType
 {
@@ -12,6 +13,7 @@ enum class SquareType
     Teleport
 };
 
+class GameObject;
 class MovableObject;
 
 class GameMap
@@ -23,33 +25,21 @@ public:
 
     const uint32_t sizeY() const;
 
-    const SquareType getSquareType(const uint32_t posX, const uint32_t posY) const;
+    const SquareType getSquareType(const Coordinates coord) const;
 
-    const bool isIntersectionForObject(const uint32_t posX, const uint32_t posY, const MovableObject &object) const;
+    const bool isIntersectionForObject(const Coordinates coord, const MovableObject &object) const;
 
-    const uint32_t getStartPosX() const;
+    const Coordinates getRandomCompatibleCoord(const GameObject &object) const;
 
-    const uint32_t getStartPosY() const;
+    const bool coordinatesWithinMap(const Coordinates coord) const;
 
-    const uint32_t getSpawnPointPosX() const;
+    const Coordinates getStartPosCoordinates() const;
 
-    const uint32_t getSpawnPointPosY() const;
+    const Coordinates getSpawnPointCoordinates() const;
 
-    const uint32_t getOtherTeleportEndPosX(const uint32_t entryPosX, const uint32_t entryPosY) const;
-
-    const uint32_t getOtherTeleportEndPosY(const uint32_t entryPosX, const uint32_t entryPosY) const;
+    const Coordinates getOtherTeleportEndCoordinates(const Coordinates entryPosCoord) const;
 
 private:
-    class SquarePosition
-    {
-    public:
-        SquarePosition(const uint32_t x, const uint32_t y);
-        SquarePosition();
-
-        uint32_t x;
-        uint32_t y;
-    };
-
     enum class MapFileSymbol
     {
         Wall,
@@ -71,10 +61,11 @@ private:
 
     uint32_t teleportSquaresCount;
 
-    SquarePosition startPos;
-    SquarePosition spawnPointPos;
-    SquarePosition teleportAPos;
-    SquarePosition teleportBPos;
+    Coordinates startPosCoord;
+    Coordinates spawnPointCoord;
+    Coordinates teleportACoord;
+    Coordinates teleportBCoord;
+
 };
 
 

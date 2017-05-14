@@ -2,6 +2,7 @@
 #include "../Config.h"
 #include <fstream>
 #include "GameObjects/MovableObject.h"
+#include "../Utils.h"
 
 GameMap::GameMap(const std::string &filename)
     : teleportSquaresCount(0)
@@ -40,19 +41,19 @@ void GameMap::loadFromFile(const std::string &filename)
             switch (symbol)
             {
                 case MapFileSymbol::StartPos:
-                    startPos = SquarePosition(x, y);
+                    startPosCoord = Coordinates(x, y);
                     break;
                 case MapFileSymbol::SpawnPoint:
-                    spawnPointPos = SquarePosition(x, y);
+                    spawnPointCoord = Coordinates(x, y);
                     break;
                 case MapFileSymbol::Teleport:
                     if (teleportSquaresCount == 0)
                     {
-                        teleportAPos = SquarePosition(x, y);
+                        teleportACoord = Coordinates(x, y);
                         ++teleportSquaresCount;
                     } else if (teleportSquaresCount == 1)
                     {
-                        teleportBPos = SquarePosition(x, y);
+                        teleportBCoord = Coordinates(x, y);
                         ++teleportSquaresCount;
                     } else {
                         throw std::runtime_error("Error parsing map file: wrong number of teleports");
@@ -122,6 +123,8 @@ const SquareType GameMap::mapFileSymbolToSquareType(const MapFileSymbol mapFileS
             return SquareType::Wall;
         case MapFileSymbol::Teleport:
             return SquareType::Teleport;
+        default:
+            throw std::logic_error("Map file symbol not handled");
     }
 }
 
@@ -140,97 +143,76 @@ const uint32_t GameMap::sizeY() const
     return static_cast<uint32_t>(squares.size());
 }
 
-const bool GameMap::isIntersectionForObject(const uint32_t posX, const uint32_t posY, const MovableObject &object) const
+const bool GameMap::isIntersectionForObject(const Coordinates coord, const MovableObject &object) const
 {
-    if (posX == 0 || posX >= sizeX() || posY == 0 || posY > sizeY())
+    if (!object.isCompatibleSquareType(getSquareType(coord)))
     {
-        throw std::logic_error("isIntersectionForObject(): called on border position");
+        return false;
     }
 
-    if (object.isEnterableSquareType(getSquareType(posX, posY)))
-    {
-        if (object.isEnterableSquareType(getSquareType(posX - 1, posY)) &&
-            object.isEnterableSquareType(getSquareType(posX + 1, posY)) &&
-            !object.isEnterableSquareType(getSquareType(posX, posY - 1)) &&
-            !object.isEnterableSquareType(getSquareType(posX, posY + 1)))
-        {
-            return false;
-        } else if (!object.isEnterableSquareType(getSquareType(posX - 1, posY)) &&
-                   !object.isEnterableSquareType(getSquareType(posX + 1, posY)) &&
-                   object.isEnterableSquareType(getSquareType(posX, posY - 1)) &&
-                   object.isEnterableSquareType(getSquareType(posX, posY + 1)))
-        {
-            return false;
-        }
-    }
+    const bool upCompatible = object.isCompatibleSquareType(getSquareType(coord.relative(Direction::UP)));
+    const bool downCompatible = object.isCompatibleSquareType(getSquareType(coord.relative(Direction::DOWN)));
+    const bool leftCompatible = object.isCompatibleSquareType(getSquareType(coord.relative(Direction::LEFT)));
+    const bool rightCompatible = object.isCompatibleSquareType(getSquareType(coord.relative(Direction::RIGHT)));
 
-    return true;
+    return !(upCompatible == downCompatible &&
+             leftCompatible == rightCompatible &&
+             upCompatible != leftCompatible);
 }
 
-const SquareType GameMap::getSquareType(const uint32_t posX, const uint32_t posY) const
+const Coordinates GameMap::getRandomCompatibleCoord(const GameObject &object) const
 {
-    return squares.at(posY).at(posX);
+    Coordinates candidateCoord;
+
+    while (true)
+    {
+        candidateCoord.x = Utils::getRandom(sizeX());
+        candidateCoord.y = Utils::getRandom(sizeY());
+        if (object.isCompatibleSquareType(getSquareType(candidateCoord)))
+        {
+            return candidateCoord;
+        }
+    }
+}
+
+const SquareType GameMap::getSquareType(const Coordinates coord) const
+{
+    return squares.at(coord.y).at(coord.x);
 }
 
 void GameMap::checkIntegrity()
 {
-    // TODO map must have borders, only one startPos and spawnPoint, ...
+    // TODO
+    // map must have borders
+    // only one startPos and spawnPoint
+    // two or zero teleports
 }
 
-const uint32_t GameMap::getStartPosX() const
+const bool GameMap::coordinatesWithinMap(const Coordinates coord) const
 {
-    return startPos.x;
+    return coord.x >= 0 && coord.x < static_cast<int32_t>(sizeX()) &&
+           coord.y >= 0 && coord.y < static_cast<int32_t>(sizeY());
 }
 
-const uint32_t GameMap::getStartPosY() const
+const Coordinates GameMap::getStartPosCoordinates() const
 {
-    return startPos.y;
+    return startPosCoord;
 }
 
-const uint32_t GameMap::getSpawnPointPosX() const
+const Coordinates GameMap::getSpawnPointCoordinates() const
 {
-    return spawnPointPos.x;
+    return spawnPointCoord;
 }
 
-const uint32_t GameMap::getSpawnPointPosY() const
+const Coordinates GameMap::getOtherTeleportEndCoordinates(const Coordinates entryPosCoord) const
 {
-    return spawnPointPos.y;
-}
-
-const uint32_t GameMap::getOtherTeleportEndPosX(const uint32_t entryPosX, const uint32_t entryPosY) const
-{
-    if (entryPosX == teleportAPos.x &&
-        entryPosY == teleportAPos.y)
+    if (entryPosCoord == teleportACoord)
     {
-        return teleportBPos.x;
-    } else if (entryPosX == teleportBPos.x &&
-               entryPosY == teleportBPos.y)
+        return teleportBCoord;
+    } else if (entryPosCoord == teleportBCoord)
     {
-        return teleportAPos.x;
+        return teleportACoord;
     } else {
         throw std::runtime_error("Input position is not a teleport");
     }
 }
-
-const uint32_t GameMap::getOtherTeleportEndPosY(const uint32_t entryPosX, const uint32_t entryPosY) const
-{
-    if (entryPosX == teleportAPos.x &&
-        entryPosY == teleportAPos.y)
-    {
-        return teleportBPos.y;
-    } else if (entryPosX == teleportBPos.x &&
-               entryPosY == teleportBPos.y)
-    {
-        return teleportAPos.y;
-    } else {
-        throw std::runtime_error("Input position is not a teleport");
-    }
-}
-
-GameMap::SquarePosition::SquarePosition(const uint32_t x, const uint32_t y)
-        : x(x), y(y)
-{}
-
-GameMap::SquarePosition::SquarePosition()
-        : x(0), y(0)
-{}

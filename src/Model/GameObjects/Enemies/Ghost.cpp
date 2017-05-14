@@ -3,8 +3,8 @@
 #include "../../Game.h"
 #include "../../../Utils.h"
 
-Ghost::Ghost(const double posX, const double posY, const double speed, Game *game)
-    : Enemy(posX, posY, speed, Config::GHOST_SIZE, game),
+Ghost::Ghost(const Position position, const double speed, Game *game)
+    : Enemy(position, speed, Config::GHOST_SIZE, game),
       color(getRandomColor())
 {
     chooseRandomDirection();
@@ -12,12 +12,12 @@ Ghost::Ghost(const double posX, const double posY, const double speed, Game *gam
 
 void Ghost::navigate()
 {
-    if (!isOnGrid())
+    if (!position.isOnCoordinateGrid())
     {
         return;
     }
 
-    if (!isValidDirection(direction) || game->getMap().isIntersectionForObject(static_cast<uint32_t>(posX), static_cast<uint32_t>(posY), *this))
+    if (!isValidDirection(direction) || game->getMap().isIntersectionForObject(position.toCoord(), *this))
     {
         chooseRandomDirection();
     }

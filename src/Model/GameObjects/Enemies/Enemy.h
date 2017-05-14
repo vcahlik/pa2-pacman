@@ -8,7 +8,7 @@ class Enemy
     : public MovableObject
 {
 public:
-    explicit Enemy(const double posX, const double posY, const double speed, const double size, Game *game);
+    explicit Enemy(const Position position, const double speed, const double size, Game *game);
 
     virtual const bool performActions() override;
 

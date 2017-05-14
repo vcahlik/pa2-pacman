@@ -1,30 +1,32 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const double posX, const double posY, const double size, Game *game)
+GameObject::GameObject(const Position position, const double size, Game *game)
     : game(game),
-      posX(0), posY(0),
       size(size)
 {
-    this->posX = getCenteredPos(posX);
-    this->posY = getCenteredPos(posY);
+    this->position = getCenteredPosition(position);
 }
 
-const double GameObject::getPosX() const
+const bool GameObject::isCompatibleSquareType(const SquareType squareType) const
 {
-    return posX;
+    return squareType == SquareType::Space;
 }
 
-const double GameObject::getPosY() const
+const bool GameObject::isCollision(const GameObject &other) const
 {
-    return posY;
+    return (this->position.x + this->size > other.position.x &&
+            this->position.x < other.position.x + other.size &&
+            this->position.y + this->size > other.position.y &&
+            this->position.y < other.position.y + other.size);
 }
 
-const double GameObject::getSize() const
+const Position &GameObject::getPosition() const
 {
-    return size;
+    return position;
 }
 
-const double GameObject::getCenteredPos(const double squarePos)
+const Position GameObject::getCenteredPosition(const Position rawPosition) const
 {
-    return squarePos + (1 - size) / 2;
+    return Position(rawPosition.x + (1 - size) / 2,
+                    rawPosition.y + (1 - size) / 2);
 }

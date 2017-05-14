@@ -33,6 +33,13 @@ namespace TextGraphics
         const char * const LINE3 = "888888";
     }
 
+    namespace Teleport
+    {
+        const char * const LINE1 = " \\\\   ";
+        const char * const LINE2 = "  \\\\  ";
+        const char * const LINE3 = "   \\\\ ";
+    }
+
     namespace SpawnPoint
     {
         const char * const LINE1 = "+----+";

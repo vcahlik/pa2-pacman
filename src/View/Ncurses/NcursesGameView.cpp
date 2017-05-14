@@ -76,39 +76,56 @@ void NcursesGameView::drawStatusBar() const
 
 void NcursesGameView::drawMap() const
 {
-    drawWalls();
-    drawSpawnPoint();
-}
-
-void NcursesGameView::drawWalls() const
-{
     for (uint32_t y = 0; y < game->getMap().sizeY(); ++y)
     {
         for (uint32_t x = 0; x < game->getMap().sizeX(); ++x)
         {
-            SquareType type = game->getMap().getSquareType(x, y);
-            if (type == SquareType::Wall)
+            Coordinates coord(x, y);
+            switch (game->getMap().getSquareType(coord))
             {
-                drawTextGraphics(TextGraphics::Wall::LINE1, 1, x, y, ViewConfig::COLOR_WALL);
-                drawTextGraphics(TextGraphics::Wall::LINE2, 2, x, y, ViewConfig::COLOR_WALL);
-                drawTextGraphics(TextGraphics::Wall::LINE3, 3, x, y, ViewConfig::COLOR_WALL);
+                case SquareType::Wall:
+                    drawWall(coord);
+                    break;
+                case SquareType::Teleport:
+                    drawTeleport(coord);
+                    break;
+                case SquareType::SpawnPoint:
+                    drawSpawnPoint(coord);
+                    break;
+                default:
+                    break;
             }
         }
     }
 }
 
-void NcursesGameView::drawSpawnPoint() const
+void NcursesGameView::drawWall(const Coordinates coord) const
 {
-    double x = game->getMap().getSpawnPointPosX();
-    double y = game->getMap().getSpawnPointPosY();
+    drawTextGraphics(TextGraphics::Wall::LINE1, 1, coord, ViewConfig::COLOR_WALL);
+    drawTextGraphics(TextGraphics::Wall::LINE2, 2, coord, ViewConfig::COLOR_WALL);
+    drawTextGraphics(TextGraphics::Wall::LINE3, 3, coord, ViewConfig::COLOR_WALL);
+}
 
+void NcursesGameView::drawTeleport(const Coordinates coord) const
+{
+    const char *line1 = TextGraphics::Teleport::LINE1;
+    const char *line2 = TextGraphics::Teleport::LINE2;
+    const char *line3 = TextGraphics::Teleport::LINE3;
+
+    drawTextGraphics(line1, 1, coord, ViewConfig::COLOR_SPAWNPOINT);
+    drawTextGraphics(line2, 2, coord, ViewConfig::COLOR_SPAWNPOINT);
+    drawTextGraphics(line3, 3, coord, ViewConfig::COLOR_SPAWNPOINT);
+}
+
+void NcursesGameView::drawSpawnPoint(const Coordinates coord) const
+{
     const char *line1 = TextGraphics::SpawnPoint::LINE1;
     const char *line2 = TextGraphics::SpawnPoint::LINE2;
     const char *line3 = TextGraphics::SpawnPoint::LINE3;
 
-    drawTextGraphics(line1, 1, x, y, ViewConfig::COLOR_SPAWNPOINT);
-    drawTextGraphics(line2, 2, x, y, ViewConfig::COLOR_SPAWNPOINT);
-    drawTextGraphics(line3, 3, x, y, ViewConfig::COLOR_SPAWNPOINT);
+    drawTextGraphics(line1, 1, coord, ViewConfig::COLOR_SPAWNPOINT);
+    drawTextGraphics(line2, 2, coord, ViewConfig::COLOR_SPAWNPOINT);
+    drawTextGraphics(line3, 3, coord, ViewConfig::COLOR_SPAWNPOINT);
 }
 
 void NcursesGameView::drawGameObjects() const
@@ -133,9 +150,6 @@ void NcursesGameView::drawGameObjects() const
 
 void NcursesGameView::drawObject(const Player &player) const
 {
-    double x = player.getPosX();
-    double y = player.getPosY();
-
     const char *line1 = nullptr;
     const char *line2 = nullptr;
     const char *line3 = nullptr;
@@ -173,33 +187,24 @@ void NcursesGameView::drawObject(const Player &player) const
         }
     }
 
-    drawTextGraphics(line1, 1, x, y, ViewConfig::COLOR_PLAYER);
-    drawTextGraphics(line2, 2, x, y, ViewConfig::COLOR_PLAYER);
-    drawTextGraphics(line3, 3, x, y, ViewConfig::COLOR_PLAYER);
+    drawTextGraphics(line1, 1, player.getPosition(), ViewConfig::COLOR_PLAYER);
+    drawTextGraphics(line2, 2, player.getPosition(), ViewConfig::COLOR_PLAYER);
+    drawTextGraphics(line3, 3, player.getPosition(), ViewConfig::COLOR_PLAYER);
 }
 
 void NcursesGameView::drawObject(const Coin &coin) const
 {
-    double x = coin.getPosX();
-    double y = coin.getPosY();
-
-    drawTextGraphics(TextGraphics::COIN, 1, x, y, ViewConfig::COLOR_COIN);
+    drawTextGraphics(TextGraphics::COIN, 1, coin.getPosition(), ViewConfig::COLOR_COIN);
 }
 
 void NcursesGameView::drawObject(const Cherry &cherry) const
 {
-    double x = cherry.getPosX();
-    double y = cherry.getPosY();
-
-    drawTextGraphics(TextGraphics::CHERRY_LINE1, 0, x, y, ViewConfig::COLOR_CHERRY_TWIG);
-    drawTextGraphics(TextGraphics::CHERRY_LINE2, 1, x, y, ViewConfig::COLOR_CHERRY_FRUIT);
+    drawTextGraphics(TextGraphics::CHERRY_LINE1, 0, cherry.getPosition(), ViewConfig::COLOR_CHERRY_TWIG);
+    drawTextGraphics(TextGraphics::CHERRY_LINE2, 1, cherry.getPosition(), ViewConfig::COLOR_CHERRY_FRUIT);
 }
 
 void NcursesGameView::drawObject(const Ghost &ghost) const
 {
-    double x = ghost.getPosX();
-    double y = ghost.getPosY();
-
     const char *line1 = nullptr;
     const char *line2 = nullptr;
     const char *line3 = nullptr;
@@ -219,17 +224,17 @@ void NcursesGameView::drawObject(const Ghost &ghost) const
             break;
     }
 
-    drawTextGraphics(line1, 1, x, y, ghost.getColor());
-    drawTextGraphics(line2, 2, x, y, ghost.getColor());
-    drawTextGraphics(line3, 3, x, y, ghost.getColor());
+    drawTextGraphics(line1, 1, ghost.getPosition(), ghost.getColor());
+    drawTextGraphics(line2, 2, ghost.getPosition(), ghost.getColor());
+    drawTextGraphics(line3, 3, ghost.getPosition(), ghost.getColor());
 }
 
-void NcursesGameView::drawTextGraphics(const char *const text, const uint32_t lineNo, const double x, const double y, const Color color) const
+void NcursesGameView::drawTextGraphics(const char *const text, const uint32_t lineNo, const Position position, const Color color) const
 {
     wattron(window, COLOR_PAIR(NcursesUtils::colorCode(color)));
     mvwprintw(window,
-              static_cast<uint32_t>(y * ViewConfig::SQUARE_SIZE_Y + lineNo + ViewConfig::STATUS_BAR_SIZE_X),
-              static_cast<uint32_t>(x * ViewConfig::SQUARE_SIZE_X + 1),
+              static_cast<uint32_t>(position.y * ViewConfig::SQUARE_SIZE_Y + lineNo + ViewConfig::STATUS_BAR_SIZE_X),
+              static_cast<uint32_t>(position.x * ViewConfig::SQUARE_SIZE_X + 1),
               text);
     wattroff(window, COLOR_PAIR(NcursesUtils::colorCode(color)));
 }

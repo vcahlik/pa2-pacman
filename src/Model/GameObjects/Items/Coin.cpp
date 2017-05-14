@@ -2,6 +2,8 @@
 #include "../../../Config.h"
 #include "../../Game.h"
 
-Coin::Coin(const double posX, const double posY, Game *game)
-    : ScoreBonus(posX, posY, Config::COIN_SIZE, Config::COIN_SCORE_BONUS, game)
-{}
+Coin::Coin(const Position position, Game *game)
+    : ScoreBonus(position, Config::COIN_SIZE, Config::COIN_SCORE_BONUS, game)
+{
+
+}

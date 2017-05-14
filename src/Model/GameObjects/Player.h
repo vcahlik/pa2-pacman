@@ -9,7 +9,7 @@ class Player
     : public MovableObject
 {
 public:
-    explicit Player(const double posX, const double posY, Game *game);
+    explicit Player(const Position position, Game *game);
 
     virtual const bool performActions() override;
 
@@ -23,7 +23,7 @@ public:
 
     void teleport();
 
-    virtual const bool isEnterableSquareType(const SquareType squareType) const override;
+    virtual const bool isCompatibleSquareType(const SquareType squareType) const override;
 
     const bool isAlive() const;
 
