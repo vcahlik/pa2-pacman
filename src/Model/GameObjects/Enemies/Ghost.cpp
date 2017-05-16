@@ -4,23 +4,10 @@
 #include "../../../Utils.h"
 
 Ghost::Ghost(const Position position, const double speed, Game *game)
-    : Enemy(position, speed, Config::GHOST_SIZE, game),
+    : Enemy(position, speed, Config::GHOST_SIZE, NavigatorType::Random, game),
       color(getRandomColor())
 {
-    chooseRandomDirection();
-}
-
-void Ghost::navigate()
-{
-    if (!position.isOnCoordinateGrid())
-    {
-        return;
-    }
-
-    if (!isValidDirection(direction) || game->getMap().isIntersectionForObject(position.toCoord(), *this))
-    {
-        chooseRandomDirection();
-    }
+    direction = getRandomValidDirection();
 }
 
 const Color Ghost::getColor() const

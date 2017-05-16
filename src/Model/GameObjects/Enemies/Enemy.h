@@ -2,18 +2,29 @@
 #define PACMAN_ENEMY_H
 
 
+#include <memory>
 #include "../MovableObject.h"
+#include "Navigators/Navigator.h"
 
 class Enemy
     : public MovableObject
 {
 public:
-    explicit Enemy(const Position position, const double speed, const double size, Game *game);
+    explicit Enemy(const Position position, const double speed, const double size, const NavigatorType navigatorType, Game *game);
 
     virtual const bool performActions() override;
 
 protected:
-    void chooseRandomDirection();
+    void chooseDirection() override;
+
+    const Navigator &getNavigator() const;
+
+    void setNavigator(const NavigatorType &type);
+
+    bool invincible;
+
+private:
+    std::unique_ptr<Navigator> navigator;
 
 };
 

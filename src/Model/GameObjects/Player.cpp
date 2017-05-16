@@ -14,19 +14,19 @@ Player::Player(const Position position, Game *game)
 const bool Player::performActions()
 {
     animateMouth();
-    navigate();
+    chooseDirection();
     move();
 
     return true;
 }
 
-void Player::changeDirection(const Direction newDirection)
+void Player::setMasterDirection(const Direction newDirection)
 {
     direction = newDirection;
     requestedDirection = newDirection;
 }
 
-void Player::navigate()
+void Player::chooseDirection()
 {
     if (requestedDirection == Direction::NONE)
     {
@@ -73,7 +73,7 @@ void Player::teleport()
     position = game->getMap().getOtherTeleportEndCoordinates(position.toCoord());
 
     if (!isValidDirection(direction)) {
-        changeDirection(getRandomValidDirection());
+        setMasterDirection(getRandomValidDirection());
     }
 }
 

@@ -32,9 +32,9 @@ public:
     const bool isMouthOpen() const;
 
 protected:
-    void changeDirection(const Direction newDirection);
+    void setMasterDirection(const Direction newDirection);
 
-    virtual void navigate() override;
+    virtual void chooseDirection() override;
 
     void navigateAtGridPosition();
 

@@ -18,10 +18,14 @@ public:
 
     const Direction getDirection() const;
 
-protected:
-    virtual void move();
+    const Direction getRandomValidDirection() const;
 
-    virtual void navigate() = 0;
+    const bool isOnlyValidDirection(const Direction newDirection) const;
+
+protected:
+    virtual void chooseDirection() = 0;
+
+    virtual void move();
 
     const bool isValidDirection(const Direction direction) const;
 
@@ -34,10 +38,6 @@ protected:
     const bool isVerticalDirection(const Direction direction) const;
 
     const bool noValidDirectionExists() const;
-
-    const Direction getRandomValidDirection() const;
-
-    const bool isOnlyValidDirection(const Direction newDirection) const;
 
     double baseSpeed;
     double speed;

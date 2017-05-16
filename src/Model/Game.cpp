@@ -193,6 +193,8 @@ void Game::startWithNextLife()
     player.reset(new Player(map.getStartPosCoordinates(), this));
 
     ghosts.clear();
+
+    timer.stopTimer(Timeout::GhostGeneration);
 }
 
 void Game::placeCoins()

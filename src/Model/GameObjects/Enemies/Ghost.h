@@ -13,9 +13,6 @@ public:
 
     const Color getColor() const;
 
-protected:
-    virtual void navigate() override;
-
 private:
     const Color getRandomColor() const;
 

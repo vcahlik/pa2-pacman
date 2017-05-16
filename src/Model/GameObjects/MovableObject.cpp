@@ -15,7 +15,7 @@ MovableObject::MovableObject(const Position position, const double speed, const 
 
 const bool MovableObject::performActions()
 {
-    navigate();
+    chooseDirection();
     move();
 
     return true;
