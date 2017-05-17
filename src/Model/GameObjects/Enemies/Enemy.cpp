@@ -5,6 +5,7 @@
 #include "../Items/Item.h"
 #include "../../Game.h"
 #include "Navigators/RandomNavigator.h"
+#include "Navigators/BfsNavigator.h"
 
 Enemy::Enemy(const Position position, const double speed, const double size, const NavigatorType navigatorType, Game *game)
         : MovableObject(position, speed, size, game),
@@ -22,7 +23,7 @@ void Enemy::chooseDirection()
 
     if (!isValidDirection(direction) || game->getMap().isIntersectionForObject(position.toCoord(), *this))
     {
-        direction = navigator->navigate(game->getPlayer(), invincible);
+        direction = navigator->navigate(game->getPlayer());
     }
 }
 
@@ -49,7 +50,13 @@ void Enemy::setNavigator(const NavigatorType &type)
     {
         case NavigatorType::Random:
             // TODO understand move assignments
-            navigator = std::make_unique<RandomNavigator>(*this);
+            navigator = std::make_unique<RandomNavigator>(*this, game->getMap());
             //navigator.reset(new RandomNavigator(*this));
+            break;
+        case NavigatorType::BfsNavigator:
+            // TODO understand move assignments
+            navigator = std::make_unique<BfsNavigator>(*this, game->getMap());
+            //navigator.reset(new BfsNavigator(*this));
+            break;
     }
 }

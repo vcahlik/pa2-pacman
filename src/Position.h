@@ -24,6 +24,14 @@ public:
 
     friend bool operator!=(const Position &lhs, const Position &rhs);
 
+    friend bool operator<(const Position &lhs, const Position &rhs);
+
+    friend bool operator>(const Position &lhs, const Position &rhs);
+
+    friend bool operator<=(const Position &lhs, const Position &rhs);
+
+    friend bool operator>=(const Position &lhs, const Position &rhs);
+
     double x;
     double y;
 };
@@ -40,6 +48,14 @@ public:
     friend bool operator==(const Coordinates &lhs, const Coordinates &rhs);
 
     friend bool operator!=(const Coordinates &lhs, const Coordinates &rhs);
+
+    friend bool operator<(const Coordinates &lhs, const Coordinates &rhs);
+
+    friend bool operator>(const Coordinates &lhs, const Coordinates &rhs);
+
+    friend bool operator<=(const Coordinates &lhs, const Coordinates &rhs);
+
+    friend bool operator>=(const Coordinates &lhs, const Coordinates &rhs);
 
     int32_t x;
     int32_t y;

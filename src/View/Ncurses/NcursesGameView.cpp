@@ -59,10 +59,10 @@ void NcursesGameView::drawStatusBar() const
     textRemainingLives << ViewConfig::STATUS_BAR_TEXT_REMAINING_LIVES << game->getRemainingLivesCount();
     textScore << ViewConfig::STATUS_BAR_TEXT_SCORE << game->getScore();
 
-    if (game->getState() == GameState::GameWon)
+    if (game->getState() == Game::State::GameWon)
     {
         textMessage << ViewConfig::STATUS_BAR_TEXT_GAME_WON;
-    } else if (game->getState() == GameState::GameOver)
+    } else if (game->getState() == Game::State::GameOver)
     {
         textMessage << ViewConfig::STATUS_BAR_TEXT_GAME_OVER;
     }

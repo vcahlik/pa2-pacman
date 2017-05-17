@@ -11,26 +11,26 @@
 #include "GameObjects/Items/Item.h"
 #include "GameObjects/Enemies/Enemy.h"
 #include "GameObjects/Items/Coin.h"
-#include "GameObjects/Enemies/Ghost.h"
+#include "GameObjects/Enemies/Ghosts/Ghost.h"
 #include "../UserConfig.h"
 #include "GameTimer.h"
 #include "GameObjects/Items/Cherry.h"
 
-enum class GameState
-{
-    Running,
-    LifeLost,
-    GameOver,
-    GameWon,
-    Shutdown
-};
-
 class Game
 {
 public:
+    enum class State
+    {
+        Running,
+        LifeLost,
+        GameOver,
+        GameWon,
+        Shutdown
+    };
+
     explicit Game(const UserConfig userConfig);
 
-    const GameState getState() const;
+    const State getState() const;
 
     void performCycle();
 

@@ -20,14 +20,14 @@ public:
 
     const Direction getRandomValidDirection() const;
 
+    const bool isValidDirection(const Direction direction) const;
+
     const bool isOnlyValidDirection(const Direction newDirection) const;
 
 protected:
     virtual void chooseDirection() = 0;
 
     virtual void move();
-
-    const bool isValidDirection(const Direction direction) const;
 
     const double stepSize(const double speed) const;
 

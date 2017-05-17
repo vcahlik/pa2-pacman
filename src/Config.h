@@ -30,7 +30,7 @@ namespace Config
 
     const Difficulty DEFAULT_DIFFICULTY = Difficulty::DIF1;
     const uint32_t INITIAL_REMAINING_LIVES = 2;
-    const uint32_t GHOST_COUNT = 6;
+    const uint32_t GHOST_COUNT = 10;
 
     const uint32_t GHOST_GENERATION_TIME_MSECS = 3000;
 

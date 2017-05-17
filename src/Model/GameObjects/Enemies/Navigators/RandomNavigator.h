@@ -10,9 +10,9 @@ class RandomNavigator
     : public Navigator
 {
 public:
-    RandomNavigator(const MovableObject &client);
+    RandomNavigator(const MovableObject &client, const GameMap &map);
 
-    virtual const Direction navigate(const MovableObject &object, const bool navigateCloser) const override;
+    virtual const Direction navigate(const MovableObject &object) const override;
 
 };
 

@@ -6,32 +6,33 @@ Game::Game(const UserConfig userConfig)
     : map(userConfig.getMapFileName()),
       player(new Player(map.getStartPosCoordinates(), this)),
       remainingLivesCount(Config::INITIAL_REMAINING_LIVES),
+      score(0),
       difficulty(userConfig.getDifficulty()),
       inShutdownState(false)
 {
     placeCoins();
 }
 
-const GameState Game::getState() const
+const Game::State Game::getState() const
 {
     if (inShutdownState)
     {
-        return GameState::Shutdown;
+        return State::Shutdown;
     } else if (coins.empty())
     {
-        return GameState::GameWon;
+        return State::GameWon;
     } else if (!player->isAlive())
     {
         if (remainingLivesCount > 0 )
         {
-            return GameState::LifeLost;
+            return State::LifeLost;
         } else
         {
-            return GameState::GameOver;
+            return State::GameOver;
         }
     } else
     {
-        return GameState::Running;
+        return State::Running;
     }
 }
 
@@ -92,7 +93,7 @@ const Cherry &Game::getCherry() const
 
 void Game::performCycle()
 {
-    if (getState() == GameState::Shutdown)
+    if (getState() == State::Shutdown)
     {
         return;
     }
@@ -101,16 +102,16 @@ void Game::performCycle()
 
     switch (getState())
     {
-        case GameState::Running:
+        case State::Running:
             performStateRunningCycle();
             break;
-        case GameState::LifeLost:
+        case State::LifeLost:
             performStateLifeLostCycle();
             break;
-        case GameState::GameOver:
+        case State::GameOver:
             performStateGameOverCycle();
             break;
-        case GameState::GameWon:
+        case State::GameWon:
             performStateGameWonCycle();
             break;
         default:
