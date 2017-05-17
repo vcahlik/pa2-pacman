@@ -11,13 +11,11 @@ Player::Player(const Position position, Game *game)
 
 }
 
-const bool Player::performActions()
+void Player::performActions()
 {
     animateMouth();
     chooseDirection();
     move();
-
-    return true;
 }
 
 void Player::setMasterDirection(const Direction newDirection)

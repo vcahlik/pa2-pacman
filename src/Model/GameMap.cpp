@@ -35,29 +35,34 @@ void GameMap::loadFromFile(const std::string &filename)
         for (uint32_t x = 0; x < line.length(); ++x)
         {
             char c = line[x];
+            const Coordinates coord = Coordinates(x, y);
 
             MapFileSymbol symbol = charToMapFileSymbol(c);
 
             switch (symbol)
             {
                 case MapFileSymbol::StartPos:
-                    startPosCoord = Coordinates(x, y);
+                    startPosCoord = coord;
                     break;
                 case MapFileSymbol::SpawnPoint:
-                    spawnPointCoord = Coordinates(x, y);
+                    spawnPointCoord = coord;
                     break;
                 case MapFileSymbol::Teleport:
                     if (teleportSquaresCount == 0)
                     {
-                        teleportACoord = Coordinates(x, y);
+                        teleportACoord = coord;
                         ++teleportSquaresCount;
                     } else if (teleportSquaresCount == 1)
                     {
-                        teleportBCoord = Coordinates(x, y);
+                        teleportBCoord = coord;
                         ++teleportSquaresCount;
                     } else {
                         throw std::runtime_error("Error parsing map file: wrong number of teleports");
                     }
+                    break;
+                case MapFileSymbol::PowerUp:
+                    powerUpLocations.insert(coord);
+                    break;
                 default:
                     break;
             }
@@ -105,6 +110,8 @@ const GameMap::MapFileSymbol GameMap::charToMapFileSymbol(const char character) 
             return MapFileSymbol::SpawnPoint;
         case Config::MAP_FILE_SYMBOL_TELEPORT:
             return MapFileSymbol::Teleport;
+        case Config::MAP_FILE_SYMBOL_POWERUP:
+            return MapFileSymbol::PowerUp;
         default:
             throw std::runtime_error("Unknown map file symbol");
     }
@@ -123,6 +130,8 @@ const SquareType GameMap::mapFileSymbolToSquareType(const MapFileSymbol mapFileS
             return SquareType::Wall;
         case MapFileSymbol::Teleport:
             return SquareType::Teleport;
+        case MapFileSymbol::PowerUp:
+            return SquareType::Space;
         default:
             throw std::logic_error("Map file symbol not handled");
     }
@@ -215,4 +224,9 @@ const Coordinates GameMap::getOtherTeleportEndCoordinates(const Coordinates entr
     } else {
         throw std::runtime_error("Input position is not a teleport");
     }
+}
+
+const std::set<Coordinates> GameMap::getPowerUpLocations() const
+{
+    return powerUpLocations;
 }

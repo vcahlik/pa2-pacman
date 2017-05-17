@@ -4,7 +4,7 @@
 #include "../../Game.h"
 
 Cherry::Cherry(Game *game)
-        : ScoreBonus(Position(), Config::CHERRY_SIZE, Config::CHERRY_SCORE_BONUS, game)
+    : ScoreBonus(Position(), Config::CHERRY_SIZE, Config::CHERRY_SCORE_BONUS, game)
 {
     // Place on random position
     position = getCenteredPosition(game->getMap().getRandomCompatibleCoord(*this));
@@ -12,14 +12,14 @@ Cherry::Cherry(Game *game)
     timer.requestTimer(Timeout::CherryLifetime);
 }
 
-const bool Cherry::performActions()
+void Cherry::performActions()
 {
+    ScoreBonus::performActions();
+
     timer.notifyOfNextCycle();
 
-    if (!ScoreBonus::performActions())
+    if (timer.isTimeoutEvent(Timeout::CherryLifetime))
     {
-        return false;
+        state = State::Removed;
     }
-
-    return !timer.isTimeoutEvent(Timeout::CherryLifetime);
 }

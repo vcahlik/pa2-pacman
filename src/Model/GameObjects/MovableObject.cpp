@@ -13,12 +13,10 @@ MovableObject::MovableObject(const Position position, const double speed, const 
 
 }
 
-const bool MovableObject::performActions()
+void MovableObject::performActions()
 {
     chooseDirection();
     move();
-
-    return true;
 }
 
 const Direction MovableObject::getDirection() const
@@ -114,6 +112,24 @@ const Direction MovableObject::getRandomValidDirection() const
         if (isValidDirection(candidateDirection))
         {
             return candidateDirection;
+        }
+    }
+}
+
+const Direction MovableObject::getRandomDifferentValidDirection(const Direction usedDirection) const
+{
+    if (isValidDirection(usedDirection) && isOnlyValidDirection(usedDirection))
+    {
+        return usedDirection;
+    }
+
+    while (true)
+    {
+        Direction newDirection = getRandomValidDirection();
+
+        if (newDirection != usedDirection)
+        {
+            return newDirection;
         }
     }
 }

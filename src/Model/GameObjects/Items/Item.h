@@ -10,9 +10,20 @@ class Item
     : public GameObject
 {
 public:
+    enum class State
+    {
+        Placed,
+        Removed
+    };
+
     explicit Item(const Position position, const double size, Game *game);
 
-    virtual const bool performActions() override;
+    virtual void performActions() override;
+
+    const State getState() const;
+
+protected:
+    State state;
 
 };
 

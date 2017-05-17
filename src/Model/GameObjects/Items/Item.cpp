@@ -2,17 +2,21 @@
 #include "../../Game.h"
 
 Item::Item(const Position position, const double size, Game *game)
-        : GameObject(position, size, game)
+        : GameObject(position, size, game),
+          state(State::Placed)
 {
 
 }
 
-const bool Item::performActions()
+void Item::performActions()
 {
     if (isCollision(game->getPlayer()))
     {
-        return false;
+        state = State::Removed;
     }
+}
 
-    return true;
+const Item::State Item::getState() const
+{
+    return state;
 }

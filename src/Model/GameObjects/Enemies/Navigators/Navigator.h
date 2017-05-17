@@ -8,13 +8,14 @@
 enum class NavigatorType
 {
     Random,
-    BfsNavigator
+    Bfs,
+    Escape
 };
 
 class Navigator
 {
 public:
-    Navigator(const MovableObject &client, const GameMap &map);
+    explicit Navigator(const MovableObject &client, const GameMap &map);
 
     virtual const Direction navigate(const MovableObject &object) const = 0;
 

@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include "Difficulty.h"
+#include "View/Ncurses/Color.h"
 
 namespace Config
 {
@@ -12,6 +13,7 @@ namespace Config
     const char MAP_FILE_SYMBOL_STARTPOS = '<';
     const char MAP_FILE_SYMBOL_SPAWNPOINT = 'o';
     const char MAP_FILE_SYMBOL_TELEPORT = '\\';
+    const char MAP_FILE_SYMBOL_POWERUP = '.';
 
     const double PLAYER_BASE_SPEED = 2.5;
     const double PLAYER_SIZE = 1;
@@ -25,8 +27,19 @@ namespace Config
     const uint32_t CHERRY_LIFETIME_MSECS = 7000;
     const uint32_t CHERRY_GENERATION_INTERVAL_MSECS = 20000;
 
+    const double POWERUP_SIZE = 0.33;
+
     const double GHOST_SIZE = 1;
     const double GHOST_BASE_SPEED = 1.8;
+    const double GHOST_FRIGHTENED_SPEED_RATIO = 0.7;
+
+    const double GHOST_FRIGHTENED_DURATION_MSECS = 7000;
+    const double GHOST_FRIGHTENED_END_DURATION_MSECS = 3000;
+    const double GHOST_FRIGHTENED_BLINK_INTERVAL_MSECS = 200;
+
+    const Color GHOST_FRIGHTENED_COLOR = Color::Blue;
+    const Color GHOST_NORMAL_COLOR = Color::Magenta;
+    const Color GHOST_AGGRESSIVE_COLOR = Color::Red;
 
     const Difficulty DEFAULT_DIFFICULTY = Difficulty::DIF1;
     const uint32_t INITIAL_REMAINING_LIVES = 2;

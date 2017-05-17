@@ -13,7 +13,7 @@ class GameObject
 public:
     explicit GameObject(const Position position, const double size, Game *game);
 
-    virtual const bool performActions() = 0;
+    virtual void performActions() = 0;
 
     virtual const bool isCompatibleSquareType(const SquareType squareType) const;
 

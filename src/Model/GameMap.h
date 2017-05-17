@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 #include "../Position.h"
 
 enum class SquareType
@@ -39,6 +40,8 @@ public:
 
     const Coordinates getOtherTeleportEndCoordinates(const Coordinates entryPosCoord) const;
 
+    const std::set<Coordinates> getPowerUpLocations() const;
+
 private:
     enum class MapFileSymbol
     {
@@ -46,7 +49,8 @@ private:
         Space,
         SpawnPoint,
         StartPos,
-        Teleport
+        Teleport,
+        PowerUp
     };
 
     void loadFromFile(const std::string &filename);
@@ -65,6 +69,8 @@ private:
     Coordinates spawnPointCoord;
     Coordinates teleportACoord;
     Coordinates teleportBCoord;
+
+    std::set<Coordinates> powerUpLocations;
 
 };
 

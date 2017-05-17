@@ -14,11 +14,13 @@ class MovableObject
 public:
     explicit MovableObject(const Position position, const double speed, const double size, Game *game);
 
-    virtual const bool performActions() override;
+    virtual void performActions() override;
 
     const Direction getDirection() const;
 
     const Direction getRandomValidDirection() const;
+
+    const Direction getRandomDifferentValidDirection(const Direction usedDirection) const;
 
     const bool isValidDirection(const Direction direction) const;
 

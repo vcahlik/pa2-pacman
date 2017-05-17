@@ -8,7 +8,7 @@ class Coin
     : public ScoreBonus
 {
 public:
-    Coin(const Position position, Game *game);
+    explicit Coin(const Position position, Game *game);
 
 };
 

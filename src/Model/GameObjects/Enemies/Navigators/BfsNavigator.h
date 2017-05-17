@@ -9,7 +9,7 @@ class BfsNavigator
     : public Navigator
 {
 public:
-    BfsNavigator(const MovableObject &client, const GameMap &map);
+    explicit BfsNavigator(const MovableObject &client, const GameMap &map);
 
     const Direction navigate(const MovableObject &object) const override;
 

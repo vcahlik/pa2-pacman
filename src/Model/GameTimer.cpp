@@ -57,11 +57,11 @@ const uint32_t GameTimer::getTimeoutLimitValue(const Timeout timeout) const
 {
     switch (timeout)
     {
-        case Timeout::StateGameWon:
+        case Timeout::GameStateGameWon:
             return Config::PLAYER_VICTORY_SCREEN_TIME_MSECS;
-        case Timeout::StateLifeLost:
+        case Timeout::GameStateLifeLost:
             return Config::PLAYER_DEATH_SCREEN_TIME_MSECS;
-        case Timeout::StateGameOver:
+        case Timeout::GameStateGameOver:
             return Config::PLAYER_GAME_OVER_SCREEN_TIME_MSECS;
         case Timeout::GhostGeneration:
             return Config::GHOST_GENERATION_TIME_MSECS;
@@ -69,6 +69,12 @@ const uint32_t GameTimer::getTimeoutLimitValue(const Timeout timeout) const
             return Config::CHERRY_GENERATION_INTERVAL_MSECS;
         case Timeout::CherryLifetime:
             return Config::CHERRY_LIFETIME_MSECS;
+        case Timeout::GhostStateFrightened:
+            return Config::GHOST_FRIGHTENED_DURATION_MSECS;
+        case Timeout::GhostStateFrightenedEnd:
+            return Config::GHOST_FRIGHTENED_END_DURATION_MSECS;
+        case Timeout::GhostStateFrightenedBlink:
+            return Config::GHOST_FRIGHTENED_BLINK_INTERVAL_MSECS;
         default:
             throw std::logic_error("timeout not handled");
     }

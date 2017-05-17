@@ -6,12 +6,15 @@
 
 enum class Timeout
 {
-    StateGameWon,
-    StateLifeLost,
-    StateGameOver,
+    GameStateGameWon,
+    GameStateLifeLost,
+    GameStateGameOver,
     GhostGeneration,
     CherryLifetime,
-    CherryGeneration
+    CherryGeneration,
+    GhostStateFrightened,
+    GhostStateFrightenedEnd,
+    GhostStateFrightenedBlink
 };
 
 class GameTimer

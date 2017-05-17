@@ -15,6 +15,7 @@
 #include "../UserConfig.h"
 #include "GameTimer.h"
 #include "GameObjects/Items/Cherry.h"
+#include "GameObjects/Items/PowerUp.h"
 
 class Game
 {
@@ -44,6 +45,8 @@ public:
 
     const std::vector<std::unique_ptr<Ghost>> &getGhosts() const;
 
+    const std::vector<std::unique_ptr<PowerUp>> &getPowerUps() const;
+
     const uint32_t getRemainingLivesCount() const;
 
     void addScore(const uint32_t scored);
@@ -53,6 +56,8 @@ public:
     const bool isCherryPresent() const;
 
     const Cherry &getCherry() const;
+
+    void frightenGhosts();
 
 private:
     void performStateRunningCycle();
@@ -67,25 +72,32 @@ private:
 
     void performContainerObjectsActions(std::vector<std::unique_ptr<GameObject>> &container);
 
-    void performSingleObjectActions(std::unique_ptr<GameObject> &gameObject);
+    void removeDeletedObjects();
+
+    void removeDeletedItems(std::vector<std::unique_ptr<Item>> &itemsContainer);
 
     void startWithNextLife();
 
     void placeCoins();
 
+    void initGhosts();
+
+    void placePowerUps();
+
     void performObjectGeneration();
 
-    void performGhostGeneration();
+    void performGhostsRelease();
 
     void performCherryGeneration();
 
-    void addGhost();
+    const bool ghostHouseEmpty() const;
 
     const GameMap map;
     std::unique_ptr<Player> player;
 
     std::vector<std::unique_ptr<Coin>> coins;
     std::vector<std::unique_ptr<Ghost>> ghosts;
+    std::vector<std::unique_ptr<PowerUp>> powerUps;
     std::unique_ptr<Cherry> cherry;
 
     uint32_t remainingLivesCount;

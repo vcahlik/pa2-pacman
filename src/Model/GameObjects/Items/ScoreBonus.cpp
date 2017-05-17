@@ -8,15 +8,12 @@ ScoreBonus::ScoreBonus(const Position position, const double size, const uint32_
 
 }
 
-const bool ScoreBonus::performActions()
+void ScoreBonus::performActions()
 {
-    bool retVal = Item::performActions();
-    bool pickedUp = !retVal;
+    Item::performActions();
 
-    if (pickedUp)
+    if (state == State::Removed)
     {
         game->addScore(scoreReward);
     }
-
-    return retVal;
 }

@@ -142,6 +142,11 @@ void NcursesGameView::drawGameObjects() const
         drawObject(*ghost);
     }
 
+    for (const auto &powerUp : game->getPowerUps())
+    {
+        drawObject(*powerUp);
+    }
+
     if (game->isCherryPresent())
     {
         drawObject(game->getCherry());
@@ -205,6 +210,11 @@ void NcursesGameView::drawObject(const Cherry &cherry) const
 
 void NcursesGameView::drawObject(const Ghost &ghost) const
 {
+    if (ghost.getState() == Ghost::State::InGhostHouse)
+    {
+        return;
+    }
+
     const char *line1 = nullptr;
     const char *line2 = nullptr;
     const char *line3 = nullptr;
@@ -227,6 +237,11 @@ void NcursesGameView::drawObject(const Ghost &ghost) const
     drawTextGraphics(line1, 1, ghost.getPosition(), ghost.getColor());
     drawTextGraphics(line2, 2, ghost.getPosition(), ghost.getColor());
     drawTextGraphics(line3, 3, ghost.getPosition(), ghost.getColor());
+}
+
+void NcursesGameView::drawObject(const PowerUp &powerUp) const
+{
+    drawTextGraphics(TextGraphics::POWERUP, 1, powerUp.getPosition(), ViewConfig::COLOR_POWERUP);
 }
 
 void NcursesGameView::drawTextGraphics(const char *const text, const uint32_t lineNo, const Position position, const Color color) const

@@ -4,6 +4,7 @@
 
 #include "../Enemy.h"
 #include "../../../../View/Ncurses/Color.h"
+#include "../../../GameTimer.h"
 
 class Ghost
     : public Enemy
@@ -13,23 +14,52 @@ public:
     {
         Chase,
         Frightened,
+        FrightenedEnd,
         InGhostHouse
     };
 
-    explicit Ghost(const Position position, const double speed, const NavigatorType navigatorType, const Color color, Game *game);
+    explicit Ghost(const double speed, const NavigatorType navigatorType, const Color color, Game *game);
+
+    void performActions() override;
 
     const State getState() const;
+
+    void reset();
+
+    void releaseFromGhostHouse();
+
+    void frighten();
 
     const Color getColor() const;
 
 private:
-    const Color getRandomColor() const;
+    void performStateChaseActions();
 
-    const State state;
+    void performStateFrightenedActions();
+
+    void performStateFrightenedEndActions();
+
+    void setState(const State newState);
+
+    void die();
+
+    void switchToChaseState();
+
+    void switchToFrightenedState();
+
+    void switchToInGhostHouseState();
+
+    State state;
+
+    const double baseSpeed;
 
     const NavigatorType defaultNavigatorType;
 
-    const Color color;
+    const Color baseColor;
+
+    GameTimer timer;
+
+    bool frightenedBlinkOn;
 
 };
 

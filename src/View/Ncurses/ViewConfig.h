@@ -22,6 +22,7 @@ namespace ViewConfig
     const Color COLOR_CHERRY_TWIG = Color::Green;
     const Color COLOR_CHERRY_FRUIT = Color::Red;
     const Color COLOR_SPAWNPOINT = Color::Blue;
+    const Color COLOR_POWERUP = Color::White;
 
     const char * const STATUS_BAR_TEXT_REMAINING_LIVES = "Extra lives: ";
     const char * const STATUS_BAR_TEXT_GAME_OVER = "GAME OVER";

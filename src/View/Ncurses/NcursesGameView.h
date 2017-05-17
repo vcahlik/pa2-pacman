@@ -44,6 +44,8 @@ private:
 
     void drawObject(const Ghost &ghost) const;
 
+    void drawObject(const PowerUp &powerUp) const;
+
     void drawTextGraphics(const char * const text, const uint32_t lineNo, const Position position, const Color color) const;
 
     const Game *game;

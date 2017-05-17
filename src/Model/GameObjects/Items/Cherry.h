@@ -10,9 +10,9 @@ class Cherry
     : public ScoreBonus
 {
 public:
-    Cherry(Game *game);
+    explicit Cherry(Game *game);
 
-    virtual const bool performActions() override;
+    virtual void performActions() override;
 
 private:
     GameTimer timer;

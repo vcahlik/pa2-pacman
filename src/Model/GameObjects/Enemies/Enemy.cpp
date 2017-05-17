@@ -6,6 +6,7 @@
 #include "../../Game.h"
 #include "Navigators/RandomNavigator.h"
 #include "Navigators/BfsNavigator.h"
+#include "Navigators/EscapeNavigator.h"
 
 Enemy::Enemy(const Position position, const double speed, const double size, const NavigatorType navigatorType, Game *game)
         : MovableObject(position, speed, size, game),
@@ -27,7 +28,7 @@ void Enemy::chooseDirection()
     }
 }
 
-const bool Enemy::performActions()
+void Enemy::performActions()
 {
     MovableObject::performActions();
 
@@ -35,8 +36,6 @@ const bool Enemy::performActions()
     {
         game->getPlayer().die();
     }
-
-    return true;
 }
 
 const Navigator &Enemy::getNavigator() const
@@ -53,10 +52,15 @@ void Enemy::setNavigator(const NavigatorType &type)
             navigator = std::make_unique<RandomNavigator>(*this, game->getMap());
             //navigator.reset(new RandomNavigator(*this));
             break;
-        case NavigatorType::BfsNavigator:
+        case NavigatorType::Bfs:
             // TODO understand move assignments
             navigator = std::make_unique<BfsNavigator>(*this, game->getMap());
-            //navigator.reset(new BfsNavigator(*this));
+            //navigator.reset(new Bfs(*this));
+            break;
+        case NavigatorType::Escape:
+            // TODO understand move assignments
+            navigator = std::make_unique<EscapeNavigator>(*this, game->getMap());
+            //navigator.reset(new Bfs(*this));
             break;
     }
 }

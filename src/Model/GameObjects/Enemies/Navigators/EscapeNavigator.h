@@ -8,7 +8,7 @@ class EscapeNavigator
     : public Navigator
 {
 public:
-    EscapeNavigator(const MovableObject &client, const GameMap &map);
+    explicit EscapeNavigator(const MovableObject &client, const GameMap &map);
 
     const Direction navigate(const MovableObject &object) const override;
 

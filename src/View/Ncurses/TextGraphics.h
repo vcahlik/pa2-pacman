@@ -58,7 +58,9 @@ namespace TextGraphics
         const char * const RIGHT_LINE3 = "vv  vv";
     }
 
-    const char * const COIN = " .";
+    const char * const COIN = " .";\
+
+    const char * const POWERUP = " o";
 
     const char * const CHERRY_LINE1 = " ,";
     const char * const CHERRY_LINE2 = "@@";

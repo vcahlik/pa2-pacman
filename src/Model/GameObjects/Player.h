@@ -11,7 +11,7 @@ class Player
 public:
     explicit Player(const Position position, Game *game);
 
-    virtual const bool performActions() override;
+    virtual void performActions() override;
 
     void requestGoUp();
 
