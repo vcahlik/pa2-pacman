@@ -5,12 +5,19 @@
 #include "NcursesUtils.h"
 #include "ViewConfig.h"
 #include "TextGraphics.h"
+#include "../../Utils.h"
 
 NcursesGameView::NcursesGameView(const Game *game)
     : game(game), window(nullptr)
 {
     sizeX = 2 + game->getMap().sizeX() * ViewConfig::SQUARE_SIZE_X;
     sizeY = 2 + game->getMap().sizeY() * ViewConfig::SQUARE_SIZE_Y + ViewConfig::STATUS_BAR_SIZE_X;
+
+    if (static_cast<uint32_t>(COLS) < sizeX || static_cast<uint32_t>(LINES) < sizeY)
+    {
+        throw Utils::ExceptionMessage("Your terminal window is too small");
+    }
+
     posX = (COLS - sizeX) / 2;
     posY = (LINES - sizeY) / 2;
 }

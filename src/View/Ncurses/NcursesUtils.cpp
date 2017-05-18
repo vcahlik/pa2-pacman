@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include "NcursesUtils.h"
 #include "ViewConfig.h"
+#include "../../Utils.h"
 
 namespace NcursesUtils
 {
@@ -16,7 +17,7 @@ namespace NcursesUtils
         if (!has_colors())
         {
             endwin();
-            throw std::runtime_error("Terminal does not support colors");
+            throw Utils::ExceptionMessage("Your terminal does not support colors");
         }
 
         start_color();
