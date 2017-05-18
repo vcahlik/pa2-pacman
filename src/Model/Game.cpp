@@ -2,6 +2,7 @@
 #include "../Config.h"
 #include "GameObjects/Enemies/Ghosts/AggressiveGhost.h"
 #include "GameObjects/Enemies/Ghosts/NormalGhost.h"
+#include "GameObjects/Enemies/Ghosts/FreakGhost.h"
 
 Game::Game(const UserConfig userConfig)
     : map(userConfig.getMapFileName()),
@@ -263,7 +264,7 @@ void Game::initGhosts()
 {
     ghosts.push_back(std::make_unique<NormalGhost>(this));
     ghosts.push_back(std::make_unique<AggressiveGhost>(this));
-    ghosts.push_back(std::make_unique<NormalGhost>(this));
+    ghosts.push_back(std::make_unique<FreakGhost>(this));
     ghosts.push_back(std::make_unique<AggressiveGhost>(this));
 }
 

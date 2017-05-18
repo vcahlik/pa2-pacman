@@ -36,15 +36,19 @@ namespace Config
     const uint32_t GHOST_FRIGHTENED_END_DURATION_MSECS = 2000;
     const uint32_t GHOST_FRIGHTENED_BLINK_INTERVAL_MSECS = 200;
 
+    const uint32_t GHOST_FREAK_FAST_MODE_ENABLE_RANDOM_PERIOD = 12;
+    const uint32_t GHOST_FREAK_FAST_MODE_DISABLE_RANDOM_PERIOD = 3;
+
     const Color GHOST_FRIGHTENED_COLOR = Color::Blue;
     const Color GHOST_NORMAL_COLOR = Color::Magenta;
     const Color GHOST_AGGRESSIVE_COLOR = Color::Red;
+    const Color GHOST_FREAK_COLOR = Color::Green;
 
     const Difficulty::Level DEFAULT_DIFFICULTY_LEVEL = Difficulty::Level::Level3;
 
     const uint32_t GHOST_GENERATION_TIME_MSECS = 3000;
 
-    const uint32_t CYCLE_TIME_MSECS = 100;
+    const uint32_t CYCLE_TIME_MSECS = 50;
 
     const uint32_t PLAYER_VICTORY_SCREEN_TIME_MSECS = 2000;
     const uint32_t PLAYER_DEATH_SCREEN_TIME_MSECS = 2000;

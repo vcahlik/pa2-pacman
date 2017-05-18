@@ -32,6 +32,9 @@ public:
 
     const Color getColor() const;
 
+protected:
+    const double baseSpeed;
+
 private:
     void performStateChaseActions();
 
@@ -50,8 +53,6 @@ private:
     void switchToInGhostHouseState();
 
     State state;
-
-    const double baseSpeed;
 
     const NavigatorType defaultNavigatorType;
 
