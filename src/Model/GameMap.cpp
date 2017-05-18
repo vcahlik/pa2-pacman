@@ -5,7 +5,9 @@
 #include "../Utils.h"
 
 GameMap::GameMap(const std::string &filename)
-    : teleportSquaresCount(0)
+    : teleportSquaresCount(0),
+      startPosSet(false),
+      spawnPointSet(false)
 {
     loadFromFile(filename);
 }
@@ -16,7 +18,7 @@ void GameMap::loadFromFile(const std::string &filename)
     file.open(filename, std::ios::in);
     if (!file.is_open())
     {
-        throw std::runtime_error("Could not open map file");
+        throw Utils::ExceptionMessage("Error parsing map file: can not open file");
     }
 
     std::string line;
@@ -24,7 +26,7 @@ void GameMap::loadFromFile(const std::string &filename)
     if (!file.good())
     {
         file.close();
-        throw std::runtime_error("Error parsing map file");
+        throw Utils::ExceptionMessage("Error parsing map file: i/o error, possibly empty file");
     }
 
     uint32_t parsingSizeX = static_cast<uint32_t>(line.length());
@@ -42,10 +44,20 @@ void GameMap::loadFromFile(const std::string &filename)
             switch (symbol)
             {
                 case MapFileSymbol::StartPos:
+                    if (startPosSet)
+                    {
+                        throw Utils::ExceptionMessage("Error parsing map file: multiple start positions");
+                    }
                     startPosCoord = coord;
+                    startPosSet = true;
                     break;
                 case MapFileSymbol::SpawnPoint:
+                    if (spawnPointSet)
+                    {
+                        throw Utils::ExceptionMessage("Error parsing map file: multiple spawn points");
+                    }
                     spawnPointCoord = coord;
+                    spawnPointSet = true;
                     break;
                 case MapFileSymbol::Teleport:
                     if (teleportSquaresCount == 0)
@@ -57,7 +69,7 @@ void GameMap::loadFromFile(const std::string &filename)
                         teleportBCoord = coord;
                         ++teleportSquaresCount;
                     } else {
-                        throw std::runtime_error("Error parsing map file: wrong number of teleports");
+                        throw Utils::ExceptionMessage("Error parsing map file: two teleports is maximum");
                     }
                     break;
                 case MapFileSymbol::PowerUp:
@@ -81,13 +93,13 @@ void GameMap::loadFromFile(const std::string &filename)
             } else
             {
                 file.close();
-                throw std::runtime_error("Error parsing map file");
+                throw Utils::ExceptionMessage("Error parsing map file: i/o error");
             }
         }
         if (line.length() != parsingSizeX)
         {
             file.close();
-            throw std::runtime_error("Error parsing map file: size mismatch");
+            throw Utils::ExceptionMessage("Error parsing map file: map must be rectangular");
         }
     }
 
@@ -113,7 +125,7 @@ const GameMap::MapFileSymbol GameMap::charToMapFileSymbol(const char character) 
         case Config::MAP_FILE_SYMBOL_POWERUP:
             return MapFileSymbol::PowerUp;
         default:
-            throw std::runtime_error("Unknown map file symbol");
+            throw Utils::ExceptionMessage("Error parsing map file: unknown symbol");
     }
 }
 
@@ -189,15 +201,47 @@ const SquareType GameMap::getSquareType(const Coordinates coord) const
     return squares.at(coord.y).at(coord.x);
 }
 
-void GameMap::checkIntegrity()
+void GameMap::checkIntegrity() const
 {
-    // TODO
-    // map must have borders
-    // only one startPos and spawnPoint
-    // two or zero teleports
+    checkMapHasBorderWalls();
+
+    if (!startPosSet)
+    {
+        throw Utils::ExceptionMessage("Error parsing map file: start position not set");
+    }
+
+    if (!spawnPointSet)
+    {
+        throw Utils::ExceptionMessage("Error parsing map file: spawn point not set");
+    }
+
+    if ((teleportSquaresCount != 0) &&
+        (teleportSquaresCount != 2))
+    {
+        throw Utils::ExceptionMessage("Error parsing map file: must include exactly two or zero teleports");
+    }
 }
 
-const bool GameMap::coordinatesWithinMap(const Coordinates coord) const
+void GameMap::checkMapHasBorderWalls() const
+{
+    for (uint32_t y = 0; y < sizeY(); ++y)
+    {
+        for (uint32_t x = 0; x < sizeX(); ++x)
+        {
+            if (y == 0 || y == sizeY() - 1 || x == 0 || x == sizeX() - 1)
+            {
+                SquareType squareType = getSquareType(Coordinates(x, y));
+                if ((squareType != SquareType::Wall) &&
+                    (squareType != SquareType::Teleport))
+                {
+                    throw Utils::ExceptionMessage("Error parsing map file: map mast have borders made of walls or teleports");
+                }
+            }
+        }
+    }
+}
+
+const bool GameMap::isCoordinatesWithinMap(const Coordinates coord) const
 {
     return coord.x >= 0 && coord.x < static_cast<int32_t>(sizeX()) &&
            coord.y >= 0 && coord.y < static_cast<int32_t>(sizeY());
@@ -222,7 +266,7 @@ const Coordinates GameMap::getOtherTeleportEndCoordinates(const Coordinates entr
     {
         return teleportACoord;
     } else {
-        throw std::runtime_error("Input position is not a teleport");
+        throw Utils::ExceptionMessage("Error parsing map file: Input position is not a teleport");
     }
 }
 

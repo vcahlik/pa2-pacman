@@ -1,5 +1,10 @@
 #include "GameTimer.h"
 #include "../Config.h"
+#include "Game.h"
+
+GameTimer::GameTimer(const Game *game)
+    : game(game)
+{}
 
 void GameTimer::requestTimer(const Timeout timeout)
 {
@@ -47,7 +52,7 @@ const bool GameTimer::timeoutExceeded(const Timeout timeout) const
 {
     try {
         return timeoutsCounter.at(timeout) >= getTimeoutLimitValue(timeout);
-    } catch (std::out_of_range &)
+    } catch (const std::out_of_range &)
     {
         return false;
     }
@@ -70,7 +75,7 @@ const uint32_t GameTimer::getTimeoutLimitValue(const Timeout timeout) const
         case Timeout::CherryLifetime:
             return Config::CHERRY_LIFETIME_MSECS;
         case Timeout::GhostStateFrightened:
-            return Config::GHOST_FRIGHTENED_DURATION_MSECS;
+            return game->getDifficulty().getGhostFrightenedDurationMsecs();
         case Timeout::GhostStateFrightenedEnd:
             return Config::GHOST_FRIGHTENED_END_DURATION_MSECS;
         case Timeout::GhostStateFrightenedBlink:

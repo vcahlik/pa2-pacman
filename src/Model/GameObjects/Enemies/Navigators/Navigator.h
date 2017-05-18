@@ -8,8 +8,7 @@
 enum class NavigatorType
 {
     Random,
-    Bfs,
-    Escape
+    Bfs
 };
 
 class Navigator

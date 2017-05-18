@@ -17,9 +17,13 @@ enum class Timeout
     GhostStateFrightenedBlink
 };
 
+class Game;
+
 class GameTimer
 {
 public:
+    GameTimer(const Game *game);
+
     void requestTimer(const Timeout timeout);
 
     void stopTimer(const Timeout timeout);
@@ -36,6 +40,8 @@ private:
     const uint32_t getTimeoutLimitValue(const Timeout timeout) const;
 
     std::map<Timeout, uint32_t> timeoutsCounter;
+
+    const Game *game;
 
 };
 

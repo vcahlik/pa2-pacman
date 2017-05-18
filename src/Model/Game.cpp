@@ -1,20 +1,20 @@
 #include "Game.h"
 #include "../Config.h"
-#include "../Utils.h"
 #include "GameObjects/Enemies/Ghosts/AggressiveGhost.h"
 #include "GameObjects/Enemies/Ghosts/NormalGhost.h"
 
 Game::Game(const UserConfig userConfig)
     : map(userConfig.getMapFileName()),
       player(new Player(map.getStartPosCoordinates(), this)),
-      remainingLivesCount(Config::INITIAL_REMAINING_LIVES),
       score(0),
-      difficulty(userConfig.getDifficulty()),
+      timer(this),
+      difficulty(userConfig.getDifficultyLevel()),
       inShutdownState(false)
 {
     placeCoins();
     initGhosts();
     placePowerUps();
+    remainingLivesCount = difficulty.getInitialRemainingLives();
 }
 
 const Game::State Game::getState() const
@@ -328,4 +328,9 @@ const bool Game::ghostHouseEmpty() const
     }
 
     return true;
+}
+
+const Difficulty &Game::getDifficulty() const
+{
+    return difficulty;
 }

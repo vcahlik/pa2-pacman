@@ -4,7 +4,8 @@
 #include "../../Game.h"
 
 Cherry::Cherry(Game *game)
-    : ScoreBonus(Position(), Config::CHERRY_SIZE, Config::CHERRY_SCORE_BONUS, game)
+    : ScoreBonus(Position(), Config::CHERRY_SIZE, Config::CHERRY_SCORE_BONUS, game),
+      timer(game)
 {
     // Place on random position
     position = getCenteredPosition(game->getMap().getRandomCompatibleCoord(*this));

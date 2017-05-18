@@ -17,7 +17,17 @@ const std::set<std::pair<Coordinates, Direction>> BfsNavigator::getNeighborsWith
 
     for (Direction direction : directions)
     {
-        if (client.isCompatibleSquareType(map.getSquareType(coord.relative(direction))))
+        SquareType neighborType;
+
+        try
+        {
+            neighborType = map.getSquareType(coord.relative(direction));
+        } catch (const std::out_of_range &)
+        {
+            continue;
+        }
+
+        if (client.isCompatibleSquareType(neighborType))
         {
             validNeighborPairs.insert(std::make_pair(coord.relative(direction), direction));
         }

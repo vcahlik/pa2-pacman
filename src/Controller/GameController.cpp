@@ -41,7 +41,7 @@ void GameController::processUserInput()
     try
     {
         key = view->getPressedKey();
-    } catch (NoUserInputException &e)
+    } catch (const NoUserInputException &e)
     {
         return;
     }

@@ -33,8 +33,6 @@ protected:
 
     const double stepSize(const double speed) const;
 
-    const double nextGridPosition(const double position, const double step) const;
-
     const bool isHorizontalDirection(const Direction direction) const;
 
     const bool isVerticalDirection(const Direction direction) const;

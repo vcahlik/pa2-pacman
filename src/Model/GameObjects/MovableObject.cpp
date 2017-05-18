@@ -51,7 +51,7 @@ const bool MovableObject::isValidDirection(const Direction direction) const
 {
     try {
         return (isCompatibleSquareType(game->getMap().getSquareType(position.toCoord().relative(direction))));
-    } catch (std::out_of_range &)
+    } catch (const std::out_of_range &)
     {
         return false;
     }

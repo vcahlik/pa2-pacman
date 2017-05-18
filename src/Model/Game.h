@@ -59,6 +59,8 @@ public:
 
     void frightenGhosts();
 
+    const Difficulty &getDifficulty() const;
+
 private:
     void performStateRunningCycle();
 

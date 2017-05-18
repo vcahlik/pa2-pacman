@@ -32,7 +32,7 @@ public:
 
     const Coordinates getRandomCompatibleCoord(const GameObject &object) const;
 
-    const bool coordinatesWithinMap(const Coordinates coord) const;
+    const bool isCoordinatesWithinMap(const Coordinates coord) const;
 
     const Coordinates getStartPosCoordinates() const;
 
@@ -55,7 +55,9 @@ private:
 
     void loadFromFile(const std::string &filename);
 
-    void checkIntegrity();
+    void checkIntegrity() const;
+
+    void checkMapHasBorderWalls() const;
 
     std::vector<std::vector<SquareType>> squares;
 
@@ -64,6 +66,8 @@ private:
     const SquareType mapFileSymbolToSquareType(const MapFileSymbol mapFileSymbol) const;
 
     uint32_t teleportSquaresCount;
+    bool startPosSet;
+    bool spawnPointSet;
 
     Coordinates startPosCoord;
     Coordinates spawnPointCoord;

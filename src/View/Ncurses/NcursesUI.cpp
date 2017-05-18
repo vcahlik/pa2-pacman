@@ -4,6 +4,7 @@
 #include "ViewConfig.h"
 #include "../../Controller/GameController.h"
 #include "../../UserConfig.h"
+#include "../../Utils.h"
 
 #include <ncurses.h>
 #include <stdexcept>
@@ -15,17 +16,26 @@ void NcursesUI::show(const UserConfig userConfig)
     {
         console = NcursesUtils::initNcurses();
     }
-    catch(std::runtime_error &e)
+    catch(const std::runtime_error &e)
     {
         std::cout << e.what() << std::endl;
         return;
     }
 
-    std::unique_ptr<Game> game(new Game(userConfig));
-    std::unique_ptr<NcursesGameView> gameView(new NcursesGameView(game.get()));
+    try
+    {
+        std::unique_ptr<Game> game(new Game(userConfig));
+        std::unique_ptr<NcursesGameView> gameView(new NcursesGameView(game.get()));
 
-    GameController controller(game.get(), gameView.get());
-    controller.startGame();
+        GameController controller(game.get(), gameView.get());
+        controller.startGame();
+    } catch (const Utils::ExceptionMessage &e)
+    {
+        NcursesUtils::endNcurses();
+        throw e;
+    }
+
+
 
     NcursesUtils::endNcurses();
 }

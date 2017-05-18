@@ -3,9 +3,17 @@
 
 
 #include "Direction.h"
+#include <stdexcept>
 
 namespace Utils
 {
+    class ExceptionMessage
+        : public std::runtime_error
+    {
+    public:
+        ExceptionMessage(const std::string &message);
+    };
+
     const double decimalPart(const double value);
 
     const bool areOppositeDirections(const Direction direction, const Direction newDirection);

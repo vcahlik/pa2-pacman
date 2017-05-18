@@ -4,6 +4,12 @@
 
 namespace Utils
 {
+    ExceptionMessage::ExceptionMessage(const std::string &message)
+        : runtime_error(message)
+    {
+
+    }
+
     const double decimalPart(const double value)
     {
         double temp;

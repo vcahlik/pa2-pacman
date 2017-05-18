@@ -18,7 +18,6 @@ private:
 
     const std::set<Coordinates> getNeighbors(const Coordinates &node) const;
 
-
 };
 
 

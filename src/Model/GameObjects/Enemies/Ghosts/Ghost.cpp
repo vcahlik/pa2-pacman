@@ -8,6 +8,7 @@ Ghost::Ghost(const double speed, const NavigatorType defaultNavigatorType, const
       baseSpeed(speed),
       defaultNavigatorType(defaultNavigatorType),
       baseColor(color),
+      timer(game),
       frightenedBlinkOn(false)
 {
     reset();

@@ -14,14 +14,16 @@ public:
 
     void setMapFileName(const std::string &mapFileName);
 
-    const Difficulty getDifficulty() const;
+    const Difficulty::Level getDifficultyLevel() const;
 
-    void setDifficulty(Difficulty difficulty);
+    void setDifficultyLevel(const std::string levelStr);
+
+    uint32_t getInitialRemainingLives() const;
 
 private:
     std::string mapFileName;
 
-    Difficulty difficulty;
+    Difficulty::Level difficultyLevel;
 
 };
 
