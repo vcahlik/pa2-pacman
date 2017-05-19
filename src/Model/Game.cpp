@@ -6,7 +6,7 @@
 
 Game::Game(const UserConfig userConfig)
     : map(userConfig.getMapFileName()),
-      player(new Player(map.getStartPosCoordinates(), this)),
+      player(std::make_unique<Player>(map.getStartPosCoordinates(), this)),
       score(0),
       timer(this),
       difficulty(userConfig.getDifficultyLevel()),
@@ -235,7 +235,7 @@ void Game::removeDeletedItems(std::vector<std::unique_ptr<Item>> &itemsContainer
 
 void Game::startWithNextLife()
 {
-    player.reset(new Player(map.getStartPosCoordinates(), this));
+    player = std::make_unique<Player>(map.getStartPosCoordinates(), this);
 
     for (auto &ghost : ghosts)
     {
@@ -313,7 +313,7 @@ void Game::performCherryGeneration()
         timer.requestTimer(TimeoutEvent::CherryGeneration);
         if (timer.isTimeoutEvent(TimeoutEvent::CherryGeneration))
         {
-            cherry.reset(new Cherry(this));
+            cherry = std::make_unique<Cherry>(this);
         }
     }
 }
