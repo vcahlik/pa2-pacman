@@ -11,12 +11,25 @@ enum class NavigatorType
     Bfs
 };
 
+/**
+ * @brief Navigates the enemy in respect to some other object (usually to the Player)
+ */
 class Navigator
 {
 public:
-    explicit Navigator(const MovableObject &client, const GameMap &map);
+    /**
+     * @brief Constructor, assigns navigator to the owner
+     * @param owner
+     * @param map
+     */
+    explicit Navigator(const MovableObject &owner, const GameMap &map);
 
-    virtual const Direction navigate(const MovableObject &object) const = 0;
+    /**
+     * @brief Tells the owner where to go on intersections
+     * @param target
+     * @return
+     */
+    virtual const Direction navigate(const MovableObject &target) const = 0;
 
 protected:
     const MovableObject &client;

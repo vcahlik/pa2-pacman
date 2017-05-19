@@ -4,6 +4,9 @@
 
 #include "Item.h"
 
+/**
+ * @brief Item which gives the Player score bonus once collected
+ */
 class ScoreBonus
     : public Item
 {

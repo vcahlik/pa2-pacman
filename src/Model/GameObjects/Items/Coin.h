@@ -4,6 +4,9 @@
 
 #include "ScoreBonus.h"
 
+/**
+ * @brief Bonus, Player wins once all coins have been collected
+ */
 class Coin
     : public ScoreBonus
 {

@@ -4,6 +4,9 @@
 
 #include <cstdint>
 
+/**
+ * @brief Configuration of the UI
+ */
 namespace ViewConfig
 {
     const uint32_t SQUARE_SIZE_X = 6;

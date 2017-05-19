@@ -1,6 +1,5 @@
 #include "Cherry.h"
 #include "../../../Config.h"
-#include "../../../Utils.h"
 #include "../../Game.h"
 
 Cherry::Cherry(Game *game)
@@ -10,7 +9,7 @@ Cherry::Cherry(Game *game)
     // Place on random position
     position = getCenteredPosition(game->getMap().getRandomCompatibleCoord(*this));
 
-    timer.requestTimer(Timeout::CherryLifetime);
+    timer.requestTimer(TimeoutEvent::CherryLifetime);
 }
 
 void Cherry::performActions()
@@ -19,7 +18,7 @@ void Cherry::performActions()
 
     timer.notifyOfNextCycle();
 
-    if (timer.isTimeoutEvent(Timeout::CherryLifetime))
+    if (timer.isTimeoutEvent(TimeoutEvent::CherryLifetime))
     {
         state = State::Removed;
     }

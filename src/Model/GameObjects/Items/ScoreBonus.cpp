@@ -14,6 +14,6 @@ void ScoreBonus::performActions()
 
     if (state == State::Removed)
     {
-        game->addScore(scoreReward);
+        game->increaseScore(scoreReward);
     }
 }

@@ -1,6 +1,9 @@
 #ifndef PACMAN_DIRECTION_H
 #define PACMAN_DIRECTION_H
 
+/**
+ * Horizontal, vertical and zero directions
+ */
 enum class Direction
 {
     NONE,

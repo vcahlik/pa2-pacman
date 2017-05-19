@@ -149,7 +149,7 @@ const SquareType GameMap::mapFileSymbolToSquareType(const MapFileSymbol mapFileS
     }
 }
 
-const uint32_t GameMap::sizeX() const
+const uint32_t GameMap::getSizeX() const
 {
     if (squares.empty())
     {
@@ -159,7 +159,7 @@ const uint32_t GameMap::sizeX() const
     return static_cast<uint32_t>(squares[0].size());
 }
 
-const uint32_t GameMap::sizeY() const
+const uint32_t GameMap::getSizeY() const
 {
     return static_cast<uint32_t>(squares.size());
 }
@@ -187,8 +187,8 @@ const Coordinates GameMap::getRandomCompatibleCoord(const GameObject &object) co
 
     while (true)
     {
-        candidateCoord.x = Utils::getRandom(sizeX());
-        candidateCoord.y = Utils::getRandom(sizeY());
+        candidateCoord.x = Utils::getRandom(getSizeX());
+        candidateCoord.y = Utils::getRandom(getSizeY());
         if (object.isCompatibleSquareType(getSquareType(candidateCoord)))
         {
             return candidateCoord;
@@ -224,11 +224,11 @@ void GameMap::checkIntegrity() const
 
 void GameMap::checkMapHasBorderWalls() const
 {
-    for (uint32_t y = 0; y < sizeY(); ++y)
+    for (uint32_t y = 0; y < getSizeY(); ++y)
     {
-        for (uint32_t x = 0; x < sizeX(); ++x)
+        for (uint32_t x = 0; x < getSizeX(); ++x)
         {
-            if (y == 0 || y == sizeY() - 1 || x == 0 || x == sizeX() - 1)
+            if (y == 0 || y == getSizeY() - 1 || x == 0 || x == getSizeX() - 1)
             {
                 SquareType squareType = getSquareType(Coordinates(x, y));
                 if ((squareType != SquareType::Wall) &&
@@ -243,8 +243,8 @@ void GameMap::checkMapHasBorderWalls() const
 
 const bool GameMap::isCoordinatesWithinMap(const Coordinates coord) const
 {
-    return coord.x >= 0 && coord.x < static_cast<int32_t>(sizeX()) &&
-           coord.y >= 0 && coord.y < static_cast<int32_t>(sizeY());
+    return coord.x >= 0 && coord.x < static_cast<int32_t>(getSizeX()) &&
+           coord.y >= 0 && coord.y < static_cast<int32_t>(getSizeY());
 }
 
 const Coordinates GameMap::getStartPosCoordinates() const

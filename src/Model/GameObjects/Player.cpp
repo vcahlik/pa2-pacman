@@ -34,6 +34,7 @@ void Player::chooseDirection()
 
     if (!position.isOnCoordinateGrid())
     {
+        // Player can turn 180 degrees even if not on coordinate grid
         if (isHorizontalDirection(requestedDirection) == isHorizontalDirection(direction) ||
             isVerticalDirection(requestedDirection) == isVerticalDirection(direction))
         {
@@ -62,7 +63,7 @@ void Player::navigateAtGridPosition()
     } else if (!isValidDirection(direction)) // Player can't go where he wanted, but can't continue either
     {
         speed = 0;
-        direction = requestedDirection; // Player can rotate
+        direction = requestedDirection; // Player can rotate while standing still
     }
 }
 

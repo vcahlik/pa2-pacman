@@ -6,6 +6,9 @@
 #include "Difficulty.h"
 #include "View/Ncurses/Color.h"
 
+/**
+ * @brief Configuration of the game logic
+ */
 namespace Config
 {
     const char MAP_FILE_SYMBOL_WALL = 'H';

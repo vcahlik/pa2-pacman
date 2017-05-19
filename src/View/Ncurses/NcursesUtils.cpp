@@ -9,7 +9,7 @@ namespace NcursesUtils
     {
         WINDOW *terminalWindow = initscr();
 
-        cbreak();
+        cbreak(); // Disable input character buffering
         noecho();
         curs_set(false);
         refresh();

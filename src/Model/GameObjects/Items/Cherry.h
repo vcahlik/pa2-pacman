@@ -6,6 +6,9 @@
 #include "../../GameTimer.h"
 #include "../../GameMap.h"
 
+/**
+ * @brief Valuable bonus which appears randomly
+ */
 class Cherry
     : public ScoreBonus
 {

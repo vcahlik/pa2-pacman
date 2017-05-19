@@ -2,13 +2,13 @@
 #include "../../../../Utils.h"
 #include "../../MovableObject.h"
 
-RandomNavigator::RandomNavigator(const MovableObject &client, const GameMap &map)
-    : Navigator(client, map)
+RandomNavigator::RandomNavigator(const MovableObject &owner, const GameMap &map)
+    : Navigator(owner, map)
 {
 
 }
 
-const Direction RandomNavigator::navigate(const MovableObject &object) const
+const Direction RandomNavigator::navigate(const MovableObject &target) const
 {
     Direction direction;
 

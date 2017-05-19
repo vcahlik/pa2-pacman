@@ -4,6 +4,9 @@
 
 #include "Ghost.h"
 
+/**
+ * @brief A simple ghost navigating almost randomly
+ */
 class NormalGhost
     : public Ghost
 {

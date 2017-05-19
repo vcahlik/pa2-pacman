@@ -5,6 +5,9 @@
 #include "Difficulty.h"
 #include <string>
 
+/**
+ * @brief Stores the user configuration passed as program arguments
+ */
 class UserConfig
 {
 public:
@@ -16,9 +19,12 @@ public:
 
     const Difficulty::Level getDifficultyLevel() const;
 
+    /**
+     * @brief Parses the user specified difficulty into the actual Difficulty::Level
+     * @param levelStr
+     * @throws Utils::ExceptionMessage on invalid (user) input
+     */
     void setDifficultyLevel(const std::string levelStr);
-
-    uint32_t getInitialRemainingLives() const;
 
 private:
     std::string mapFileName;

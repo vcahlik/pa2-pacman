@@ -10,14 +10,15 @@
 NcursesGameView::NcursesGameView(const Game *game)
     : game(game), window(nullptr)
 {
-    sizeX = 2 + game->getMap().sizeX() * ViewConfig::SQUARE_SIZE_X;
-    sizeY = 2 + game->getMap().sizeY() * ViewConfig::SQUARE_SIZE_Y + ViewConfig::STATUS_BAR_SIZE_X;
+    sizeX = 2 + game->getMap().getSizeX() * ViewConfig::SQUARE_SIZE_X;
+    sizeY = 2 + game->getMap().getSizeY() * ViewConfig::SQUARE_SIZE_Y + ViewConfig::STATUS_BAR_SIZE_X;
 
     if (static_cast<uint32_t>(COLS) < sizeX || static_cast<uint32_t>(LINES) < sizeY)
     {
         throw Utils::ExceptionMessage("Your terminal window is too small");
     }
 
+    // Center the canvas
     posX = (COLS - sizeX) / 2;
     posY = (LINES - sizeY) / 2;
 }
@@ -83,9 +84,9 @@ void NcursesGameView::drawStatusBar() const
 
 void NcursesGameView::drawMap() const
 {
-    for (uint32_t y = 0; y < game->getMap().sizeY(); ++y)
+    for (uint32_t y = 0; y < game->getMap().getSizeY(); ++y)
     {
-        for (uint32_t x = 0; x < game->getMap().sizeX(); ++x)
+        for (uint32_t x = 0; x < game->getMap().getSizeX(); ++x)
         {
             Coordinates coord(x, y);
             switch (game->getMap().getSquareType(coord))

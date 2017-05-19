@@ -28,12 +28,14 @@ void FreakGhost::configureSpeed()
 {
     if (getState() != State::Chase)
     {
+        // Can speed only in chase mode
         freakSpeed = false;
         return;
     }
 
     if (freakSpeed && (Utils::getRandom(Config::GHOST_FREAK_FAST_MODE_DISABLE_RANDOM_PERIOD) == 0))
     {
+        // Set default speed
         speed = baseSpeed;
         freakSpeed = false;
         return;
@@ -41,6 +43,7 @@ void FreakGhost::configureSpeed()
 
     if (Utils::getRandom(Config::GHOST_FREAK_FAST_MODE_ENABLE_RANDOM_PERIOD) == 0)
     {
+        // Start speeding
         freakSpeed = true;
         speed = baseSpeed * 3;
     }

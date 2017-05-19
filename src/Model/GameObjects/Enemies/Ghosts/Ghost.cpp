@@ -54,7 +54,7 @@ void Ghost::releaseFromGhostHouse()
 {
     if (state != State::InGhostHouse)
     {
-        throw std::logic_error("ghost not in ghost house");
+        throw std::runtime_error("ghost not in ghost house");
     }
 
     setState(State::Chase);
@@ -94,8 +94,8 @@ void Ghost::performStateFrightenedActions()
         die();
     }
 
-    timer.requestTimer(Timeout::GhostStateFrightened);
-    if (timer.isTimeoutEvent(Timeout::GhostStateFrightened))
+    timer.requestTimer(TimeoutEvent::GhostStateFrightened);
+    if (timer.isTimeoutEvent(TimeoutEvent::GhostStateFrightened))
     {
         setState(State::FrightenedEnd);
         return;
@@ -109,15 +109,15 @@ void Ghost::performStateFrightenedEndActions()
         die();
     }
 
-    timer.requestTimer(Timeout::GhostStateFrightenedEnd);
-    if (timer.isTimeoutEvent(Timeout::GhostStateFrightenedEnd))
+    timer.requestTimer(TimeoutEvent::GhostStateFrightenedEnd);
+    if (timer.isTimeoutEvent(TimeoutEvent::GhostStateFrightenedEnd))
     {
         setState(State::Chase);
         return;
     }
 
-    timer.requestTimer(Timeout::GhostStateFrightenedBlink);
-    if (timer.isTimeoutEvent(Timeout::GhostStateFrightenedBlink))
+    timer.requestTimer(TimeoutEvent::GhostStateFrightenedBlink);
+    if (timer.isTimeoutEvent(TimeoutEvent::GhostStateFrightenedBlink))
     {
         frightenedBlinkOn = !frightenedBlinkOn;
     }
@@ -125,9 +125,9 @@ void Ghost::performStateFrightenedEndActions()
 
 void Ghost::setState(const State newState)
 {
-    timer.stopTimer(Timeout::GhostStateFrightened);
-    timer.stopTimer(Timeout::GhostStateFrightenedEnd);
-    timer.stopTimer(Timeout::GhostStateFrightenedBlink);
+    timer.stopTimer(TimeoutEvent::GhostStateFrightened);
+    timer.stopTimer(TimeoutEvent::GhostStateFrightenedEnd);
+    timer.stopTimer(TimeoutEvent::GhostStateFrightenedBlink);
 
     switch (newState)
     {

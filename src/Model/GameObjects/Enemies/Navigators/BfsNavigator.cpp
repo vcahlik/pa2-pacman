@@ -4,8 +4,8 @@
 #include "BfsNavigator.h"
 #include "../../MovableObject.h"
 
-BfsNavigator::BfsNavigator(const MovableObject &client, const GameMap &map)
-        : Navigator(client, map)
+BfsNavigator::BfsNavigator(const MovableObject &owner, const GameMap &map)
+        : Navigator(owner, map)
 {
 
 }
@@ -49,10 +49,10 @@ const std::set<Coordinates> BfsNavigator::getNeighbors(const Coordinates &coord)
     return validNeighbors;
 }
 
-const Direction BfsNavigator::navigate(const MovableObject &object) const
+const Direction BfsNavigator::navigate(const MovableObject &target) const
 {
     Coordinates clientCoord = client.getPosition().toCoord();
-    Coordinates destination = object.getPosition().toCoord();
+    Coordinates destination = target.getPosition().toCoord();
 
     if (clientCoord == destination)
     {

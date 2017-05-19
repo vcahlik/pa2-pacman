@@ -4,6 +4,9 @@
 
 #include "Ghost.h"
 
+/**
+ * @brief A ghost that keeps following the player
+ */
 class AggressiveGhost
     : public Ghost
 {

@@ -6,6 +6,9 @@
 #include "../../../../View/Ncurses/Color.h"
 #include "../../../GameTimer.h"
 
+/**
+ * @brief A classical enemy which is either chasing the player, frightened, or in the ghost house
+ */
 class Ghost
     : public Enemy
 {
@@ -13,8 +16,8 @@ public:
     enum class State
     {
         Chase,
-        Frightened,
-        FrightenedEnd,
+        Frightened, // Ghost can be eaten
+        FrightenedEnd, // Indicates nearing return to chase
         InGhostHouse
     };
 
@@ -26,8 +29,15 @@ public:
 
     void reset();
 
+    /**
+     * @brief Spawns the ghost
+     * @throws std::runtime_error if ghost not in ghost house
+     */
     void releaseFromGhostHouse();
 
+    /**
+     * @brief Attempts to frighten the ghost, not effective when in ghost house
+     */
     void frighten();
 
     const Color getColor() const;

@@ -6,6 +6,9 @@
 #include "../MovableObject.h"
 #include "Navigators/Navigator.h"
 
+/**
+ * @brief Object which (usually) kills the Player on collision
+ */
 class Enemy
     : public MovableObject
 {
@@ -19,12 +22,14 @@ protected:
 
     const Navigator &getNavigator() const;
 
+    /**
+     * @brief Replaces the enemy's navigator with a different one
+     * @param type
+     */
     void setNavigator(const NavigatorType &type);
 
-    bool invincible;
-
 private:
-    std::unique_ptr<Navigator> navigator;
+    std::unique_ptr<Navigator> navigator; /**< @brief Enemy's active navigator to player */
 
 };
 

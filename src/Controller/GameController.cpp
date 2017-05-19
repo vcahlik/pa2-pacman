@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 GameController::GameController(Game *game, GameView *view)
-        : game(game), view(view)
+    : game(game), view(view)
 {
 
 }
@@ -23,7 +23,7 @@ void GameController::gameLoop()
     while (game->getState() != Game::State::Shutdown)
     {
         performCycle();
-        usleep(static_cast<uint32_t>(Config::CYCLE_TIME_MSECS) * 1000);
+        usleep(static_cast<uint32_t>(Config::CYCLE_TIME_MSECS) * 1000); // The delay between single cycles
     }
 }
 
@@ -36,7 +36,7 @@ void GameController::performCycle()
 
 void GameController::processUserInput()
 {
-    InputKey key = InputKey::UP;
+    InputKey key;
 
     try
     {

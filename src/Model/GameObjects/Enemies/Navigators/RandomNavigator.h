@@ -6,13 +6,16 @@
 #include "../../../../Position.h"
 #include "../../GameObject.h"
 
+/**
+ * @brief Pseudorandom navigator, arbitrary changes in direction in 180 degrees are not allowed
+ */
 class RandomNavigator
     : public Navigator
 {
 public:
-    explicit RandomNavigator(const MovableObject &client, const GameMap &map);
+    explicit RandomNavigator(const MovableObject &owner, const GameMap &map);
 
-    virtual const Direction navigate(const MovableObject &object) const override;
+    virtual const Direction navigate(const MovableObject &target) const override;
 
 };
 

@@ -1,6 +1,9 @@
 #ifndef PACMAN_GRAPHICS_H
 #define PACMAN_GRAPHICS_H
 
+/**
+ * @brief Storage of all the ascii "arts"
+ */
 namespace TextGraphics
 {
     namespace Player

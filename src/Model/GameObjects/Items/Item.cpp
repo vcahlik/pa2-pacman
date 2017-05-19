@@ -12,6 +12,7 @@ void Item::performActions()
 {
     if (isCollision(game->getPlayer()))
     {
+        // Game will automatically remove the object
         state = State::Removed;
     }
 }

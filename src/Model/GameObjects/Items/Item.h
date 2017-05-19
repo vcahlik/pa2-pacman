@@ -6,6 +6,9 @@
 
 class Game;
 
+/**
+ * @brief Object collectable by Player
+ */
 class Item
     : public GameObject
 {

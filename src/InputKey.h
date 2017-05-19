@@ -2,6 +2,9 @@
 #define PACMAN_INPUTKEYS_H
 
 
+/**
+ * @brief Keyboard keys
+ */
 enum class InputKey
 {
     UP,
@@ -11,6 +14,9 @@ enum class InputKey
     ENTER
 };
 
+/**
+ * @brief No key has been pressed
+ */
 class NoUserInputException
 {};
 

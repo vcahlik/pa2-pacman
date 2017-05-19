@@ -4,6 +4,9 @@
 
 #include "Item.h"
 
+/**
+ * @brief Item whose collection frightens other ghosts
+ */
 class PowerUp
     : public Item
 {

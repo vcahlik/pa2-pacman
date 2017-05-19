@@ -4,6 +4,9 @@
 
 #include <cstdint>
 
+/**
+ * @brief Representation of colors, better than the Ncurses one
+ */
 enum class Color
     : int32_t
 {

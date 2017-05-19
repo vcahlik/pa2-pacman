@@ -76,7 +76,7 @@ const uint32_t Game::getRemainingLivesCount() const
     return remainingLivesCount;
 }
 
-void Game::addScore(const uint32_t scored)
+void Game::increaseScore(const uint32_t scored)
 {
     score += scored;
 }
@@ -146,8 +146,8 @@ void Game::performStateRunningCycle()
 
 void Game::performStateLifeLostCycle()
 {
-    timer.requestTimer(Timeout::GameStateLifeLost);
-    if (timer.isTimeoutEvent(Timeout::GameStateLifeLost))
+    timer.requestTimer(TimeoutEvent::GameStateLifeLost);
+    if (timer.isTimeoutEvent(TimeoutEvent::GameStateLifeLost))
     {
         --remainingLivesCount;
         startWithNextLife();
@@ -156,8 +156,8 @@ void Game::performStateLifeLostCycle()
 
 void Game::performStateGameOverCycle()
 {
-    timer.requestTimer(Timeout::GameStateGameOver);
-    if (timer.isTimeoutEvent(Timeout::GameStateGameOver))
+    timer.requestTimer(TimeoutEvent::GameStateGameOver);
+    if (timer.isTimeoutEvent(TimeoutEvent::GameStateGameOver))
     {
         inShutdownState = true;
     }
@@ -165,8 +165,8 @@ void Game::performStateGameOverCycle()
 
 void Game::performStateGameWonCycle()
 {
-    timer.requestTimer(Timeout::GameStateGameWon);
-    if (timer.isTimeoutEvent(Timeout::GameStateGameWon))
+    timer.requestTimer(TimeoutEvent::GameStateGameWon);
+    if (timer.isTimeoutEvent(TimeoutEvent::GameStateGameWon))
     {
         inShutdownState = true;
     }
@@ -242,14 +242,14 @@ void Game::startWithNextLife()
         ghost->reset();
     }
 
-    timer.stopTimer(Timeout::GhostGeneration);
+    timer.stopTimer(TimeoutEvent::GhostGeneration);
 }
 
 void Game::placeCoins()
 {
-    for (uint32_t x = 0; x < map.sizeX(); ++x)
+    for (uint32_t x = 0; x < map.getSizeX(); ++x)
     {
-        for (uint32_t y = 0; y < map.sizeY(); ++y)
+        for (uint32_t y = 0; y < map.getSizeY(); ++y)
         {
             Coordinates coord(x, y);
             if (map.getSquareType(coord) == SquareType::Space)
@@ -289,8 +289,8 @@ void Game::performGhostsRelease()
         return;
     }
 
-    timer.requestTimer(Timeout::GhostGeneration);
-    if (!timer.isTimeoutEvent(Timeout::GhostGeneration))
+    timer.requestTimer(TimeoutEvent::GhostGeneration);
+    if (!timer.isTimeoutEvent(TimeoutEvent::GhostGeneration))
     {
         return;
     }
@@ -310,8 +310,8 @@ void Game::performCherryGeneration()
 {
     if (!isCherryPresent())
     {
-        timer.requestTimer(Timeout::CherryGeneration);
-        if (timer.isTimeoutEvent(Timeout::CherryGeneration))
+        timer.requestTimer(TimeoutEvent::CherryGeneration);
+        if (timer.isTimeoutEvent(TimeoutEvent::CherryGeneration))
         {
             cherry.reset(new Cherry(this));
         }
