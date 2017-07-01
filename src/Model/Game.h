@@ -12,7 +12,7 @@
 #include "GameObjects/Enemies/Enemy.h"
 #include "GameObjects/Items/Coin.h"
 #include "GameObjects/Enemies/Ghosts/Ghost.h"
-#include "../UserConfig.h"
+#include "LevelConfig.h"
 #include "GameTimer.h"
 #include "GameObjects/Items/Cherry.h"
 #include "GameObjects/Items/PowerUp.h"
@@ -36,7 +36,7 @@ public:
      * @brief Constructor, loads game map from file and prepares GameObjects
      * @param userConfig
      */
-    explicit Game(const UserConfig userConfig);
+    explicit Game(const LevelConfig userConfig);
 
     const State getState() const;
 

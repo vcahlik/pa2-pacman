@@ -2,8 +2,8 @@
 #define PACMAN_NAVIGATOR_H
 
 
-#include "../../../../Direction.h"
-#include "../../GameObject.h"
+#include "Direction.h"
+#include "Model/GameObjects/GameObject.h"
 
 enum class NavigatorType
 {

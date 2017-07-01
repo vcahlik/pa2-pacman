@@ -2,15 +2,15 @@
 #define PACMAN_GHOST_H
 
 
-#include "../Enemy.h"
-#include "../../../../View/Ncurses/Color.h"
-#include "../../../GameTimer.h"
+#include "Model/GameObjects/Enemies/Enemy.h"
+#include "View/Ncurses/Color.h"
+#include "Model/GameTimer.h"
 
 /**
  * @brief A classical enemy which is either chasing the player, frightened, or in the ghost house
  */
 class Ghost
-    : public Enemy
+        : public Enemy
 {
 public:
     enum class State

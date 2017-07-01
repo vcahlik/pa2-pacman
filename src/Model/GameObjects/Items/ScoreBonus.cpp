@@ -1,19 +1,16 @@
 #include "ScoreBonus.h"
-#include "../../Game.h"
+#include "Model/Game.h"
 
 ScoreBonus::ScoreBonus(const Position position, const double size, const uint32_t scoreReward, Game *game)
-    : Item(position, size, game),
-      scoreReward(scoreReward)
-{
+        : Item(position, size, game),
+          scoreReward(scoreReward) {
 
 }
 
-void ScoreBonus::performActions()
-{
+void ScoreBonus::performActions() {
     Item::performActions();
 
-    if (state == State::Removed)
-    {
+    if (state == State::Removed) {
         game->increaseScore(scoreReward);
     }
 }

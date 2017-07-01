@@ -4,7 +4,7 @@
 
 #include <ncurses.h>
 #include "Color.h"
-#include "../../InputKey.h"
+#include "InputKey.h"
 
 /**
  * @brief Various helper methods for manipulation with the Ncurses library

@@ -11,7 +11,7 @@ namespace Utils
      * @brief Exception used for printing console errors (outside of Ncurses)
      */
     class ExceptionMessage
-        : public std::runtime_error
+            : public std::runtime_error
     {
     public:
         ExceptionMessage(const std::string &message);

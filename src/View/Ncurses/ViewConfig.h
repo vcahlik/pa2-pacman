@@ -3,6 +3,7 @@
 
 
 #include <cstdint>
+#include "Color.h"
 
 /**
  * @brief Configuration of the UI
@@ -27,10 +28,10 @@ namespace ViewConfig
     const Color COLOR_SPAWNPOINT = Color::Blue;
     const Color COLOR_POWERUP = Color::White;
 
-    const char * const STATUS_BAR_TEXT_REMAINING_LIVES = "Extra lives: ";
-    const char * const STATUS_BAR_TEXT_GAME_OVER = "GAME OVER";
-    const char * const STATUS_BAR_TEXT_GAME_WON = "YOU WIN!";
-    const char * const STATUS_BAR_TEXT_SCORE = "Score: ";
+    const char *const STATUS_BAR_TEXT_REMAINING_LIVES = "Extra lives: ";
+    const char *const STATUS_BAR_TEXT_GAME_OVER = "GAME OVER";
+    const char *const STATUS_BAR_TEXT_GAME_WON = "YOU WIN!";
+    const char *const STATUS_BAR_TEXT_SCORE = "Score: ";
 }
 
 

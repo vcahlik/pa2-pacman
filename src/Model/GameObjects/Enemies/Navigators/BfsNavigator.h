@@ -9,7 +9,7 @@
  * @brief Navigator navigating to the target using the heavy weight BFS algorithm
  */
 class BfsNavigator
-    : public Navigator
+        : public Navigator
 {
 public:
     explicit BfsNavigator(const MovableObject &owner, const GameMap &map);

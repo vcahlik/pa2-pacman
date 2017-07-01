@@ -10,7 +10,7 @@ class MovableObject;
  * @brief The player's character
  */
 class Player
-    : public MovableObject
+        : public MovableObject
 {
 public:
     explicit Player(const Position position, Game *game);

@@ -4,34 +4,27 @@
 #include "Utils.h"
 
 Position::Position(const double x, const double y)
-    : x(x), y(y)
-{
+        : x(x), y(y) {
 }
 
-Position::Position()
-{
+Position::Position() {
 }
 
 Position::Position(const Coordinates coord)
-    : x(coord.x), y(coord.y)
-{
+        : x(coord.x), y(coord.y) {
 }
 
-const Coordinates Position::toCoord() const
-{
+const Coordinates Position::toCoord() const {
     return Coordinates(static_cast<uint32_t>(x), static_cast<uint32_t>(y));
 }
 
-const bool Position::isOnCoordinateGrid() const
-{
+const bool Position::isOnCoordinateGrid() const {
     return Utils::decimalPart(x) == 0 &&
            Utils::decimalPart(y) == 0;
 }
 
-const Position Position::relative(const Direction direction, const double distance) const
-{
-    switch (direction)
-    {
+const Position Position::relative(const Direction direction, const double distance) const {
+    switch (direction) {
         case Direction::UP:
             return Position(x, y - distance);
         case Direction::DOWN:
@@ -47,19 +40,16 @@ const Position Position::relative(const Direction direction, const double distan
     }
 }
 
-bool operator==(const Position &lhs, const Position &rhs)
-{
+bool operator==(const Position &lhs, const Position &rhs) {
     return lhs.x == rhs.x &&
            lhs.y == rhs.y;
 }
 
-bool operator!=(const Position &lhs, const Position &rhs)
-{
+bool operator!=(const Position &lhs, const Position &rhs) {
     return !(rhs == lhs);
 }
 
-bool operator<(const Position &lhs, const Position &rhs)
-{
+bool operator<(const Position &lhs, const Position &rhs) {
     if (lhs.x < rhs.x)
         return true;
     if (rhs.x < lhs.x)
@@ -67,17 +57,14 @@ bool operator<(const Position &lhs, const Position &rhs)
     return lhs.y < rhs.y;
 }
 
-bool operator>(const Position &lhs, const Position &rhs)
-{
+bool operator>(const Position &lhs, const Position &rhs) {
     return rhs < lhs;
 }
 
-bool operator<=(const Position &lhs, const Position &rhs)
-{
+bool operator<=(const Position &lhs, const Position &rhs) {
     return !(rhs < lhs);
 }
 
-bool operator>=(const Position &lhs, const Position &rhs)
-{
+bool operator>=(const Position &lhs, const Position &rhs) {
     return !(lhs < rhs);
 }

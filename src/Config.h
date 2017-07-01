@@ -51,7 +51,7 @@ namespace Config
 
     const uint32_t GHOST_GENERATION_TIME_MSECS = 3000;
 
-    const uint32_t CYCLE_TIME_MSECS = 100;
+    const uint32_t CYCLE_TIME_MSECS = 50;
 
     const uint32_t PLAYER_VICTORY_SCREEN_TIME_MSECS = 2000;
     const uint32_t PLAYER_DEATH_SCREEN_TIME_MSECS = 2000;

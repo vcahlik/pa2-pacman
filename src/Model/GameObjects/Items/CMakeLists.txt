@@ -1,0 +1,19 @@
+set(SOURCES
+        ${SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/Cherry.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Coin.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Item.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ScoreBonus.cpp
+        PARENT_SCOPE
+        )
+
+set(HEADERS
+        ${HEADERS}
+        ${CMAKE_CURRENT_SOURCE_DIR}/Cherry.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Coin.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Item.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/PowerUp.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ScoreBonus.h
+        PARENT_SCOPE
+        )

@@ -18,7 +18,8 @@ enum class InputKey
  * @brief No key has been pressed
  */
 class NoUserInputException
-{};
+{
+};
 
 
 #endif //PACMAN_INPUTKEYS_H

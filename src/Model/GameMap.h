@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <set>
-#include "../Position.h"
+#include "Position.h"
 
 /**
  * @brief Types of different game map squares
@@ -18,6 +18,7 @@ enum class SquareType
 };
 
 class GameObject;
+
 class MovableObject;
 
 /**

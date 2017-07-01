@@ -2,7 +2,7 @@
 #define PACMAN_VIEW_H
 
 
-#include "../InputKey.h"
+#include "InputKey.h"
 
 /**
  * @brief Abstract view part of the game's MVC architecture

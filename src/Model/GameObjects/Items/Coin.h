@@ -8,7 +8,7 @@
  * @brief Bonus, Player wins once all coins have been collected
  */
 class Coin
-    : public ScoreBonus
+        : public ScoreBonus
 {
 public:
     explicit Coin(const Position position, Game *game);

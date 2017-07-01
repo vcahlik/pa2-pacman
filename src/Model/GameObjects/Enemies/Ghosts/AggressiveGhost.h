@@ -8,7 +8,7 @@
  * @brief A ghost that keeps following the player
  */
 class AggressiveGhost
-    : public Ghost
+        : public Ghost
 {
 public:
     explicit AggressiveGhost(Game *game);

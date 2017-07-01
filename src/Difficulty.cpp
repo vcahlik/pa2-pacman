@@ -2,13 +2,11 @@
 #include "Difficulty.h"
 #include "Config.h"
 
-Difficulty::Difficulty(const Level level)
-{
+Difficulty::Difficulty(const Level level) {
     ghostBaseSpeed = Config::PLAYER_BASE_SPEED;
     ghostFrightenedDurationMsecs = Config::GHOST_FRIGHTENED_DEFAULT_DURATION_MSECS;
 
-    switch (level)
-    {
+    switch (level) {
         case Level::Level1:
             ghostBaseSpeed *= 0.6;
             ghostFrightenedDurationMsecs *= 2;
@@ -39,17 +37,14 @@ Difficulty::Difficulty(const Level level)
     }
 }
 
-const double Difficulty::getGhostBaseSpeed() const
-{
+const double Difficulty::getGhostBaseSpeed() const {
     return ghostBaseSpeed;
 }
 
-const uint32_t Difficulty::getGhostFrightenedDurationMsecs() const
-{
+const uint32_t Difficulty::getGhostFrightenedDurationMsecs() const {
     return ghostFrightenedDurationMsecs;
 }
 
-const uint32_t Difficulty::getInitialRemainingLives() const
-{
+const uint32_t Difficulty::getInitialRemainingLives() const {
     return initialRemainingLives;
 }

@@ -1,31 +1,27 @@
 #include "Ghost.h"
-#include "../../../../Config.h"
-#include "../../../Game.h"
-#include "../../../../Utils.h"
+#include "Config.h"
+#include "Model/Game.h"
+#include "Utils.h"
 
 Ghost::Ghost(const double speed, const NavigatorType defaultNavigatorType, const Color color, Game *game)
-    : Enemy(game->getMap().getSpawnPointCoordinates(), speed, Config::GHOST_SIZE, defaultNavigatorType, game),
-      baseSpeed(speed),
-      defaultNavigatorType(defaultNavigatorType),
-      baseColor(color),
-      timer(game),
-      frightenedBlinkOn(false)
-{
+        : Enemy(game->getMap().getSpawnPointCoordinates(), speed, Config::GHOST_SIZE, defaultNavigatorType, game),
+          baseSpeed(speed),
+          defaultNavigatorType(defaultNavigatorType),
+          baseColor(color),
+          timer(game),
+          frightenedBlinkOn(false) {
     reset();
 }
 
-void Ghost::performActions()
-{
-    if (getState() == State::InGhostHouse)
-    {
+void Ghost::performActions() {
+    if (getState() == State::InGhostHouse) {
         return;
     }
 
     timer.notifyOfNextCycle();
     MovableObject::performActions();
 
-    switch (getState())
-    {
+    switch (getState()) {
         case State::Chase:
             performStateChaseActions();
             break;
@@ -40,97 +36,78 @@ void Ghost::performActions()
     }
 }
 
-const Ghost::State Ghost::getState() const
-{
+const Ghost::State Ghost::getState() const {
     return state;
 }
 
-void Ghost::reset()
-{
+void Ghost::reset() {
     setState(State::InGhostHouse);
 }
 
-void Ghost::releaseFromGhostHouse()
-{
-    if (state != State::InGhostHouse)
-    {
+void Ghost::releaseFromGhostHouse() {
+    if (state != State::InGhostHouse) {
         throw std::runtime_error("ghost not in ghost house");
     }
 
     setState(State::Chase);
 }
 
-void Ghost::frighten()
-{
-    if (getState() != State::InGhostHouse)
-    {
+void Ghost::frighten() {
+    if (getState() != State::InGhostHouse) {
         setState(State::Frightened);
     }
 }
 
-const Color Ghost::getColor() const
-{
+const Color Ghost::getColor() const {
     if ((getState() == State::Frightened) ||
-        (getState() == State::FrightenedEnd && !frightenedBlinkOn))
-    {
+        (getState() == State::FrightenedEnd && !frightenedBlinkOn)) {
         return Config::GHOST_FRIGHTENED_COLOR;
     }
 
     return baseColor;
 }
 
-void Ghost::performStateChaseActions()
-{
-    if (isCollision(game->getPlayer()))
-    {
+void Ghost::performStateChaseActions() {
+    if (isCollision(game->getPlayer())) {
         game->getPlayer().die();
     }
 }
 
-void Ghost::performStateFrightenedActions()
-{
-    if (isCollision(game->getPlayer()))
-    {
+void Ghost::performStateFrightenedActions() {
+    if (isCollision(game->getPlayer())) {
         die();
     }
 
     timer.requestTimer(TimeoutEvent::GhostStateFrightened);
-    if (timer.isTimeoutEvent(TimeoutEvent::GhostStateFrightened))
-    {
+    if (timer.isTimeoutEvent(TimeoutEvent::GhostStateFrightened)) {
         setState(State::FrightenedEnd);
         return;
     }
 }
 
-void Ghost::performStateFrightenedEndActions()
-{
-    if (isCollision(game->getPlayer()))
-    {
+void Ghost::performStateFrightenedEndActions() {
+    if (isCollision(game->getPlayer())) {
         die();
     }
 
     timer.requestTimer(TimeoutEvent::GhostStateFrightenedEnd);
-    if (timer.isTimeoutEvent(TimeoutEvent::GhostStateFrightenedEnd))
-    {
+    if (timer.isTimeoutEvent(TimeoutEvent::GhostStateFrightenedEnd)) {
         setState(State::Chase);
         return;
     }
 
     timer.requestTimer(TimeoutEvent::GhostStateFrightenedBlink);
-    if (timer.isTimeoutEvent(TimeoutEvent::GhostStateFrightenedBlink))
-    {
+    if (timer.isTimeoutEvent(TimeoutEvent::GhostStateFrightenedBlink)) {
         frightenedBlinkOn = !frightenedBlinkOn;
     }
 }
 
-void Ghost::setState(const State newState)
-{
+void Ghost::setState(const State newState) {
     timer.stopTimer(TimeoutEvent::GhostStateFrightened);
     timer.stopTimer(TimeoutEvent::GhostStateFrightenedEnd);
     timer.stopTimer(TimeoutEvent::GhostStateFrightenedBlink);
 
-    switch (newState)
-    {
+    switch (newState) {
         case State::Chase:
             switchToChaseState();
             break;
@@ -149,26 +126,22 @@ void Ghost::setState(const State newState)
     this->state = newState;
 }
 
-void Ghost::die()
-{
+void Ghost::die() {
     setState(State::InGhostHouse);
 }
 
-void Ghost::switchToChaseState()
-{
+void Ghost::switchToChaseState() {
     setNavigator(defaultNavigatorType);
     speed = baseSpeed;
 }
 
-void Ghost::switchToFrightenedState()
-{
+void Ghost::switchToFrightenedState() {
     setNavigator(NavigatorType::Random);
     direction = getRandomDifferentValidDirection(direction);
     speed = baseSpeed * Config::GHOST_FRIGHTENED_SPEED_RATIO;
 }
 
-void Ghost::switchToInGhostHouseState()
-{
+void Ghost::switchToInGhostHouseState() {
     position = game->getMap().getSpawnPointCoordinates();
     direction = getRandomValidDirection();
 }

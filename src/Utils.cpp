@@ -5,21 +5,17 @@
 namespace Utils
 {
     ExceptionMessage::ExceptionMessage(const std::string &message)
-        : runtime_error(message)
-    {
+            : runtime_error(message) {
 
     }
 
-    const double decimalPart(const double value)
-    {
+    const double decimalPart(const double value) {
         double temp;
         return std::modf(value, &temp);
     }
 
-    const bool areOppositeDirections(const Direction direction, const Direction newDirection)
-    {
-        switch (direction)
-        {
+    const bool areOppositeDirections(const Direction direction, const Direction newDirection) {
+        switch (direction) {
             case Direction::UP:
                 return (newDirection == Direction::DOWN);
             case Direction::DOWN:
@@ -35,8 +31,7 @@ namespace Utils
         }
     }
 
-    const uint32_t getRandom(const uint32_t interval)
-    {
+    const uint32_t getRandom(const uint32_t interval) {
         return abs(rand()) % interval;
     }
 }

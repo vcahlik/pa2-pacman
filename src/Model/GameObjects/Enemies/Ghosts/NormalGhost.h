@@ -8,7 +8,7 @@
  * @brief A simple ghost navigating almost randomly
  */
 class NormalGhost
-    : public Ghost
+        : public Ghost
 {
 public:
     NormalGhost(Game *game);

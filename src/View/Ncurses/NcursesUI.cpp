@@ -1,23 +1,20 @@
 #include "NcursesUI.h"
 #include "NcursesUtils.h"
 #include "NcursesGameView.h"
-#include "../../Controller/GameController.h"
-#include "../../Utils.h"
+#include "Controller/GameController.h"
+#include "Utils.h"
 #include <iostream>
 
-void NcursesUI::show(const UserConfig userConfig)
-{
+void NcursesUI::show(const LevelConfig userConfig) {
     console = NcursesUtils::initNcurses();
 
-    try
-    {
+    try {
         std::unique_ptr<Game> game = std::make_unique<Game>(userConfig);
         std::unique_ptr<NcursesGameView> gameView = std::make_unique<NcursesGameView>(game.get());
         GameController controller(game.get(), gameView.get());
 
         controller.startGame();
-    } catch (const Utils::ExceptionMessage &e)
-    {
+    } catch (const Utils::ExceptionMessage &e) {
         // End Ncurses if a terminating ExceptionMessage has been thrown
         NcursesUtils::endNcurses();
         throw e;

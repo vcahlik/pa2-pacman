@@ -3,14 +3,14 @@
 
 
 #include "ScoreBonus.h"
-#include "../../GameTimer.h"
-#include "../../GameMap.h"
+#include "Model/GameTimer.h"
+#include "Model/GameMap.h"
 
 /**
  * @brief Valuable bonus which appears randomly
  */
 class Cherry
-    : public ScoreBonus
+        : public ScoreBonus
 {
 public:
     explicit Cherry(Game *game);

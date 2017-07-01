@@ -3,14 +3,14 @@
 
 
 #include "Navigator.h"
-#include "../../../../Position.h"
-#include "../../GameObject.h"
+#include "Position.h"
+#include "Model/GameObjects/GameObject.h"
 
 /**
  * @brief Pseudorandom navigator, arbitrary changes in direction in 180 degrees are not allowed
  */
 class RandomNavigator
-    : public Navigator
+        : public Navigator
 {
 public:
     explicit RandomNavigator(const MovableObject &owner, const GameMap &map);

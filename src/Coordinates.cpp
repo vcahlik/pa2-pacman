@@ -3,18 +3,14 @@
 #include "Direction.h"
 
 Coordinates::Coordinates(const int32_t x, const int32_t y)
-        : x(x), y(y)
-{
+        : x(x), y(y) {
 }
 
-Coordinates::Coordinates()
-{
+Coordinates::Coordinates() {
 }
 
-const Coordinates Coordinates::relative(const Direction direction) const
-{
-    switch (direction)
-    {
+const Coordinates Coordinates::relative(const Direction direction) const {
+    switch (direction) {
         case Direction::UP:
             return Coordinates(x, y - 1);
         case Direction::DOWN:
@@ -30,19 +26,16 @@ const Coordinates Coordinates::relative(const Direction direction) const
     }
 }
 
-bool operator==(const Coordinates &lhs, const Coordinates &rhs)
-{
+bool operator==(const Coordinates &lhs, const Coordinates &rhs) {
     return lhs.x == rhs.x &&
            lhs.y == rhs.y;
 }
 
-bool operator!=(const Coordinates &lhs, const Coordinates &rhs)
-{
+bool operator!=(const Coordinates &lhs, const Coordinates &rhs) {
     return !(rhs == lhs);
 }
 
-bool operator<(const Coordinates &lhs, const Coordinates &rhs)
-{
+bool operator<(const Coordinates &lhs, const Coordinates &rhs) {
     if (lhs.x < rhs.x)
         return true;
     if (rhs.x < lhs.x)
@@ -50,17 +43,14 @@ bool operator<(const Coordinates &lhs, const Coordinates &rhs)
     return lhs.y < rhs.y;
 }
 
-bool operator>(const Coordinates &lhs, const Coordinates &rhs)
-{
+bool operator>(const Coordinates &lhs, const Coordinates &rhs) {
     return rhs < lhs;
 }
 
-bool operator<=(const Coordinates &lhs, const Coordinates &rhs)
-{
+bool operator<=(const Coordinates &lhs, const Coordinates &rhs) {
     return !(rhs < lhs);
 }
 
-bool operator>=(const Coordinates &lhs, const Coordinates &rhs)
-{
+bool operator>=(const Coordinates &lhs, const Coordinates &rhs) {
     return !(lhs < rhs);
 }

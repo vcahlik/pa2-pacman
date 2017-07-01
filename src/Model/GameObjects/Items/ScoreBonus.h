@@ -8,7 +8,7 @@
  * @brief Item which gives the Player score bonus once collected
  */
 class ScoreBonus
-    : public Item
+        : public Item
 {
 public:
     explicit ScoreBonus(const Position position, const double size, const uint32_t scoreReward, Game *game);

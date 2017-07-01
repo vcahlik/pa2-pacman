@@ -6,12 +6,12 @@
 #include <string>
 
 /**
- * @brief Stores the user configuration passed as program arguments
+ * @brief Stores the level's configuration
  */
-class UserConfig
+class LevelConfig
 {
 public:
-    UserConfig();
+    LevelConfig();
 
     const std::string &getMapFileName() const;
 
@@ -21,10 +21,10 @@ public:
 
     /**
      * @brief Parses the user specified difficulty into the actual Difficulty::Level
-     * @param levelStr
+     * @param difficultyLevelStr
      * @throws Utils::ExceptionMessage on invalid (user) input
      */
-    void setDifficultyLevel(const std::string levelStr);
+    void setDifficultyLevel(const std::string difficultyLevelStr);
 
 private:
     std::string mapFileName;

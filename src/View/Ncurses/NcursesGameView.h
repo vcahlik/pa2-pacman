@@ -3,15 +3,15 @@
 
 
 #include <ncurses.h>
-#include "../../Model/Game.h"
+#include "Model/Game.h"
 #include "NcursesUI.h"
-#include "../../Model/GameObjects/Items/Coin.h"
+#include "Model/GameObjects/Items/Coin.h"
 
 /**
  * @brief Concrete implementation of GameView
  */
 class NcursesGameView
-    : public GameView
+        : public GameView
 {
 public:
     explicit NcursesGameView(const Game *game);
@@ -69,7 +69,8 @@ private:
      * @param position
      * @param color
      */
-    void drawTextGraphics(const char * const text, const uint32_t lineNo, const Position position, const Color color) const;
+    void
+    drawTextGraphics(const char *const text, const uint32_t lineNo, const Position position, const Color color) const;
 
     const Game *game;
     WINDOW *window;

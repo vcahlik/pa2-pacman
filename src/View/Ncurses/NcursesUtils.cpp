@@ -1,12 +1,11 @@
 #include <stdexcept>
 #include "NcursesUtils.h"
 #include "ViewConfig.h"
-#include "../../Utils.h"
+#include "Utils.h"
 
 namespace NcursesUtils
 {
-    WINDOW *initNcurses()
-    {
+    WINDOW *initNcurses() {
         WINDOW *terminalWindow = initscr();
 
         cbreak(); // Disable input character buffering
@@ -14,8 +13,7 @@ namespace NcursesUtils
         curs_set(false);
         refresh();
 
-        if (!has_colors())
-        {
+        if (!has_colors()) {
             endwin();
             throw Utils::ExceptionMessage("Your terminal does not support colors");
         }
@@ -26,51 +24,51 @@ namespace NcursesUtils
         return terminalWindow;
     }
 
-    void endNcurses()
-    {
+    void endNcurses() {
         endwin();
     }
 
-    WINDOW *createWindow(uint32_t height, uint32_t width, uint32_t posY, uint32_t posX)
-    {
+    WINDOW *createWindow(uint32_t height, uint32_t width, uint32_t posY, uint32_t posX) {
         WINDOW *window;
 
         window = newwin(height, width, posY, posX);
         wtimeout(window, 0);
-        box(window, 0 , 0);
+        box(window, 0, 0);
         wrefresh(window);
 
         return window;
     }
 
-    void destroyWindow(WINDOW *window)
-    {
-        wborder(window, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+    void destroyWindow(WINDOW *window) {
+        wborder(window, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
         wrefresh(window);
         delwin(window);
     }
 
-    void initColors()
-    {
-        init_pair(colorCode(Color::White), toNcursesColor(Color::White), toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
-        init_pair(colorCode(Color::Black), toNcursesColor(Color::Black), toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
-        init_pair(colorCode(Color::Yellow), toNcursesColor(Color::Yellow), toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
-        init_pair(colorCode(Color::Blue), toNcursesColor(Color::Blue), toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
-        init_pair(colorCode(Color::Green), toNcursesColor(Color::Green), toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
+    void initColors() {
+        init_pair(colorCode(Color::White), toNcursesColor(Color::White),
+                  toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
+        init_pair(colorCode(Color::Black), toNcursesColor(Color::Black),
+                  toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
+        init_pair(colorCode(Color::Yellow), toNcursesColor(Color::Yellow),
+                  toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
+        init_pair(colorCode(Color::Blue), toNcursesColor(Color::Blue),
+                  toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
+        init_pair(colorCode(Color::Green), toNcursesColor(Color::Green),
+                  toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
         init_pair(colorCode(Color::Red), toNcursesColor(Color::Red), toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
-        init_pair(colorCode(Color::Cyan), toNcursesColor(Color::Cyan), toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
-        init_pair(colorCode(Color::Magenta), toNcursesColor(Color::Magenta), toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
+        init_pair(colorCode(Color::Cyan), toNcursesColor(Color::Cyan),
+                  toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
+        init_pair(colorCode(Color::Magenta), toNcursesColor(Color::Magenta),
+                  toNcursesColor(ViewConfig::GAME_BACKGROUND_COLOR));
     }
 
-    const int16_t colorCode(const Color color)
-    {
+    const int16_t colorCode(const Color color) {
         return static_cast<int16_t>(color);
     }
 
-    const int16_t toNcursesColor(const Color color)
-    {
-        switch (color)
-        {
+    const int16_t toNcursesColor(const Color color) {
+        switch (color) {
             case Color::White:
                 return COLOR_WHITE;
             case Color::Black:
@@ -92,18 +90,16 @@ namespace NcursesUtils
         }
     }
 
-    const InputKey getPressedKey(WINDOW *window)
-    {
+    const InputKey getPressedKey(WINDOW *window) {
         int32_t c = wgetch(window);
 
-        if (c == 10)
-        {
+        if (c == 10) {
             return InputKey::ENTER;
-        } else if (c == 27 && wgetch(window) == 91) // Special encoding of arrow keys
-        {
+        } else if (c == 27 && wgetch(window) == 91) {
+            // Special encoding of arrow keys
+
             c = wgetch(window);
-            switch (c)
-            {
+            switch (c) {
                 case 'A':
                     return InputKey::UP;
                 case 'B':
@@ -115,8 +111,7 @@ namespace NcursesUtils
                 default:
                     throw NoUserInputException();
             }
-        } else
-        {
+        } else {
             throw NoUserInputException();
         }
     }

@@ -3,8 +3,8 @@
 
 
 #include <cstdint>
-#include "../../Position.h"
-#include "../GameMap.h"
+#include "Position.h"
+#include "Model/GameMap.h"
 
 class Game;
 

@@ -3,17 +3,18 @@
 
 
 #include <memory>
-#include "../MovableObject.h"
+#include "Model/GameObjects/MovableObject.h"
 #include "Navigators/Navigator.h"
 
 /**
  * @brief Object which (usually) kills the Player on collision
  */
 class Enemy
-    : public MovableObject
+        : public MovableObject
 {
 public:
-    explicit Enemy(const Position position, const double speed, const double size, const NavigatorType navigatorType, Game *game);
+    explicit Enemy(const Position position, const double speed, const double size, const NavigatorType navigatorType,
+                   Game *game);
 
     virtual void performActions() override;
 

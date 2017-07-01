@@ -1,30 +1,24 @@
 #include "GameTimer.h"
-#include "../Config.h"
+#include "Config.h"
 #include "Game.h"
 
 GameTimer::GameTimer(const Game *game)
-    : game(game)
-{}
+        : game(game) {}
 
-void GameTimer::requestTimer(const TimeoutEvent timeout)
-{
-    if (isActive(timeout))
-    {
+void GameTimer::requestTimer(const TimeoutEvent timeout) {
+    if (isActive(timeout)) {
         return;
     }
 
     timeoutsCounter[timeout] = 0;
 }
 
-void GameTimer::stopTimer(const TimeoutEvent timeout)
-{
+void GameTimer::stopTimer(const TimeoutEvent timeout) {
     timeoutsCounter.erase(timeout);
 }
 
-const bool GameTimer::isTimeoutEvent(const TimeoutEvent timeout)
-{
-    if (timeoutExceeded(timeout))
-    {
+const bool GameTimer::isTimeoutEvent(const TimeoutEvent timeout) {
+    if (timeoutExceeded(timeout)) {
         stopTimer(timeout);
         return true;
     }
@@ -32,36 +26,28 @@ const bool GameTimer::isTimeoutEvent(const TimeoutEvent timeout)
     return false;
 }
 
-void GameTimer::notifyOfNextCycle()
-{
-    for (auto &a : timeoutsCounter)
-    {
-        if (!timeoutExceeded(a.first))
-        {
+void GameTimer::notifyOfNextCycle() {
+    for (auto &a : timeoutsCounter) {
+        if (!timeoutExceeded(a.first)) {
             a.second += Config::CYCLE_TIME_MSECS;
         }
     }
 }
 
-const bool GameTimer::isActive(const TimeoutEvent timeout) const
-{
+const bool GameTimer::isActive(const TimeoutEvent timeout) const {
     return timeoutsCounter.find(timeout) != timeoutsCounter.end();
 }
 
-const bool GameTimer::timeoutExceeded(const TimeoutEvent timeout) const
-{
+const bool GameTimer::timeoutExceeded(const TimeoutEvent timeout) const {
     try {
         return timeoutsCounter.at(timeout) >= getTimeoutLimitValueMsecs(timeout);
-    } catch (const std::out_of_range &)
-    {
+    } catch (const std::out_of_range &) {
         return false;
     }
 }
 
-const uint32_t GameTimer::getTimeoutLimitValueMsecs(const TimeoutEvent timeout) const
-{
-    switch (timeout)
-    {
+const uint32_t GameTimer::getTimeoutLimitValueMsecs(const TimeoutEvent timeout) const {
+    switch (timeout) {
         case TimeoutEvent::GameStateGameWon:
             return Config::PLAYER_VICTORY_SCREEN_TIME_MSECS;
         case TimeoutEvent::GameStateLifeLost:

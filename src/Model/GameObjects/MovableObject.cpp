@@ -1,98 +1,80 @@
 #include <cmath>
 #include "MovableObject.h"
-#include "../../Config.h"
-#include "../Game.h"
-#include "../../Utils.h"
+#include "Config.h"
+#include "Model/Game.h"
+#include "Utils.h"
 
 MovableObject::MovableObject(const Position position, const double speed, const double size, Game *game)
         : GameObject(position, size, game),
           baseSpeed(speed),
           speed(speed),
-          direction(Direction::NONE)
-{
+          direction(Direction::NONE) {
 
 }
 
-void MovableObject::performActions()
-{
+void MovableObject::performActions() {
     chooseDirection();
     move();
 }
 
-const Direction MovableObject::getDirection() const
-{
+const Direction MovableObject::getDirection() const {
     return direction;
 }
 
-void MovableObject::move()
-{
+void MovableObject::move() {
     Position nextPosition = position.relative(direction, stepSize(speed));
 
     if (position.isOnCoordinateGrid() ||
-        nextPosition.toCoord() == position.toCoord())
-    {
+        nextPosition.toCoord() == position.toCoord()) {
         // Not crossing coordinate grid
         position = nextPosition;
-    } else
-    {
+    } else {
         // Move would cross the coordinate grid, so we align position to grid
 
-        if (direction == Direction::DOWN || direction == Direction::RIGHT)
-        {
+        if (direction == Direction::DOWN || direction == Direction::RIGHT) {
             position = nextPosition.toCoord();
-        } else
-        {
+        } else {
             position = position.toCoord();
         }
     }
 }
 
-const bool MovableObject::isValidDirection(const Direction direction) const
-{
+const bool MovableObject::isValidDirection(const Direction direction) const {
     try {
         return (isCompatibleSquareType(game->getMap().getSquareType(position.toCoord().relative(direction))));
-    } catch (const std::out_of_range &)
-    {
+    } catch (const std::out_of_range &) {
         return false;
     }
 }
 
-const double MovableObject::stepSize(const double speed) const
-{
+const double MovableObject::stepSize(const double speed) const {
     return (speed * Config::CYCLE_TIME_MSECS) / 1000;
 }
 
-const bool MovableObject::isHorizontalDirection(const Direction direction) const
-{
+const bool MovableObject::isHorizontalDirection(const Direction direction) const {
     return (direction == Direction::LEFT || direction == Direction::RIGHT);
 }
 
-const bool MovableObject::isVerticalDirection(const Direction direction) const
-{
+const bool MovableObject::isVerticalDirection(const Direction direction) const {
     return (direction == Direction::UP || direction == Direction::DOWN);
 }
 
-const bool MovableObject::noValidDirectionExists() const
-{
+const bool MovableObject::noValidDirectionExists() const {
     return (!isValidDirection(Direction::UP) &&
             !isValidDirection(Direction::DOWN) &&
             !isValidDirection(Direction::LEFT) &&
             !isValidDirection(Direction::RIGHT));
 }
 
-const Direction MovableObject::getRandomValidDirection() const
-{
-    if (noValidDirectionExists())
-    {
+const Direction MovableObject::getRandomValidDirection() const {
+    if (noValidDirectionExists()) {
         return Direction::NONE;
     }
 
     Direction candidateDirection;
 
-    while (true)
-    {
-        switch (Utils::getRandom(4))
-        {
+    while (true) {
+        switch (Utils::getRandom(4)) {
             case 0:
                 candidateDirection = Direction::UP;
                 break;
@@ -109,40 +91,32 @@ const Direction MovableObject::getRandomValidDirection() const
                 throw std::logic_error("random range: incorrect implementation");
         }
 
-        if (isValidDirection(candidateDirection))
-        {
+        if (isValidDirection(candidateDirection)) {
             return candidateDirection;
         }
     }
 }
 
-const Direction MovableObject::getRandomDifferentValidDirection(const Direction usedDirection) const
-{
-    if (isValidDirection(usedDirection) && isOnlyValidDirection(usedDirection))
-    {
+const Direction MovableObject::getRandomDifferentValidDirection(const Direction usedDirection) const {
+    if (isValidDirection(usedDirection) && isOnlyValidDirection(usedDirection)) {
         return usedDirection;
     }
 
-    while (true)
-    {
+    while (true) {
         Direction newDirection = getRandomValidDirection();
 
-        if (newDirection != usedDirection)
-        {
+        if (newDirection != usedDirection) {
             return newDirection;
         }
     }
 }
 
-const bool MovableObject::isOnlyValidDirection(const Direction newDirection) const
-{
-    if (!isValidDirection(newDirection))
-    {
+const bool MovableObject::isOnlyValidDirection(const Direction newDirection) const {
+    if (!isValidDirection(newDirection)) {
         throw std::logic_error("given direction is not valid");
     }
 
-    switch (newDirection)
-    {
+    switch (newDirection) {
         case Direction::UP:
             return (!isValidDirection(Direction::DOWN) &&
                     !isValidDirection(Direction::LEFT) &&

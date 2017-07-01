@@ -1,125 +1,99 @@
 #include "Game.h"
-#include "../Config.h"
 #include "GameObjects/Enemies/Ghosts/AggressiveGhost.h"
 #include "GameObjects/Enemies/Ghosts/NormalGhost.h"
 #include "GameObjects/Enemies/Ghosts/FreakGhost.h"
 
-Game::Game(const UserConfig userConfig)
-    : map(userConfig.getMapFileName()),
-      player(std::make_unique<Player>(map.getStartPosCoordinates(), this)),
-      score(0),
-      timer(this),
-      difficulty(userConfig.getDifficultyLevel()),
-      inShutdownState(false)
-{
+Game::Game(const LevelConfig userConfig)
+        : map(userConfig.getMapFileName()),
+          player(std::make_unique<Player>(map.getStartPosCoordinates(), this)),
+          score(0),
+          timer(this),
+          difficulty(userConfig.getDifficultyLevel()),
+          inShutdownState(false) {
     placeCoins();
     initGhosts();
     placePowerUps();
     remainingLivesCount = difficulty.getInitialRemainingLives();
 }
 
-const Game::State Game::getState() const
-{
-    if (inShutdownState)
-    {
+const Game::State Game::getState() const {
+    if (inShutdownState) {
         return State::Shutdown;
-    } else if (coins.empty())
-    {
+    } else if (coins.empty()) {
         return State::GameWon;
-    } else if (!player->isAlive())
-    {
-        if (remainingLivesCount > 0 )
-        {
+    } else if (!player->isAlive()) {
+        if (remainingLivesCount > 0) {
             return State::LifeLost;
-        } else
-        {
+        } else {
             return State::GameOver;
         }
-    } else
-    {
+    } else {
         return State::Running;
     }
 }
 
-const GameMap &Game::getMap() const
-{
+const GameMap &Game::getMap() const {
     return map;
 }
 
-Player &Game::getPlayer()
-{
+Player &Game::getPlayer() {
     return *player;
 }
 
-const Player &Game::getPlayer() const
-{
+const Player &Game::getPlayer() const {
     return *player;
 }
 
-const std::vector<std::unique_ptr<Coin>> &Game::getCoins() const
-{
+const std::vector<std::unique_ptr<Coin>> &Game::getCoins() const {
     return coins;
 }
 
-const std::vector<std::unique_ptr<Ghost>> &Game::getGhosts() const
-{
+const std::vector<std::unique_ptr<Ghost>> &Game::getGhosts() const {
     return ghosts;
 }
 
-const std::vector<std::unique_ptr<PowerUp>> &Game::getPowerUps() const
-{
+const std::vector<std::unique_ptr<PowerUp>> &Game::getPowerUps() const {
     return powerUps;
 }
 
-const uint32_t Game::getRemainingLivesCount() const
-{
+const uint32_t Game::getRemainingLivesCount() const {
     return remainingLivesCount;
 }
 
-void Game::increaseScore(const uint32_t scored)
-{
+void Game::increaseScore(const uint32_t scored) {
     score += scored;
 }
 
-const uint32_t Game::getScore() const
-{
+const uint32_t Game::getScore() const {
     return score;
 }
 
-const bool Game::isCherryPresent() const
-{
+const bool Game::isCherryPresent() const {
     return cherry.get() != nullptr;
 }
 
-const Cherry &Game::getCherry() const
-{
-    if (!isCherryPresent())
-    {
+const Cherry &Game::getCherry() const {
+    if (!isCherryPresent()) {
         throw std::runtime_error("called getCherry() without checking isCherryPresent()");
     }
 
     return *cherry.get();
 }
 
-void Game::frightenGhosts()
-{
-    for (auto &ghost : ghosts)
-    {
+void Game::frightenGhosts() {
+    for (auto &ghost : ghosts) {
         ghost->frighten();
     }
 }
 
-void Game::performCycle()
-{
-    if (getState() == State::Shutdown)
-    {
+void Game::performCycle() {
+    if (getState() == State::Shutdown) {
         return;
     }
 
     timer.notifyOfNextCycle();
 
-    switch (getState())
-    {
+    switch (getState()) {
         case State::Running:
             performStateRunningCycle();
             break;
@@ -137,193 +111,152 @@ void Game::performCycle()
     }
 }
 
-void Game::performStateRunningCycle()
-{
+void Game::performStateRunningCycle() {
     performObjectGeneration();
     performObjectActions();
     removeDeletedObjects();
 }
 
-void Game::performStateLifeLostCycle()
-{
+void Game::performStateLifeLostCycle() {
     timer.requestTimer(TimeoutEvent::GameStateLifeLost);
-    if (timer.isTimeoutEvent(TimeoutEvent::GameStateLifeLost))
-    {
+    if (timer.isTimeoutEvent(TimeoutEvent::GameStateLifeLost)) {
         --remainingLivesCount;
         startWithNextLife();
     }
 }
 
-void Game::performStateGameOverCycle()
-{
+void Game::performStateGameOverCycle() {
     timer.requestTimer(TimeoutEvent::GameStateGameOver);
-    if (timer.isTimeoutEvent(TimeoutEvent::GameStateGameOver))
-    {
+    if (timer.isTimeoutEvent(TimeoutEvent::GameStateGameOver)) {
         inShutdownState = true;
     }
 }
 
-void Game::performStateGameWonCycle()
-{
+void Game::performStateGameWonCycle() {
     timer.requestTimer(TimeoutEvent::GameStateGameWon);
-    if (timer.isTimeoutEvent(TimeoutEvent::GameStateGameWon))
-    {
+    if (timer.isTimeoutEvent(TimeoutEvent::GameStateGameWon)) {
         inShutdownState = true;
     }
 }
 
-void Game::performObjectActions()
-{
+void Game::performObjectActions() {
     player->performActions();
 
     performContainerObjectsActions(reinterpret_cast<std::vector<std::unique_ptr<GameObject>> &>(coins));
     performContainerObjectsActions(reinterpret_cast<std::vector<std::unique_ptr<GameObject>> &>(ghosts));
     performContainerObjectsActions(reinterpret_cast<std::vector<std::unique_ptr<GameObject>> &>(powerUps));
 
-    if (isCherryPresent())
-    {
+    if (isCherryPresent()) {
         cherry->performActions();
     }
 }
 
-void Game::performContainerObjectsActions(std::vector<std::unique_ptr<GameObject>> &container)
-{
-    for (auto it = container.begin(); it != container.end(); ++it)
-    {
+void Game::performContainerObjectsActions(std::vector<std::unique_ptr<GameObject>> &container) {
+    for (auto it = container.begin(); it != container.end(); ++it) {
         auto &gameObject = *it;
         gameObject->performActions();
     }
 }
 
-void Game::removeDeletedObjects()
-{
+void Game::removeDeletedObjects() {
     removeDeletedItems(reinterpret_cast<std::vector<std::unique_ptr<Item>> &>(coins));
     removeDeletedItems(reinterpret_cast<std::vector<std::unique_ptr<Item>> &>(powerUps));
 
-    for (auto it = coins.begin(); it != coins.end(); )
-    {
+    for (auto it = coins.begin(); it != coins.end();) {
         auto &coin = *it;
-        if (coin->getState() == Item::State::Removed)
-        {
+        if (coin->getState() == Item::State::Removed) {
             it = coins.erase(it);
-        } else
-        {
+        } else {
             ++it;
         }
     }
 
-    if (isCherryPresent() && cherry->getState() == Item::State::Removed)
-    {
+    if (isCherryPresent() && cherry->getState() == Item::State::Removed) {
         cherry.reset();
     }
 }
 
-void Game::removeDeletedItems(std::vector<std::unique_ptr<Item>> &itemsContainer)
-{
-    for (auto it = itemsContainer.begin(); it != itemsContainer.end(); )
-    {
+void Game::removeDeletedItems(std::vector<std::unique_ptr<Item>> &itemsContainer) {
+    for (auto it = itemsContainer.begin(); it != itemsContainer.end();) {
         auto &coin = *it;
-        if (coin->getState() == Item::State::Removed)
-        {
+        if (coin->getState() == Item::State::Removed) {
             it = itemsContainer.erase(it);
-        } else
-        {
+        } else {
             ++it;
         }
     }
 }
 
-void Game::startWithNextLife()
-{
+void Game::startWithNextLife() {
     player = std::make_unique<Player>(map.getStartPosCoordinates(), this);
 
-    for (auto &ghost : ghosts)
-    {
+    for (auto &ghost : ghosts) {
         ghost->reset();
     }
 
     timer.stopTimer(TimeoutEvent::GhostGeneration);
 }
 
-void Game::placeCoins()
-{
-    for (uint32_t x = 0; x < map.getSizeX(); ++x)
-    {
-        for (uint32_t y = 0; y < map.getSizeY(); ++y)
-        {
+void Game::placeCoins() {
+    for (uint32_t x = 0; x < map.getSizeX(); ++x) {
+        for (uint32_t y = 0; y < map.getSizeY(); ++y) {
             Coordinates coord(x, y);
-            if (map.getSquareType(coord) == SquareType::Space)
-            {
+            if (map.getSquareType(coord) == SquareType::Space) {
                 coins.push_back(std::make_unique<Coin>(coord, this));
             }
         }
     }
 }
 
-void Game::initGhosts()
-{
+void Game::initGhosts() {
     ghosts.push_back(std::make_unique<NormalGhost>(this));
     ghosts.push_back(std::make_unique<AggressiveGhost>(this));
     ghosts.push_back(std::make_unique<FreakGhost>(this));
     ghosts.push_back(std::make_unique<AggressiveGhost>(this));
 }
 
-void Game::placePowerUps()
-{
-    for (const Coordinates &coord : map.getPowerUpLocations())
-    {
+void Game::placePowerUps() {
+    for (const Coordinates &coord : map.getPowerUpLocations()) {
         powerUps.push_back(std::make_unique<PowerUp>(coord, this));
     }
 }
 
-void Game::performObjectGeneration()
-{
+void Game::performObjectGeneration() {
     performGhostsRelease();
     performCherryGeneration();
 }
 
-void Game::performGhostsRelease()
-{
-    if (ghostHouseEmpty())
-    {
+void Game::performGhostsRelease() {
+    if (ghostHouseEmpty()) {
         return;
     }
 
     timer.requestTimer(TimeoutEvent::GhostGeneration);
-    if (!timer.isTimeoutEvent(TimeoutEvent::GhostGeneration))
-    {
+    if (!timer.isTimeoutEvent(TimeoutEvent::GhostGeneration)) {
         return;
     }
 
     // Unleash a single ghost
-    for (auto &ghost : ghosts)
-    {
-        if (ghost->getState() == Ghost::State::InGhostHouse)
-        {
+    for (auto &ghost : ghosts) {
+        if (ghost->getState() == Ghost::State::InGhostHouse) {
             ghost->releaseFromGhostHouse();
             return;
         }
     }
 }
 
-void Game::performCherryGeneration()
-{
-    if (!isCherryPresent())
-    {
+void Game::performCherryGeneration() {
+    if (!isCherryPresent()) {
         timer.requestTimer(TimeoutEvent::CherryGeneration);
-        if (timer.isTimeoutEvent(TimeoutEvent::CherryGeneration))
-        {
+        if (timer.isTimeoutEvent(TimeoutEvent::CherryGeneration)) {
             cherry = std::make_unique<Cherry>(this);
         }
     }
 }
 
-const bool Game::ghostHouseEmpty() const
-{
-    for (auto &ghost : ghosts)
-    {
-        if (ghost->getState() == Ghost::State::InGhostHouse)
-        {
+const bool Game::ghostHouseEmpty() const {
+    for (auto &ghost : ghosts) {
+        if (ghost->getState() == Ghost::State::InGhostHouse) {
             return false;
         }
     }
@@ -331,7 +264,6 @@ const bool Game::ghostHouseEmpty() const
     return true;
 }
 
-const Difficulty &Game::getDifficulty() const
-{
+const Difficulty &Game::getDifficulty() const {
     return difficulty;
 }

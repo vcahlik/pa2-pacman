@@ -4,8 +4,8 @@
 
 #include <ncurses.h>
 #include "Color.h"
-#include "../GameView.h"
-#include "../../UserConfig.h"
+#include "View/GameView.h"
+#include "LevelConfig.h"
 
 /**
  * @brief "Graphical" Ncurses UI
@@ -18,7 +18,7 @@ public:
      * @param userConfig
      * @throws Utils::ExceptionMessage rethrown, ends Ncurses
      */
-    virtual void show(const UserConfig userConfig);
+    virtual void show(const LevelConfig userConfig);
 
 private:
     WINDOW *console;

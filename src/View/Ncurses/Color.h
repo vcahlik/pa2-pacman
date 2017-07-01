@@ -8,7 +8,7 @@
  * @brief Representation of colors, better than the Ncurses one
  */
 enum class Color
-    : int32_t
+        : int32_t
 {
     White = 1,
     Black,

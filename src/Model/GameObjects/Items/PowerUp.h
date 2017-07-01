@@ -8,7 +8,7 @@
  * @brief Item whose collection frightens other ghosts
  */
 class PowerUp
-    : public Item
+        : public Item
 {
 public:
     PowerUp(const Position &position, Game *game);

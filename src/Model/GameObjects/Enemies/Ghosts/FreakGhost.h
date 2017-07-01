@@ -10,7 +10,7 @@
  * Can speed only in chase mode.
  */
 class FreakGhost
-    : public Ghost
+        : public Ghost
 {
 public:
     FreakGhost(Game *game);

@@ -3,9 +3,9 @@
 
 
 #include <bits/unique_ptr.h>
-#include "../View/Ncurses/NcursesUI.h"
-#include "../View/GameView.h"
-#include "../Model/Game.h"
+#include "View/Ncurses/NcursesUI.h"
+#include "View/GameView.h"
+#include "Model/Game.h"
 
 /**
  * @brief Controller part of the game's MVC architecture

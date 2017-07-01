@@ -2,7 +2,7 @@
 #define PACMAN_ITEM_H
 
 
-#include "../GameObject.h"
+#include "Model/GameObjects/GameObject.h"
 
 class Game;
 
@@ -10,7 +10,7 @@ class Game;
  * @brief Object collectable by Player
  */
 class Item
-    : public GameObject
+        : public GameObject
 {
 public:
     enum class State

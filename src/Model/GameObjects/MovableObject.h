@@ -3,8 +3,8 @@
 
 
 #include "GameObject.h"
-#include "../../Direction.h"
-#include "../GameMap.h"
+#include "Direction.h"
+#include "Model/GameMap.h"
 
 class GameObject;
 
@@ -12,7 +12,7 @@ class GameObject;
  * @brief Abstract GameObject which can move
  */
 class MovableObject
-    : public GameObject
+        : public GameObject
 {
 public:
     explicit MovableObject(const Position position, const double speed, const double size, Game *game);

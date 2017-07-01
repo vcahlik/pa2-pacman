@@ -1,16 +1,14 @@
 #include "GameController.h"
-#include "../Config.h"
-#include "../InputKey.h"
+#include "Config.h"
+#include "InputKey.h"
 #include <unistd.h>
 
 GameController::GameController(Game *game, GameView *view)
-    : game(game), view(view)
-{
+        : game(game), view(view) {
 
 }
 
-void GameController::startGame()
-{
+void GameController::startGame() {
     view->show();
 
     gameLoop();
@@ -18,36 +16,29 @@ void GameController::startGame()
     view->end();
 }
 
-void GameController::gameLoop()
-{
-    while (game->getState() != Game::State::Shutdown)
-    {
+void GameController::gameLoop() {
+    while (game->getState() != Game::State::Shutdown) {
         performCycle();
         usleep(static_cast<uint32_t>(Config::CYCLE_TIME_MSECS) * 1000); // The delay between single cycles
     }
 }
 
-void GameController::performCycle()
-{
+void GameController::performCycle() {
     processUserInput();
     game->performCycle();
     view->redraw();
 }
 
-void GameController::processUserInput()
-{
+void GameController::processUserInput() {
     InputKey key;
 
-    try
-    {
+    try {
         key = view->getPressedKey();
-    } catch (const NoUserInputException &e)
-    {
+    } catch (const NoUserInputException &e) {
         return;
     }
 
-    switch (key)
-    {
+    switch (key) {
         case InputKey::UP:
             game->getPlayer().requestGoUp();
             break;

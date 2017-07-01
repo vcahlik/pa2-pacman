@@ -1,41 +1,33 @@
 #include <stdexcept>
-#include "UserConfig.h"
+#include "LevelConfig.h"
 #include "Config.h"
 #include "Utils.h"
 
-UserConfig::UserConfig()
-    : mapFileName(""), difficultyLevel(Config::DEFAULT_DIFFICULTY_LEVEL)
-{}
+LevelConfig::LevelConfig()
+        : mapFileName(""), difficultyLevel(Config::DEFAULT_DIFFICULTY_LEVEL) {}
 
-const std::string &UserConfig::getMapFileName() const
-{
+const std::string &LevelConfig::getMapFileName() const {
     return mapFileName;
 }
 
-void UserConfig::setMapFileName(const std::string &mapFileName)
-{
+void LevelConfig::setMapFileName(const std::string &mapFileName) {
     this->mapFileName = mapFileName;
 }
 
-const Difficulty::Level UserConfig::getDifficultyLevel() const
-{
+const Difficulty::Level LevelConfig::getDifficultyLevel() const {
     return difficultyLevel;
 }
 
-void UserConfig::setDifficultyLevel(const std::string levelStr)
-{
+void LevelConfig::setDifficultyLevel(const std::string difficultyLevelStr) {
     int32_t levelNumber = 0;
 
-    try
-    {
-        levelNumber = std::stoi(levelStr);
-    } catch (const std::exception &)
-    {
+    try {
+        levelNumber = std::stoi(difficultyLevelStr);
+    } catch (const std::exception &) {
         throw Utils::ExceptionMessage("Difficulties: 1 2 3 4 5");
     }
 
-    switch (levelNumber)
-    {
+    switch (levelNumber) {
         case 1:
             difficultyLevel = Difficulty::Level::Level1;
             break;
