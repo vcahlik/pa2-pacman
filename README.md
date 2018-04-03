@@ -1,6 +1,3 @@
-# PACMAN #
+# pa2-pacman
 
-### Semestrální práce PA2 ###
-
-* Totálně super
-* Pokud ji odevzdám, tak mě možná nevyhodí ze školy!
+Console game with a ncurses-based theme and customizable maps. FIT CTU school project.

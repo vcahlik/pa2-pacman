@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "InputKey.h"
 #include <unistd.h>
+#include <thread>
 
 GameController::GameController(Game *game, GameView *view)
         : game(game), view(view) {
@@ -19,7 +20,7 @@ void GameController::startGame() {
 void GameController::gameLoop() {
     while (game->getState() != Game::State::Shutdown) {
         performCycle();
-        usleep(static_cast<uint32_t>(Config::CYCLE_TIME_MSECS) * 1000); // The delay between single cycles
+        std::this_thread::sleep_for(std::chrono::milliseconds(Config::CYCLE_TIME_MSECS)); // The delay between single cycles
     }
 }
 
