@@ -1,6 +1,6 @@
 # pa2-pacman
 
-Console game with a ncurses-based theme. FIT CTU school project.  
+Console version of the classical game. Uses the ncurses library. FIT CTU school project.  
 
 Features: various ghost types, power-ups, bonuses, teleports, customizable maps...  
 
