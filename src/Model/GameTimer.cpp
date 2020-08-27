@@ -1,6 +1,7 @@
 #include "GameTimer.h"
 #include "Config.h"
 #include "Game.h"
+#include <stdexcept>
 
 GameTimer::GameTimer(const Game *game)
         : game(game) {}

@@ -2,6 +2,7 @@
 #include "GameObjects/Enemies/Ghosts/AggressiveGhost.h"
 #include "GameObjects/Enemies/Ghosts/NormalGhost.h"
 #include "GameObjects/Enemies/Ghosts/FreakGhost.h"
+#include <stdexcept>
 
 Game::Game(const LevelConfig userConfig)
         : map(userConfig.getMapFileName()),

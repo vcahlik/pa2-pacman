@@ -3,6 +3,7 @@
 
 
 #include <map>
+#include <cstdint>
 
 /**
  * @brief Representation of different timeout requests and events, so that they can be kept track of simultaneously

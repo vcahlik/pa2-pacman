@@ -1,6 +1,7 @@
 #include <map>
 #include <queue>
 #include <set>
+#include <stdexcept>
 #include "BfsNavigator.h"
 #include "Model/GameObjects/MovableObject.h"
 
