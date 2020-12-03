@@ -1,8 +1,8 @@
 # pa2-pacman
 
-Console version of the classical game. Uses the ncurses library. FIT CTU school project.  
+Console version of the classical game. Written in C++, uses the ncurses library to output characters to terminal. FIT CTU school project.  
 
-Features: various ghost types, power-ups, bonuses, teleports, customizable maps...  
+Features: various ghost types, power-ups, bonuses, teleports, customizable maps...
 
 ## Screenshot
 
